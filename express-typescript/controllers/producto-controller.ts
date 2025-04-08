@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Producto from '../Dto/ProductoDto';
-import UserService from '../services/UserServices';
+import UserService from '../services/ModuloUsuarios/UserServices';
 
 let productoAdd = async (req: Request, res: Response) => {
     try{

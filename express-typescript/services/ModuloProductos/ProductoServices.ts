@@ -1,5 +1,5 @@
 
-import ProductoRepository from '../repositories/ProductoRepository';
+import ProductoRepository from '../repositories/ModuloVentas/ProductoRepository';
 import Producto from '../Dto/ProductoDto';
 
 class ProductoServices{

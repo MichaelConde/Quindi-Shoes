@@ -1,5 +1,5 @@
-import Factura from "../Dto/FacturaDto";
-import FacturaRepository from "../repositories/FacturaRepository";
+import Factura from "../../Dto/FacturaDto";
+import FacturaRepository from "../../repositories/ModuloVentas/FacturaRepository";
 
 class FacturaService{
 

@@ -1,6 +1,6 @@
-import db from '../config/config-db';
-import User from '../Dto/UsuarioDto';
-import Auth from '../Dto/AuthDto';
+import db from '../../config/config-db';
+import User from '../../Dto/UsuarioDto';
+import Auth from '../../Dto/AuthDto';
 import bcrypt from 'bcryptjs';
 
 

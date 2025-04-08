@@ -1,5 +1,5 @@
-import DetalleFacturaRepository from "../repositories/DetalleFacturaRepository";
-import DetalleFactura from "../Dto/DetalleFacturaDto";
+import DetalleFacturaRepository from "../../repositories/ModuloVentas/DetalleFacturaRepository";
+import DetalleFactura from "../../Dto/DetalleFacturaDto";
 
 class DetalleFacturaServices {
    

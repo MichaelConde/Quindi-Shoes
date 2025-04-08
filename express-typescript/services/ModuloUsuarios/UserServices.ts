@@ -1,8 +1,8 @@
-import UserRepository from '../repositories/UsuarioRepository';
-import User from '../Dto/UsuarioDto';
-import generateHash from '../Helpers/generateHash';
-import Auth from '../Dto/AuthDto';
-import Producto from '../Dto/ProductoDto';
+import UserRepository from '../../repositories/ModuloUsuarios/UsuarioRepository';
+import User from '../../Dto/UsuarioDto';
+import generateHash from '../../Helpers/generateHash';
+import Auth from '../../Dto/AuthDto';
+import Producto from '../../Dto/ProductoDto';
 
 
 class UsuarioService {
