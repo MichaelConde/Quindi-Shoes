@@ -1,4 +1,4 @@
-node_modules
-.env
-dist
-generate_key
+# node_modules
+# .env
+# dist
+# generate_key
