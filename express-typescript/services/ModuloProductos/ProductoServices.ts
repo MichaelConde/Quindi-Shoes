@@ -1,6 +1,6 @@
 
-import ProductoRepository from '../repositories/ModuloVentas/ProductoRepository';
-import Producto from '../Dto/ProductoDto';
+import ProductoRepository from '../../repositories/ModuloProductos/ProductoRepository';
+import Producto from '../../Dto/ProductoDto';
 
 class ProductoServices{
 
@@ -14,9 +14,9 @@ class ProductoServices{
         return await ProductoRepository.deleteProducto(producto);
     }
     //Cuando se haga factura 
-    static async resProducto(producto: Producto){
-        return await ProductoRepository.restProducto(producto);
-    }
+    // static async resProducto(producto: Producto){
+    //     return await ProductoRepository.restProducto(producto);
+    // }
 
 
 }

@@ -1,7 +1,7 @@
 class Producto{
     private _tipoProducto: string;
     private _nombreProducto: string;
-    private _reseñaProducto: string;
+    // private _reseñaProducto: string;
     private _generoProducto: string;
     private _stockProducto: number;
     private _tallaProducto: string;
@@ -10,11 +10,10 @@ class Producto{
     private _imagenProducto: string
 
     constructor(
-        tipoProducto: string, nombreProducto: string, reseñaProducto: string,  generoProducto: string,stockProducto: number, tallaProducto: string, precioProducto: number, colorProducto: string, imagenProducto: string
+        tipoProducto: string, nombreProducto: string,  generoProducto: string,stockProducto: number, tallaProducto: string, precioProducto: number, colorProducto: string, imagenProducto: string
     ) {
         this._tipoProducto = tipoProducto;
         this._nombreProducto = nombreProducto;
-        this._reseñaProducto = reseñaProducto;
         this._generoProducto = generoProducto;
         this._stockProducto = stockProducto;
         this._tallaProducto = tallaProducto;
@@ -31,9 +30,9 @@ class Producto{
     get nombreProducto(): string {
         return this._nombreProducto;
     }   
-    get reseñaProducto(): string {
-        return this._reseñaProducto;
-    }   
+    // get reseñaProducto(): string {
+    //     return this._reseñaProducto;
+    // }   
     get generoProducto(): string {
         return this._generoProducto;
     }
@@ -60,9 +59,9 @@ class Producto{
     set nombreProducto(nombreProducto: string) {
         this._nombreProducto = nombreProducto;
     }
-    set reseñaProducto(reseñaProducto: string) {
-        this._reseñaProducto = reseñaProducto;
-    }
+    // set reseñaProducto(reseñaProducto: string) {
+    //     this._reseñaProducto = reseñaProducto;
+    // }
    
     set generoProducto(generoProducto: string) {
         this._generoProducto = generoProducto;

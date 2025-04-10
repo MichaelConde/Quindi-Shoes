@@ -1,11 +1,11 @@
-import Factura from "../../Dto/FacturaDto";
-import FacturaRepository from "../../repositories/ModuloVentas/FacturaRepository";
+// import Factura from "../../Dto/FacturaDto";
+// import FacturaRepository from "../../repositories/ModuloVentas/FacturaRepository";
 
-class FacturaService{
+// class FacturaService{
 
     
-    static async addFactura(Factura: Factura){
-        return await FacturaRepository.addFactura(Factura)
-    }
+//     static async addFactura(Factura: Factura){
+//         return await FacturaRepository.addFactura(Factura)
+//     }
 
-}
+// }

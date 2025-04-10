@@ -1,10 +1,10 @@
-import DetalleFacturaRepository from "../../repositories/ModuloVentas/DetalleFacturaRepository";
-import DetalleFactura from "../../Dto/DetalleFacturaDto";
+// import DetalleFacturaRepository from "../../repositories/ModuloVentas/DetalleFacturaRepository";
+// import DetalleFactura from "../../Dto/DetalleFacturaDto";
 
-class DetalleFacturaServices {
+// class DetalleFacturaServices {
    
-    static async addDetalleFactura(DetalleFactura: DetalleFactura) {
-        return await DetalleFacturaRepository.addDetalleFactura(DetalleFactura);
-    }
+//     static async addDetalleFactura(DetalleFactura: DetalleFactura) {
+//         return await DetalleFacturaRepository.addDetalleFactura(DetalleFactura);
+//     }
 
-}
+// }
