@@ -1,25 +1,43 @@
 import express from "express";
-import bodyParser from 'body-parser';
-
-import register from './routes/register';
-import auth from './routes/auth';
-import profile from './routes/profile';
-// import producto from "./routes/producto";
-
+import bodyParser from "body-parser";
+import cors from "cors";
 import dotenv from "dotenv";
+
+// Configuración de variables de entorno
 dotenv.config();
 
-const app = express().use(bodyParser.json());
+// Inicializar express
+const app = express();
 
-app.use('/register', register);
-app.use('/auth', auth);
-app.use('/profile', profile);
-// app.use('/producto', producto);
+// Middlewares
+app.use(cors()); // Permitir conexiones desde otros orígenes (como el frontend)
+app.use(bodyParser.json()); // Leer cuerpos JSON
+app.use(express.json()); // Alternativa moderna (también funciona)
 
-const PORT = process.env.PORT || 10101;
+// Importar rutas
+import register from "./routes/register";
+import auth from "./routes/auth";
+import profile from "./routes/profile";
+import recuperarContrasena from "./routes/RecuperarContrasena";
+import reiniciarContrasena from "./routes/reiniciarContrasena"; // ✅
 
+// import producto from "./routes/producto";
+
+// Usar rutas
+app.use("/register", register);
+app.use("/auth", auth);
+app.use("/profile", profile);
+
+app.use("/RecuperarContrasena", recuperarContrasena); // // ✅
+app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
+// app.use("/producto", producto);
+
+// Puerto
+const PORT = process.env.PORT || 3000;
+
+// Iniciar servidor
 app.listen(PORT, () => {
-  console.log("Servidor ejecutándose en el puerto: ", PORT);
+  console.log("Servidor ejecutándose en el puerto:", PORT);
 }).on("error", (error) => {
   throw new Error(error.message);
 });

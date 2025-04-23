@@ -1,20 +1,20 @@
-class Usuarios {
+class Usuario {
     private _nombres: string;
     private _apellidos: string;
     private _telefono: string;
-    private _direction: string;
-    private _email: string;
-    private _password: string
+    private _direccion: string;
+    private _correo: string;
+    private _contraseña: string
 
     constructor(
-        nombres: string, apellidos: string, telefono: string, direction: string, email: string, password: string
+        nombres: string, apellidos: string, telefono: string, direccion: string, correo: string, contraseña: string
     ) {
         this._nombres = nombres;
         this._apellidos = apellidos;
         this._telefono = telefono;
-        this._direction = direction;
-        this._email = email;
-        this._password = password;
+        this._direccion = direccion;
+        this._correo = correo;
+        this._contraseña = contraseña;
     }
 
     // Getters
@@ -30,16 +30,16 @@ class Usuarios {
         return this._telefono;
     }
 
-    get direction(): string {
-        return this._direction;
+    get direccion(): string {
+        return this._direccion;
     }
 
-    get email(): string {
-        return this._email;
+    get correo(): string {
+        return this._correo;
     }
 
-    get password(): string {
-        return this._password;
+    get contraseña(): string {
+        return this._contraseña;
     }
 
 
@@ -53,14 +53,14 @@ class Usuarios {
     set telefono(telefono: string) {
         this._telefono = telefono;
     }
-    set direction(direction: string) {
-        this._direction = direction;
+    set direccion(direccion: string) {
+        this._direccion = direccion;
     }
-    set email(email: string) {
-        this._email = email;
+    set correo(correo: string) {
+        this._correo = correo;
     }
-    set password(password: string) {
-        this._password = password;
+    set contraseña(contraseña: string) {
+        this._contraseña = contraseña;
     }
 
 
@@ -71,4 +71,4 @@ class Usuarios {
 
 }
 
-export default Usuarios;
+export default Usuario;
