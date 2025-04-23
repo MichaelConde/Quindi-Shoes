@@ -1,20 +1,20 @@
-import UserRepository from '../../repositories/ModuloUsuarios/UsuarioRepository';
-import User from '../../Dto/UsuarioDto';
+import UsuarioRepository from '../../repositories/ModuloUsuarios/UsuarioRepository';
 import generateHash from '../../Helpers/generateHash';
 import Auth from '../../Dto/AuthDto';
+import Usuario from '../../Dto/UsuarioDto';
 
 
 
 class UsuarioService {
     
-    static async register(user: User) {
-        user.password = await generateHash(user.password);
-        console.log(user.password)
-        return await UserRepository.addUser(user);
+    static async register(usuario: Usuario) {
+        usuario.contraseña = await generateHash(usuario.contraseña);
+        console.log(usuario.contraseña)
+        return await UsuarioRepository.addUser(usuario);
     }
 
     static async login(auth: Auth) {
-        return await UserRepository.loginUser(auth);
+        return await UsuarioRepository.loginUser(auth);
     }
 
   

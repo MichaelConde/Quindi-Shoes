@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
-import User from '../Dto/UsuarioDto';
-import UserService from '../services/ModuloUsuarios/UserServices';
+import UsuarioService from '../services/ModuloUsuarios/UserServices';
+import Usuario from "../Dto/UsuarioDto";
 
 
 let register = async (req: Request, res: Response) => {
   try {
     const {
-      name,
-      lastName,
-      phoneNumber,
-      Direction,
-      email,
-      password
+      nombres,
+      apellidos,
+      telefono,
+      direccion,
+      correo,
+      contraseña
     } = req.body;
-    const registerUser = await UserService.register(new User(name,lastName, phoneNumber, Direction, email ,password, ))
+    const registerUser = await UsuarioService.register(new Usuario(nombres,apellidos, telefono, direccion, correo ,contraseña))
     return res.status(201).json(
       { status: 'register ok'}
     );

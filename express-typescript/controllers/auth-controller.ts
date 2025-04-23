@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Auth from '../Dto/AuthDto';
-import UserService from '../services/ModuloUsuarios/UserServices';
+import UsuarioService from '../services/ModuloUsuarios/UserServices';
 import generateToken from '../Helpers/generateToken';
 import dotenv from "dotenv";
 dotenv.config();
@@ -8,8 +8,8 @@ dotenv.config();
 
 let auth = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    const login = await UserService.login(new Auth(email, password));
+    const { correo, contraseña } = req.body;
+    const login = await UsuarioService.login(new Auth(correo, contraseña));
     if (login.logged) {
       return res.status(200).json({
         status: login.status,
