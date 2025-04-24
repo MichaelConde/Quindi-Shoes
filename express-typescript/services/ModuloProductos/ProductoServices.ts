@@ -10,7 +10,13 @@ class ProductoServices{
         return await ProductoRepository.RegistrarProducto(producto);
     }
 
-   
+    static async obtenerProductos() {
+        return await ProductoRepository.obtenerTodos();
+      }
+    
+      static async eliminarProducto(id: number) {
+        await ProductoRepository.eliminarProducto(id);
+      }
 
 }
 export default ProductoServices;

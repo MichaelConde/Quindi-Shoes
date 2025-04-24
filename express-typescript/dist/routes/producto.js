@@ -5,6 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const producto_controller_1 = __importDefault(require("../controllers/producto-controller"));
+const producto_controller_2 = require("../controllers/producto-controller");
 const router = express_1.default.Router();
 router.post('/', producto_controller_1.default);
+router.get("/", producto_controller_2.obtenerProductos);
+router.delete("/:id", producto_controller_2.eliminarProducto);
 exports.default = router;

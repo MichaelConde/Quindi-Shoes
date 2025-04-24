@@ -20,5 +20,15 @@ class ProductoServices {
             return yield ProductoRepository_1.default.RegistrarProducto(producto);
         });
     }
+    static obtenerProductos() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield ProductoRepository_1.default.obtenerTodos();
+        });
+    }
+    static eliminarProducto(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield ProductoRepository_1.default.eliminarProducto(id);
+        });
+    }
 }
 exports.default = ProductoServices;
