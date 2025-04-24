@@ -34,14 +34,13 @@ class UsuarioRepository {
                 apellidos: usuario.apellidos,
                 correo: usuario.correo,
                 contraseña: usuario.contraseña,
-                // cualquier otro campo necesario
             };
         });
     }
     static addUser(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'call Insertar_usuarios(?, ?, ?, ?, ?, ?);';
-            const values = [usuario.nombres, usuario.apellidos, usuario.telefono, usuario.direccion, usuario.correo, usuario.contraseña];
+            const sql = 'call Insertar_usuarios(?, ?, ?, ?, ?, ?, ?);';
+            const values = [usuario.nombres, usuario.apellidos, usuario.telefono, usuario.direccion, usuario.correo, usuario.contraseña, usuario.rol];
             const result = yield config_db_1.default.execute(sql, values);
             console.log('Resultado desde MySQL:', result);
             return result;

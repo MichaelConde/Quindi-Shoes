@@ -20,15 +20,16 @@ const register_1 = __importDefault(require("./routes/register"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const profile_1 = __importDefault(require("./routes/profile"));
 const RecuperarContrasena_1 = __importDefault(require("./routes/RecuperarContrasena"));
-const reiniciarContrasena_1 = __importDefault(require("./routes/reiniciarContrasena")); // ✅
+const reiniciarContrasena_1 = __importDefault(require("./routes/reiniciarContrasena"));
+const producto_1 = __importDefault(require("./routes/producto"));
 // import producto from "./routes/producto";
 // Usar rutas
 app.use("/register", register_1.default);
 app.use("/auth", auth_1.default);
 app.use("/profile", profile_1.default);
-app.use("/RecuperarContrasena", RecuperarContrasena_1.default); // // ✅
-app.use("/reiniciarContrasena", reiniciarContrasena_1.default); // ✅
-// app.use("/producto", producto);
+app.use("/RecuperarContrasena", RecuperarContrasena_1.default);
+app.use("/reiniciarContrasena", reiniciarContrasena_1.default);
+app.use("/producto", producto_1.default);
 // Puerto
 const PORT = process.env.PORT || 3000;
 // Iniciar servidor
