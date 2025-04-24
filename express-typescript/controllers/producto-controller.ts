@@ -60,4 +60,6 @@ export const obtenerProductos = async (req: Request, res: Response) => {
     }
   };
 
+  
+
 export default registrarProducto;
