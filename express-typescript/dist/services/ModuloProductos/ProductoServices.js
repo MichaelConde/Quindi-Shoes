@@ -30,5 +30,10 @@ class ProductoServices {
             yield ProductoRepository_1.default.eliminarProducto(id);
         });
     }
+    static actualizarProducto(producto, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield ProductoRepository_1.default.ActualizarProducto(producto, id);
+        });
+    }
 }
 exports.default = ProductoServices;

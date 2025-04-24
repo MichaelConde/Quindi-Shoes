@@ -54,5 +54,34 @@ class ProductoRepository {
             yield config_db_1.default.execute(sql, [id]);
         });
     }
+    static ActualizarProducto(producto, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("Datos recibidos en el update:", producto, "ID:", id);
+            const sql = `
+      UPDATE productoReal SET 
+        tipo_producto = ?,
+        nombre_producto = ?,
+        genero_producto = ?,
+        stock = ?,
+        tallas_producto = ?,
+        precio_producto = ?,
+        colores_producto = ?,
+        imagen_producto = ?
+      WHERE id_producto = ?
+    `;
+            const values = [
+                producto.tipoProducto,
+                producto.nombreProducto,
+                producto.generoProducto,
+                producto.stockProducto,
+                producto.tallaProducto,
+                producto.precioProducto,
+                producto.colorProducto,
+                producto.imagenProducto,
+                id
+            ];
+            return yield config_db_1.default.execute(sql, values);
+        });
+    }
 }
 exports.default = ProductoRepository;
