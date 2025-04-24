@@ -4,10 +4,11 @@ class Usuario {
     private _telefono: string;
     private _direccion: string;
     private _correo: string;
-    private _contraseña: string
+    private _contraseña: string;
+    private _rol:string
 
     constructor(
-        nombres: string, apellidos: string, telefono: string, direccion: string, correo: string, contraseña: string
+        nombres: string, apellidos: string, telefono: string, direccion: string, correo: string, contraseña: string, rol:string
     ) {
         this._nombres = nombres;
         this._apellidos = apellidos;
@@ -15,6 +16,7 @@ class Usuario {
         this._direccion = direccion;
         this._correo = correo;
         this._contraseña = contraseña;
+        this._rol = rol;
     }
 
     // Getters
@@ -42,6 +44,10 @@ class Usuario {
         return this._contraseña;
     }
 
+    get rol(): string {
+        return this._rol;
+    }
+
 
     // Setters
     set nombres(nombres: string) {
@@ -61,6 +67,10 @@ class Usuario {
     }
     set contraseña(contraseña: string) {
         this._contraseña = contraseña;
+    }
+
+    set rol(rol: string) {
+        this._rol = rol;
     }
 
 

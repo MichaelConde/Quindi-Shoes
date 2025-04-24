@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Usuario {
-    constructor(nombres, apellidos, telefono, direccion, correo, contraseña) {
+    constructor(nombres, apellidos, telefono, direccion, correo, contraseña, rol) {
         this._nombres = nombres;
         this._apellidos = apellidos;
         this._telefono = telefono;
         this._direccion = direccion;
         this._correo = correo;
         this._contraseña = contraseña;
+        this._rol = rol;
     }
     // Getters
     get nombres() {
@@ -28,6 +29,9 @@ class Usuario {
     get contraseña() {
         return this._contraseña;
     }
+    get rol() {
+        return this._rol;
+    }
     // Setters
     set nombres(nombres) {
         this._nombres = nombres;
@@ -46,6 +50,9 @@ class Usuario {
     }
     set contraseña(contraseña) {
         this._contraseña = contraseña;
+    }
+    set rol(rol) {
+        this._rol = rol;
     }
 }
 exports.default = Usuario;

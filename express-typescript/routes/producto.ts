@@ -1,9 +1,9 @@
-// import express from "express";
-// import ProductoController  from '../controllers/producto-controller';
-// const router = express.Router();
+import express from "express";
+import registrarProducto  from '../controllers/producto-controller';
+const router = express.Router();
 
 
-// router.post('/', ProductoController);
+router.post('/', registrarProducto);
 
 
-// export default router;
+export default router;

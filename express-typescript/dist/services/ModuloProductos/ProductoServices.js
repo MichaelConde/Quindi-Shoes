@@ -15,14 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ProductoRepository_1 = __importDefault(require("../../repositories/ModuloProductos/ProductoRepository"));
 class ProductoServices {
     //Se necesita un disparador para poder agregar producto, cuando la factura se halla hecho exitosamente 
-    static addProducto(producto) {
+    static registrarProducto(producto) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield ProductoRepository_1.default.addProducto(producto);
-        });
-    }
-    static deleteProducto(producto) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield ProductoRepository_1.default.deleteProducto(producto);
+            return yield ProductoRepository_1.default.RegistrarProducto(producto);
         });
     }
 }
+exports.default = ProductoServices;

@@ -1,31 +1,40 @@
-// import { Request, Response } from "express";
-// import Producto from '../Dto/ProductoDto';
-// import UserService from '../services/ModuloUsuarios/UserServices';
+import { Request, Response } from "express";
+import ProductoServices from "../services/ModuloProductos/ProductoServices";
+import Producto from "../Dto/ProductoDto"; // Asegúrate de tener esta clase
 
-// let productoAdd = async (req: Request, res: Response) => {
-//     try{
-//         const{
-//             tipoProducto,
-//             nombreProducto,
-//             generoProducto,
-//             precioProducto,
-//             cantidadProducto,
-//             tallaProducto,
-//             colorProducto,
-//             imagenProducto
-//         }=req.body;
-//         const producto = await UserService.addProducto(new Producto(tipoProducto, nombreProducto, generoProducto, precioProducto, cantidadProducto, tallaProducto, colorProducto, imagenProducto));
-//         return res.status(201).json(
-//             { status: 'register ok'}
-//           );
-//         } catch (error: any) {
-//           if (error && error.code == "ER_DUP_ENTRY") {
-//             return res.status(500).json({ errorInfo: error.sqlMessage }
-//             );
-//           }
-//         }
-//       }
-      
-      
-//       export default productoAdd;
- 
+const registrarProducto = async (req: Request, res: Response) => {
+  try {
+    const {
+      tipoProducto,
+      nombreProducto,
+      generoProducto,
+      stockProducto,
+      tallaProducto,
+      precioProducto,
+      colorProducto,
+      imagenProducto
+    } = req.body;
+
+    
+    const nuevoProducto = new Producto(
+      tipoProducto,
+      nombreProducto,
+      generoProducto,
+      stockProducto,
+      tallaProducto,
+      precioProducto,
+      colorProducto,
+      imagenProducto
+    );
+
+
+    await ProductoServices.registrarProducto(nuevoProducto);
+
+    res.status(201).json({ message: "Producto registrado con éxito" });
+  } catch (error) {
+    console.error("Error al registrar producto:", error);
+    res.status(500).json({ error: "Error al registrar producto" });
+  }
+};
+
+export default registrarProducto;

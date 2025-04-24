@@ -19,8 +19,8 @@ import register from "./routes/register";
 import auth from "./routes/auth";
 import profile from "./routes/profile";
 import recuperarContrasena from "./routes/RecuperarContrasena";
-import reiniciarContrasena from "./routes/reiniciarContrasena"; // ✅
-
+import reiniciarContrasena from "./routes/reiniciarContrasena";
+import productoRouter from "./routes/producto";
 // import producto from "./routes/producto";
 
 // Usar rutas
@@ -28,9 +28,10 @@ app.use("/register", register);
 app.use("/auth", auth);
 app.use("/profile", profile);
 
-app.use("/RecuperarContrasena", recuperarContrasena); // // ✅
-app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
-// app.use("/producto", producto);
+app.use("/RecuperarContrasena", recuperarContrasena); 
+app.use("/reiniciarContrasena", reiniciarContrasena); 
+
+app.use("/producto", productoRouter);
 
 // Puerto
 const PORT = process.env.PORT || 3000;
