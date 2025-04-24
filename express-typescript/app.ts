@@ -20,6 +20,9 @@ import auth from "./routes/auth";
 import profile from "./routes/profile";
 import recuperarContrasena from "./routes/RecuperarContrasena";
 import reiniciarContrasena from "./routes/reiniciarContrasena"; // ✅
+import material_register from "./routes/material_register"; // ✅
+import color_register from "./routes/color_register";
+import zona_register from "./routes/zona_register"
 
 // import producto from "./routes/producto";
 
@@ -30,6 +33,10 @@ app.use("/profile", profile);
 
 app.use("/RecuperarContrasena", recuperarContrasena); // // ✅
 app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
+
+app.use("/material_register", material_register); // ✅
+app.use("/color_register", color_register);
+app.use("/zona_register", zona_register);
 // app.use("/producto", producto);
 
 // Puerto

@@ -16,7 +16,7 @@ const config_db_1 = __importDefault(require("../../config/config-db"));
 class PersonalizacionRepository {
     static addMateriales(materiales) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'call Insertar_materiales(?, ?, ?, ?, ?, ?, ?);';
+            const sql = 'call InsertarMaterial(?);';
             const values = [materiales.nombre_material];
             return config_db_1.default.execute(sql, values);
         });
@@ -30,7 +30,7 @@ class PersonalizacionRepository {
     }
     static addColores(colores) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'call Insertar_colores(?, ?, ?, ?, ?, ?, ?);';
+            const sql = 'call InsertarColor(?, ?);';
             const values = [colores.nombreColor, colores.codigoHax];
             return config_db_1.default.execute(sql, values);
         });
@@ -44,7 +44,7 @@ class PersonalizacionRepository {
     }
     static addZonaProducto(zonaProducto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'call Insertar_zonaProducto(?, ?, ?, ?, ?, ?, ?);';
+            const sql = 'call InsertarZonaProductos(?);';
             const values = [zonaProducto.nombreZona];
             return config_db_1.default.execute(sql, values);
         });
