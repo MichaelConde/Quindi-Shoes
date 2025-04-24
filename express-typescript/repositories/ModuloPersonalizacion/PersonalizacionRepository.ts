@@ -6,7 +6,7 @@ import db from '../../config/config-db';
 
 class PersonalizacionRepository {   
     static async addMateriales(materiales: Materiales) {
-        const sql = 'call Insertar_materiales(?, ?, ?, ?, ?, ?, ?);';
+        const sql = 'call InsertarMaterial(?);';
         const values = [materiales.nombre_material];
         return db.execute(sql, values);
     }
@@ -18,7 +18,7 @@ class PersonalizacionRepository {
     }
 
     static async addColores(colores: Colores) {
-        const sql = 'call Insertar_colores(?, ?, ?, ?, ?, ?, ?);';
+        const sql = 'call InsertarColor(?, ?);';
         const values = [colores.nombreColor, colores.codigoHax];
         return db.execute(sql, values);
     }   
@@ -30,7 +30,7 @@ class PersonalizacionRepository {
     }   
 
     static async addZonaProducto(zonaProducto: ZonaProducto) {
-        const sql = 'call Insertar_zonaProducto(?, ?, ?, ?, ?, ?, ?);';
+        const sql = 'call InsertarZonaProductos(?);';
         const values = [zonaProducto.nombreZona];
         return db.execute(sql, values);
     }
