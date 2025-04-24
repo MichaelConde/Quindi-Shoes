@@ -11,9 +11,10 @@ let register = async (req: Request, res: Response) => {
       telefono,
       direccion,
       correo,
-      contraseña
+      contraseña,
+      rol
     } = req.body;
-    const registerUser = await UsuarioService.register(new Usuario(nombres,apellidos, telefono, direccion, correo ,contraseña))
+    const registerUser = await UsuarioService.register(new Usuario(nombres,apellidos, telefono, direccion, correo ,contraseña,rol))
     return res.status(201).json(
       { status: 'register ok'}
     );

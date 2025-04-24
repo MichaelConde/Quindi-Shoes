@@ -14,19 +14,73 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_db_1 = __importDefault(require("../../config/config-db"));
 class ProductoRepository {
-    // Se necesita una alidacion con detalle facutra, para poder agregar producto, si detalle factura no se cumple no se agregara producto 
-    static addProducto(producto) {
+    static RegistrarProducto(producto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'call Insertar_producto(?, ?, ?, ?, ?, ?, ?);';
-            const values = [producto.tipoProducto, producto.nombreProducto, producto.generoProducto, producto.precioProducto, producto.stockProducto, producto.tallaProducto, producto.imagenProducto];
-            return config_db_1.default.execute(sql, values);
+            const sql = `
+      INSERT INTO productoReal (
+        tipo_producto,
+        nombre_producto,
+        genero_producto,
+        stock,
+        tallas_producto,
+        precio_producto,
+        colores_producto,
+        imagen_producto
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+            const values = [
+                producto.tipoProducto,
+                producto.nombreProducto,
+                producto.generoProducto,
+                producto.stockProducto,
+                producto.tallaProducto,
+                producto.precioProducto,
+                producto.colorProducto,
+                producto.imagenProducto
+            ];
+            return yield config_db_1.default.execute(sql, values);
         });
     }
-    static deleteProducto(producto) {
+    static obtenerTodos() {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'BorrarProducto';
-            const values = [producto.tipoProducto, producto.nombreProducto, producto.generoProducto, producto.precioProducto, producto.stockProducto, producto.tallaProducto, producto.imagenProducto];
-            return config_db_1.default.execute(sql, values);
+            const [rows] = yield config_db_1.default.execute('SELECT * FROM productoReal');
+            console.log(rows);
+            return rows;
+        });
+    }
+    static eliminarProducto(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'DELETE FROM productoReal WHERE id_producto = ?';
+            yield config_db_1.default.execute(sql, [id]);
+        });
+    }
+    static ActualizarProducto(producto, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("Datos recibidos en el update:", producto, "ID:", id);
+            const sql = `
+      UPDATE productoReal SET 
+        tipo_producto = ?,
+        nombre_producto = ?,
+        genero_producto = ?,
+        stock = ?,
+        tallas_producto = ?,
+        precio_producto = ?,
+        colores_producto = ?,
+        imagen_producto = ?
+      WHERE id_producto = ?
+    `;
+            const values = [
+                producto.tipoProducto,
+                producto.nombreProducto,
+                producto.generoProducto,
+                producto.stockProducto,
+                producto.tallaProducto,
+                producto.precioProducto,
+                producto.colorProducto,
+                producto.imagenProducto,
+                id
+            ];
+            return yield config_db_1.default.execute(sql, values);
         });
     }
 }

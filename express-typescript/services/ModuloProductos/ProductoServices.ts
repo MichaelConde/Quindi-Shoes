@@ -2,21 +2,24 @@
 import ProductoRepository from '../../repositories/ModuloProductos/ProductoRepository';
 import Producto from '../../Dto/ProductoDto';
 
-class ProductoServices{
+class ProductoServices {
 
     //Se necesita un disparador para poder agregar producto, cuando la factura se halla hecho exitosamente 
 
-    static async addProducto(producto: Producto) {
-        return await ProductoRepository.addProducto(producto);
+    static async registrarProducto(producto: Producto) {
+        return await ProductoRepository.RegistrarProducto(producto);
     }
 
-    static async deleteProducto(producto: Producto){
-        return await ProductoRepository.deleteProducto(producto);
+    static async obtenerProductos() {
+        return await ProductoRepository.obtenerTodos();
     }
-    //Cuando se haga factura 
-    // static async resProducto(producto: Producto){
-    //     return await ProductoRepository.restProducto(producto);
-    // }
 
+    static async eliminarProducto(id: number) {
+        await ProductoRepository.eliminarProducto(id);
+    }
 
+    static async actualizarProducto(producto: Producto, id: number, ) {
+        return await ProductoRepository.ActualizarProducto( producto,id);
+    }
 }
+export default ProductoServices;
