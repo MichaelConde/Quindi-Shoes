@@ -41,5 +41,18 @@ class ProductoRepository {
             return yield config_db_1.default.execute(sql, values);
         });
     }
+    static obtenerTodos() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows] = yield config_db_1.default.execute('SELECT * FROM productoReal');
+            console.log(rows);
+            return rows;
+        });
+    }
+    static eliminarProducto(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'DELETE FROM productoReal WHERE id_producto = ?';
+            yield config_db_1.default.execute(sql, [id]);
+        });
+    }
 }
 exports.default = ProductoRepository;

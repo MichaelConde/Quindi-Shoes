@@ -30,6 +30,17 @@ class ProductoRepository {
 
     return await db.execute(sql, values);
   }
+
+  static async obtenerTodos() {
+    const [rows] = await db.execute('SELECT * FROM productoReal');
+    console.log(rows);
+    return rows;
+  }
+
+  static async eliminarProducto(id: number) {
+    const sql = 'DELETE FROM productoReal WHERE id_producto = ?';
+    await db.execute(sql, [id]);
+  }
 }
 
 export default ProductoRepository;
