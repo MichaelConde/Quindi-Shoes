@@ -23,7 +23,6 @@ import reiniciarContrasena from "./routes/reiniciarContrasena"; // ✅
 import material_register from "./routes/material_register"; // ✅
 import color_register from "./routes/color_register";
 import zona_register from "./routes/zona_register"
-import reiniciarContrasena from "./routes/reiniciarContrasena";
 import productoRouter from "./routes/producto";
 // import producto from "./routes/producto";
 // Usar rutas
