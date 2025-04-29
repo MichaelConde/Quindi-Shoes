@@ -10,7 +10,12 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors()); // Permitir conexiones desde otros orígenes (como el frontend)
+app.use(cors({
+    origin: "http://localhost:5173", 
+    credentials: true,
+    exposedHeaders: ["x-renewed-token"], 
+  }));
+  
 app.use(bodyParser.json()); // Leer cuerpos JSON
 app.use(express.json()); // Alternativa moderna (también funciona)
 
@@ -24,6 +29,8 @@ import material_register from "./routes/material_register"; // ✅
 import color_register from "./routes/color_register";
 import zona_register from "./routes/zona_register"
 import productoRouter from "./routes/producto";
+import empleadoRouter from "./routes/empleado";
+
 // import producto from "./routes/producto";
 // Usar rutas
 app.use("/register", register);
@@ -40,6 +47,9 @@ app.use("/RecuperarContrasena", recuperarContrasena);
 app.use("/reiniciarContrasena", reiniciarContrasena); 
 
 app.use("/producto", productoRouter);
+app.use("/empleado", empleadoRouter);
+
+
 
 
 // Puerto

@@ -3,7 +3,7 @@ import UsuarioService from '../services/ModuloUsuarios/UserServices';
 import Usuario from "../Dto/UsuarioDto";
 
 
-let register = async (req: Request, res: Response) => {
+const register = async (req: Request, res: Response) => {
   try {
     const {
       nombres,
@@ -26,5 +26,14 @@ let register = async (req: Request, res: Response) => {
   }
 }
 
-
+export const obtenerEmpleados = async (req: Request, res: Response) => {
+    try {
+      const empleados = await UsuarioService.obtenerEmpleados();
+      res.json(empleados);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+      res.status(500).json({ error: "Error al obtener productos" });
+    }
+  };
+  
 export default register;

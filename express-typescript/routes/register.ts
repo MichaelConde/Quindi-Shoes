@@ -4,6 +4,8 @@ const router = express.Router();
 
 
 router.post('/', registerController);
+router.get('/', registerController);
+
 
 
 export default router;

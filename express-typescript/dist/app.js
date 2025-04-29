@@ -12,7 +12,11 @@ dotenv_1.default.config();
 // Inicializar express
 const app = (0, express_1.default)();
 // Middlewares
-app.use((0, cors_1.default)()); // Permitir conexiones desde otros orígenes (como el frontend)
+app.use((0, cors_1.default)({
+    origin: "http://localhost:5173",
+    credentials: true,
+    exposedHeaders: ["x-renewed-token"],
+}));
 app.use(body_parser_1.default.json()); // Leer cuerpos JSON
 app.use(express_1.default.json()); // Alternativa moderna (también funciona)
 // Importar rutas
@@ -25,6 +29,7 @@ const material_register_1 = __importDefault(require("./routes/material_register"
 const color_register_1 = __importDefault(require("./routes/color_register"));
 const zona_register_1 = __importDefault(require("./routes/zona_register"));
 const producto_1 = __importDefault(require("./routes/producto"));
+const empleado_1 = __importDefault(require("./routes/empleado"));
 // import producto from "./routes/producto";
 // Usar rutas
 app.use("/register", register_1.default);
@@ -39,6 +44,7 @@ app.use("/zona_register", zona_register_1.default);
 app.use("/RecuperarContrasena", RecuperarContrasena_1.default);
 app.use("/reiniciarContrasena", reiniciarContrasena_1.default);
 app.use("/producto", producto_1.default);
+app.use("/empleado", empleado_1.default);
 // Puerto
 const PORT = process.env.PORT || 3000;
 // Iniciar servidor

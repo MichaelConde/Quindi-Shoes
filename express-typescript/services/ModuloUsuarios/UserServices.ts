@@ -17,6 +17,10 @@ class UsuarioService {
         return await UsuarioRepository.loginUser(auth);
     }
 
+    static async obtenerEmpleados() {
+        return await UsuarioRepository.obtenerEmpleados();
+    }
+
   
 }
 

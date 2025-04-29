@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.obtenerEmpleados = void 0;
 const UserServices_1 = __importDefault(require("../services/ModuloUsuarios/UserServices"));
 const UsuarioDto_1 = __importDefault(require("../Dto/UsuarioDto"));
-let register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { nombres, apellidos, telefono, direccion, correo, contraseña, rol } = req.body;
         const registerUser = yield UserServices_1.default.register(new UsuarioDto_1.default(nombres, apellidos, telefono, direccion, correo, contraseña, rol));
@@ -26,4 +27,15 @@ let register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
 });
+const obtenerEmpleados = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const empleados = yield UserServices_1.default.obtenerEmpleados();
+        res.json(empleados);
+    }
+    catch (error) {
+        console.error("Error al obtener productos:", error);
+        res.status(500).json({ error: "Error al obtener productos" });
+    }
+});
+exports.obtenerEmpleados = obtenerEmpleados;
 exports.default = register;

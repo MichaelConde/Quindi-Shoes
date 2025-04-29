@@ -27,5 +27,10 @@ class UsuarioService {
             return yield UsuarioRepository_1.default.loginUser(auth);
         });
     }
+    static obtenerEmpleados() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield UsuarioRepository_1.default.obtenerEmpleados();
+        });
+    }
 }
 exports.default = UsuarioService;

@@ -75,5 +75,12 @@ class UsuarioRepository {
             }
         });
     }
+    static obtenerEmpleados() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows] = yield config_db_1.default.execute('SELECT * FROM users WHERE rol = "Empleado"');
+            console.log(rows);
+            return rows;
+        });
+    }
 }
 exports.default = UsuarioRepository;

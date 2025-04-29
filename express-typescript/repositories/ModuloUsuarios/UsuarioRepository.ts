@@ -69,6 +69,12 @@ class UsuarioRepository {
           return { logged: false, status: "Server error" };
       }
   }
+
+  static async obtenerEmpleados() {
+      const [rows] = await db.execute('SELECT * FROM users WHERE rol = "Empleado"');
+      console.log(rows);
+      return rows;
+    }
  
 }
 
