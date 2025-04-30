@@ -10,7 +10,38 @@ class UsuarioRepository {
         const sql = 'UPDATE users SET contraseña = ? WHERE id_usuario = ?';
         return await db.execute(sql, [nuevaContraseña, id]);
       }
+    static async eliminarEmpleado(id: number) {
+        const sql = 'DELETE FROM users WHERE id_usuario = ?';
+        await db.execute(sql, [id]);
+    }
 
+
+    static async ActualizarEmpleado(usuario: Usuario,id: number) {
+        console.log("Datos recibidos en el update:", usuario, "ID:", id);
+        const sql = `
+          UPDATE users SET 
+            nombre = ?,
+            apellido = ?,
+            telefono = ?,
+            direccion = ?,
+            correo = ?,
+            rol = ?,
+          WHERE id_usuario = ?
+        `;
+    
+        const values = [
+          usuario.nombres,
+          usuario.apellidos,
+          usuario.telefono,
+          usuario.direccion,
+          usuario.correo,
+          usuario.rol,
+          id
+        ];
+        return await db.execute(sql, values);
+      }
+  
+    
     static async EncontrarCorreo(correo: string) {
         const sql = 'SELECT * FROM users WHERE correo = ? LIMIT 1';
         const [rows]: any = await db.execute(sql, [correo]);
@@ -36,7 +67,7 @@ class UsuarioRepository {
     }
 
     static async loginUser(auth: Auth) {
-      const sql = 'SELECT id_usuario, contraseña FROM users WHERE correo=?;';
+      const sql = 'SELECT id_usuario, contraseña, rol FROM users WHERE correo=?;';
       const values = [auth.correo];
   
       try {
@@ -59,7 +90,7 @@ class UsuarioRepository {
           const isPasswordValid = await bcrypt.compare(auth.contraseña, result[0].contraseña);
   
           if (isPasswordValid) {
-              return { logged: true, status: "Successful authentication", id: result[0].id_usuario };
+              return { logged: true, status: "Successful authentication", id: result[0].id_usuario, rol: result[0].rol };
           }
   
           return { logged: false, status: "Invalid username or password" };
@@ -71,7 +102,7 @@ class UsuarioRepository {
   }
 
   static async obtenerEmpleados() {
-      const [rows] = await db.execute('SELECT * FROM users WHERE rol = "Empleado"');
+      const [rows] = await db.execute('SELECT * FROM users WHERE rol = "vendedor" OR rol = "domiciliario"');
       console.log(rows);
       return rows;
     }

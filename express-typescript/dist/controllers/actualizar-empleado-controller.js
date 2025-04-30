@@ -12,28 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const AuthDto_1 = __importDefault(require("../Dto/AuthDto"));
+const UsuarioDto_1 = __importDefault(require("../Dto/UsuarioDto"));
 const UserServices_1 = __importDefault(require("../services/ModuloUsuarios/UserServices"));
-const generateToken_1 = __importDefault(require("../Helpers/generateToken"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-let auth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const actualizarEmpleado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { correo, contraseña, rol } = req.body;
-        const login = yield UserServices_1.default.login(new AuthDto_1.default(correo, contraseña, rol));
-        if (login.logged) {
-            return res.status(200).json({
-                status: login.status,
-                token: (0, generateToken_1.default)({ id: login.id }, process.env.KEY_TOKEN, 5),
-                rol: login.rol,
-            });
-        }
-        return res.status(401).json({
-            status: login.status
-        });
+        const id = parseInt(req.params.id);
+        const { nombres, apellidos, telefono, direccion, correo, rol, contraseña } = req.body;
+        const usuario = new UsuarioDto_1.default(nombres, apellidos, telefono, direccion, correo, rol, contraseña);
+        yield UserServices_1.default.actualizarEmpleado(usuario, id);
+        return res.status(200).json({ message: "Empleado actualizado correctamente" });
     }
     catch (error) {
-        console.log(error);
+        console.error("Error al actualizar Empleado:", error);
+        return res.status(500).json({ error: "Error al actualizar empleado" });
     }
 });
-exports.default = auth;
+exports.default = actualizarEmpleado;

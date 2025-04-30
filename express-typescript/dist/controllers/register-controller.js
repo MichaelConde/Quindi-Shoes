@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.obtenerEmpleados = void 0;
+exports.eliminarEmpleado = exports.obtenerEmpleados = void 0;
 const UserServices_1 = __importDefault(require("../services/ModuloUsuarios/UserServices"));
 const UsuarioDto_1 = __importDefault(require("../Dto/UsuarioDto"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -38,4 +38,16 @@ const obtenerEmpleados = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.obtenerEmpleados = obtenerEmpleados;
+const eliminarEmpleado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        yield UserServices_1.default.eliminarEmpleado(Number(id));
+        res.status(200).json({ message: "Producto eliminado con éxito" });
+    }
+    catch (error) {
+        console.error("Error al eliminar producto:", error);
+        res.status(500).json({ error: "Error al eliminar producto" });
+    }
+});
+exports.eliminarEmpleado = eliminarEmpleado;
 exports.default = register;

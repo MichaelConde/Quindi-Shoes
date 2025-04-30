@@ -21,6 +21,37 @@ class UsuarioRepository {
             return yield config_db_1.default.execute(sql, [nuevaContraseña, id]);
         });
     }
+    static eliminarEmpleado(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'DELETE FROM users WHERE id_usuario = ?';
+            yield config_db_1.default.execute(sql, [id]);
+        });
+    }
+    static ActualizarEmpleado(usuario, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("Datos recibidos en el update:", usuario, "ID:", id);
+            const sql = `
+          UPDATE users SET 
+            nombre = ?,
+            apellido = ?,
+            telefono = ?,
+            direccion = ?,
+            correo = ?,
+            rol = ?,
+          WHERE id_usuario = ?
+        `;
+            const values = [
+                usuario.nombres,
+                usuario.apellidos,
+                usuario.telefono,
+                usuario.direccion,
+                usuario.correo,
+                usuario.rol,
+                id
+            ];
+            return yield config_db_1.default.execute(sql, values);
+        });
+    }
     static EncontrarCorreo(correo) {
         return __awaiter(this, void 0, void 0, function* () {
             const sql = 'SELECT * FROM users WHERE correo = ? LIMIT 1';
@@ -48,7 +79,7 @@ class UsuarioRepository {
     }
     static loginUser(auth) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'SELECT id_usuario, contraseña FROM users WHERE correo=?;';
+            const sql = 'SELECT id_usuario, contraseña, rol FROM users WHERE correo=?;';
             const values = [auth.correo];
             try {
                 const [result] = yield config_db_1.default.execute(sql, values);
@@ -65,7 +96,7 @@ class UsuarioRepository {
                 }
                 const isPasswordValid = yield bcryptjs_1.default.compare(auth.contraseña, result[0].contraseña);
                 if (isPasswordValid) {
-                    return { logged: true, status: "Successful authentication", id: result[0].id_usuario };
+                    return { logged: true, status: "Successful authentication", id: result[0].id_usuario, rol: result[0].rol };
                 }
                 return { logged: false, status: "Invalid username or password" };
             }
@@ -77,7 +108,7 @@ class UsuarioRepository {
     }
     static obtenerEmpleados() {
         return __awaiter(this, void 0, void 0, function* () {
-            const [rows] = yield config_db_1.default.execute('SELECT * FROM users WHERE rol = "Empleado"');
+            const [rows] = yield config_db_1.default.execute('SELECT * FROM users WHERE rol = "vendedor" OR rol = "domiciliario"');
             console.log(rows);
             return rows;
         });

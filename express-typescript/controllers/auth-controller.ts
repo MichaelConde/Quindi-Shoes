@@ -8,13 +8,14 @@ dotenv.config();
 
 let auth = async (req: Request, res: Response) => {
   try {
-    const { correo, contraseña } = req.body;
-    const login = await UsuarioService.login(new Auth(correo, contraseña));
+    const { correo, contraseña,rol } = req.body;
+    const login = await UsuarioService.login(new Auth(correo, contraseña,rol));
+ 
     if (login.logged) {
       return res.status(200).json({
         status: login.status,
         token: generateToken({id: login.id}, process.env.KEY_TOKEN, 5),
-        rol : "Empleado"
+        rol : login.rol,
       });
     }
     return res.status(401).json({

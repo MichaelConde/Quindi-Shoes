@@ -35,5 +35,17 @@ export const obtenerEmpleados = async (req: Request, res: Response) => {
       res.status(500).json({ error: "Error al obtener productos" });
     }
   };
+
+  export const eliminarEmpleado = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await UsuarioService.eliminarEmpleado(Number(id));
+      
+      res.status(200).json({ message: "Producto eliminado con éxito" });
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+      res.status(500).json({ error: "Error al eliminar producto" });
+    }
+  };
   
 export default register;

@@ -15,6 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UsuarioRepository_1 = __importDefault(require("../../repositories/ModuloUsuarios/UsuarioRepository"));
 const generateHash_1 = __importDefault(require("../../Helpers/generateHash"));
 class UsuarioService {
+    static actualizarEmpleado(usuario, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield UsuarioRepository_1.default.ActualizarEmpleado(usuario, id);
+        });
+    }
     static register(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
             usuario.contraseña = yield (0, generateHash_1.default)(usuario.contraseña);
@@ -30,6 +35,11 @@ class UsuarioService {
     static obtenerEmpleados() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield UsuarioRepository_1.default.obtenerEmpleados();
+        });
+    }
+    static eliminarEmpleado(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield UsuarioRepository_1.default.eliminarEmpleado(id);
         });
     }
 }

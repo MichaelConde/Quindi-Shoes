@@ -6,7 +6,11 @@ import Usuario from '../../Dto/UsuarioDto';
 
 
 class UsuarioService {
-    
+   
+    static async actualizarEmpleado(usuario: Usuario, id: number, ) {
+        return await UsuarioRepository.ActualizarEmpleado( usuario,id);
+    }
+
     static async register(usuario: Usuario) {
         usuario.contraseña = await generateHash(usuario.contraseña);
         console.log(usuario.contraseña)
@@ -19,6 +23,10 @@ class UsuarioService {
 
     static async obtenerEmpleados() {
         return await UsuarioRepository.obtenerEmpleados();
+    }
+
+    static async eliminarEmpleado(id: number) {
+        await UsuarioRepository.eliminarEmpleado(id);
     }
 
   
