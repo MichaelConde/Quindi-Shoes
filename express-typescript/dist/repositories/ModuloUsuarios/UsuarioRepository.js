@@ -37,7 +37,7 @@ class UsuarioRepository {
             telefono = ?,
             direccion = ?,
             correo = ?,
-            rol = ?,
+            rol = ?
           WHERE id_usuario = ?
         `;
             const values = [
