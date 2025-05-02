@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Usuario {
-    constructor(nombres, apellidos, telefono, direccion, correo, contraseña, rol) {
+    constructor(nombres, apellidos, telefono, direccion, correo, rol, contraseña) {
         this._nombres = nombres;
         this._apellidos = apellidos;
         this._telefono = telefono;

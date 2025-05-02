@@ -22,6 +22,9 @@ class UsuarioService {
     }
     static register(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (!usuario.contraseña) {
+                throw new Error("La contraseña es obligatoria para el registro.");
+            }
             usuario.contraseña = yield (0, generateHash_1.default)(usuario.contraseña);
             console.log(usuario.contraseña);
             return yield UsuarioRepository_1.default.addUser(usuario);

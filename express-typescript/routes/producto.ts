@@ -10,4 +10,5 @@ router.post('/', renovarTokenMiddleware, registrarProducto);
 router.get("/", verifyToken, renovarTokenMiddleware, obtenerProductos);
 router.delete("/:id", renovarTokenMiddleware, eliminarProducto);
 router.put("/:id", renovarTokenMiddleware, actualizarProducto);
+router.get("/public", obtenerProductos);
 export default router;

@@ -12,9 +12,13 @@ class UsuarioService {
     }
 
     static async register(usuario: Usuario) {
-        usuario.contraseña = await generateHash(usuario.contraseña);
-        console.log(usuario.contraseña)
-        return await UsuarioRepository.addUser(usuario);
+        if (!usuario.contraseña) {
+            throw new Error("La contraseña es obligatoria para el registro.");
+          }
+        
+          usuario.contraseña = await generateHash(usuario.contraseña);
+          console.log(usuario.contraseña);
+          return await UsuarioRepository.addUser(usuario);
     }
 
     static async login(auth: Auth) {
