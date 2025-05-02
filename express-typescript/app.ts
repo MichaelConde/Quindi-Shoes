@@ -30,6 +30,7 @@ import color_register from "./routes/color_register";
 import zona_register from "./routes/zona_register"
 import productoRouter from "./routes/producto";
 import empleadoRouter from "./routes/empleado";
+import carrioRouter from "./routes/carrito_compras"; // ✅
 
 // import producto from "./routes/producto";
 // Usar rutas
@@ -48,7 +49,7 @@ app.use("/reiniciarContrasena", reiniciarContrasena);
 
 app.use("/producto", productoRouter);
 app.use("/empleado", empleadoRouter);
-
+app.use("/carrito",carrioRouter)
 
 
 
