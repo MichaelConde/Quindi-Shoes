@@ -8,22 +8,49 @@ class PersonalizacionServices {
         return await PersonalizacionRepository.addMateriales(materiales);
     }
     
-    static async deleteMateriales(materiales: Materiales) {
-        return await PersonalizacionRepository.deleteMateriales(materiales);
+    static async deleteMateriales(id: number) {
+        return await PersonalizacionRepository.deleteMateriales(id);
+    }
+
+    static async actualizarMaterial(material: Materiales, id: number, ) {
+        return await PersonalizacionRepository.ActualizarMaterial( material,id);
+    }
+
+    static async obtenerMateriales() {
+        return await PersonalizacionRepository.obtenerMaterial();
     }
 
     static async addColores(colores: Colores) {
         return await PersonalizacionRepository.addColores(colores);
     }
-    static async deleteColores(colores: Colores) {
-        return await PersonalizacionRepository.deleteColores(colores);
+    
+    static async deleteColores(id: number) {
+        return await PersonalizacionRepository.deleteColores(id);
     }
+
+    static async actualizarColor(colores: Colores, id: number, ) {
+        return await PersonalizacionRepository.ActualizarColor( colores,id);
+    }
+
+    static async obtenerColores() {
+        return await PersonalizacionRepository.obtenerColores();
+    }
+
     static async addZonaProducto(zonaProducto: ZonaProducto) {
         return await PersonalizacionRepository.addZonaProducto(zonaProducto);
     }
-    static async deleteZonaProducto(zonaProducto: ZonaProducto) {
-        return await PersonalizacionRepository.deleteZonaProducto(zonaProducto);
-    }       
+
+    static async deleteZonaProducto(id: number) {
+        return await PersonalizacionRepository.deleteZonaProducto(id);
+    }  
+    
+    static async actualizarZonaProducto(zonaProducto: ZonaProducto, id: number, ) {
+        return await PersonalizacionRepository.ActualizarZonaProducto( zonaProducto,id);
+    }
+
+    static async obtenerZonaProducto() {
+        return await PersonalizacionRepository.obtenerZonaProducto();
+    }
 
 }
 

@@ -5,17 +5,40 @@ import db from '../../config/config-db';
 
 
 class PersonalizacionRepository {   
+
+    // Materiales
     static async addMateriales(materiales: Materiales) {
         const sql = 'call InsertarMaterial(?);';
         const values = [materiales.nombre_material];
         return db.execute(sql, values);
     }
+
+    static async ActualizarMaterial(material: Materiales,id: number) {
+        console.log("Datos recibidos en el update:",  material, "ID",id,);
+        const sql = `
+          call ActualizarMaterial(?,?);
+        `;
     
-    static async deleteMateriales(materiales: Materiales) {
-        const sql = 'BorrarMateriales';
-        const values = [materiales.nombre_material];
-        return db.execute(sql, values);
+        const values = [
+          material.nombre_material,
+          id
+        ];
+        return await db.execute(sql, values);
+      }
+    
+
+      static async obtenerMaterial() {
+          const [rows] = await db.execute('SELECT * FROM materiales');
+          console.log(rows);
+          return rows;
+        }
+
+    static async deleteMateriales(id: number) {
+        const sql = 'call EliminarMaterial(?);';
+        await db.execute(sql, [id]);
     }
+
+    // Colores
 
     static async addColores(colores: Colores) {
         const sql = 'call InsertarColor(?, ?);';
@@ -23,23 +46,62 @@ class PersonalizacionRepository {
         return db.execute(sql, values);
     }   
 
-    static async deleteColores(colores: Colores) {
-        const sql = 'BorrarColores';
-        const values = [colores.nombreColor, colores.codigoHax];
-        return db.execute(sql, values);
-    }   
+    static async ActualizarColor(color: Colores,id: number) {
+        console.log("Datos recibidos en el update:", "ID:", id, color);
+        const sql = `
+          call ActualizarColor(?,?);
+        `;
+    
+        const values = [
+          color.nombreColor,
+          color.codigoHax,
+          id
+        ];
+        return await db.execute(sql, values);
+      }
 
+      static async obtenerColores() {
+        const [rows] = await db.execute('SELECT * FROM colores');
+        console.log(rows);
+        return rows;
+      }
+
+    static async deleteColores(id: number) {
+        const sql = 'call EliminarColor(?);';
+        await db.execute(sql, [id]);
+    }
+
+
+    // Zona Producto
     static async addZonaProducto(zonaProducto: ZonaProducto) {
         const sql = 'call InsertarZonaProductos(?);';
         const values = [zonaProducto.nombreZona];
         return db.execute(sql, values);
     }
 
-    static async deleteZonaProducto(zonaProducto: ZonaProducto) {
-        const sql = 'BorrarZonaProducto';
-        const values = [zonaProducto.nombreZona];
-        return db.execute(sql, values);
-    }   
+    static async ActualizarZonaProducto(zonaProducto: ZonaProducto,id: number) {
+        console.log("Datos recibidos en el update:", zonaProducto, "ID:", id);
+        const sql = `
+          call ActualizarZonaProductos(?,?);
+        `;
+    
+        const values = [
+          zonaProducto.nombreZona,
+          id
+        ];
+        return await db.execute(sql, values);
+      }   
+
+      static async obtenerZonaProducto() {
+        const [rows] = await db.execute('SELECT * FROM zona_productos');
+        console.log(rows);
+        return rows;
+      }
+
+    static async deleteZonaProducto(id: number) {
+        const sql = 'call EliminarZonaProductos(?);';
+        await db.execute(sql, [id]);
+    }
 
 }
 

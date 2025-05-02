@@ -19,9 +19,19 @@ class PersonalizacionServices {
             return yield PersonalizacionRepository_1.default.addMateriales(materiales);
         });
     }
-    static deleteMateriales(materiales) {
+    static deleteMateriales(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield PersonalizacionRepository_1.default.deleteMateriales(materiales);
+            return yield PersonalizacionRepository_1.default.deleteMateriales(id);
+        });
+    }
+    static actualizarMaterial(material, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield PersonalizacionRepository_1.default.ActualizarMaterial(material, id);
+        });
+    }
+    static obtenerMateriales() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield PersonalizacionRepository_1.default.obtenerMaterial();
         });
     }
     static addColores(colores) {
@@ -29,9 +39,19 @@ class PersonalizacionServices {
             return yield PersonalizacionRepository_1.default.addColores(colores);
         });
     }
-    static deleteColores(colores) {
+    static deleteColores(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield PersonalizacionRepository_1.default.deleteColores(colores);
+            return yield PersonalizacionRepository_1.default.deleteColores(id);
+        });
+    }
+    static actualizarColor(colores, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield PersonalizacionRepository_1.default.ActualizarColor(colores, id);
+        });
+    }
+    static obtenerColores() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield PersonalizacionRepository_1.default.obtenerColores();
         });
     }
     static addZonaProducto(zonaProducto) {
@@ -39,9 +59,19 @@ class PersonalizacionServices {
             return yield PersonalizacionRepository_1.default.addZonaProducto(zonaProducto);
         });
     }
-    static deleteZonaProducto(zonaProducto) {
+    static deleteZonaProducto(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield PersonalizacionRepository_1.default.deleteZonaProducto(zonaProducto);
+            return yield PersonalizacionRepository_1.default.deleteZonaProducto(id);
+        });
+    }
+    static actualizarZonaProducto(zonaProducto, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield PersonalizacionRepository_1.default.ActualizarZonaProducto(zonaProducto, id);
+        });
+    }
+    static obtenerZonaProducto() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield PersonalizacionRepository_1.default.obtenerZonaProducto();
         });
     }
 }

@@ -25,9 +25,9 @@ import auth from "./routes/auth";
 import profile from "./routes/profile";
 import recuperarContrasena from "./routes/RecuperarContrasena";
 import reiniciarContrasena from "./routes/reiniciarContrasena"; // ✅
-import material_register from "./routes/material_register"; // ✅
-import color_register from "./routes/color_register";
-import zona_register from "./routes/zona_register"
+import materialRouter from "./routes/material";
+import colorRouter from "./routes/color";
+import zonaRouter from "./routes/zonaProductos";
 import productoRouter from "./routes/producto";
 import empleadoRouter from "./routes/empleado";
 
@@ -39,15 +39,16 @@ app.use("/profile", profile);
 app.use("/RecuperarContrasena", recuperarContrasena); // // ✅
 app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
 
-app.use("/material_register", material_register); // ✅
-app.use("/color_register", color_register);
-app.use("/zona_register", zona_register);
+
 // app.use("/producto", producto);
 app.use("/RecuperarContrasena", recuperarContrasena); 
 app.use("/reiniciarContrasena", reiniciarContrasena); 
 
 app.use("/producto", productoRouter);
 app.use("/empleado", empleadoRouter);
+app.use("/material", materialRouter);
+app.use("/color", colorRouter);
+app.use("/zonaProducto", zonaRouter);
 
 
 

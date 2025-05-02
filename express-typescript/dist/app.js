@@ -25,9 +25,9 @@ const auth_1 = __importDefault(require("./routes/auth"));
 const profile_1 = __importDefault(require("./routes/profile"));
 const RecuperarContrasena_1 = __importDefault(require("./routes/RecuperarContrasena"));
 const reiniciarContrasena_1 = __importDefault(require("./routes/reiniciarContrasena")); // ✅
-const material_register_1 = __importDefault(require("./routes/material_register")); // ✅
-const color_register_1 = __importDefault(require("./routes/color_register"));
-const zona_register_1 = __importDefault(require("./routes/zona_register"));
+const material_1 = __importDefault(require("./routes/material"));
+const color_1 = __importDefault(require("./routes/color"));
+const zonaProductos_1 = __importDefault(require("./routes/zonaProductos"));
 const producto_1 = __importDefault(require("./routes/producto"));
 const empleado_1 = __importDefault(require("./routes/empleado"));
 // import producto from "./routes/producto";
@@ -37,14 +37,14 @@ app.use("/auth", auth_1.default);
 app.use("/profile", profile_1.default);
 app.use("/RecuperarContrasena", RecuperarContrasena_1.default); // // ✅
 app.use("/reiniciarContrasena", reiniciarContrasena_1.default); // ✅
-app.use("/material_register", material_register_1.default); // ✅
-app.use("/color_register", color_register_1.default);
-app.use("/zona_register", zona_register_1.default);
 // app.use("/producto", producto);
 app.use("/RecuperarContrasena", RecuperarContrasena_1.default);
 app.use("/reiniciarContrasena", reiniciarContrasena_1.default);
 app.use("/producto", producto_1.default);
 app.use("/empleado", empleado_1.default);
+app.use("/material", material_1.default);
+app.use("/color", color_1.default);
+app.use("/zonaProducto", zonaProductos_1.default);
 // Puerto
 const PORT = process.env.PORT || 3000;
 // Iniciar servidor
