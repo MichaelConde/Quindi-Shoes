@@ -13,4 +13,5 @@ router.post('/', renovar_token_controller_1.renovarTokenMiddleware, producto_con
 router.get("/", renovar_token_controller_1.verifyToken, renovar_token_controller_1.renovarTokenMiddleware, producto_controller_2.obtenerProductos);
 router.delete("/:id", renovar_token_controller_1.renovarTokenMiddleware, producto_controller_2.eliminarProducto);
 router.put("/:id", renovar_token_controller_1.renovarTokenMiddleware, actualizar_producto_controller_1.default);
+router.get("/public", producto_controller_2.obtenerProductos);
 exports.default = router;
