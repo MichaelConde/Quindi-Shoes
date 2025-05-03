@@ -17,11 +17,11 @@ class CarritoRepository {
     static agregarCarrito(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const sql = `
-          Select * from productoReal where id_producto = ?
+          SELECT * FROM productoReal WHERE id_producto = ?
         `;
             const values = [id];
-            const [rows] = yield config_db_1.default.execute(sql, values);
-            return rows;
+            const [productos] = yield config_db_1.default.execute(sql, values);
+            return productos[0];
         });
     }
 }

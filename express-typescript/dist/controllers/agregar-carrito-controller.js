@@ -17,8 +17,9 @@ const agregarCarrito = (req, res) => __awaiter(void 0, void 0, void 0, function*
     console.log("Ruta /carrito_compras/:id llamada con ID:", req.params.id);
     try {
         const id = parseInt(req.params.id);
-        yield CarritoServices_1.default.agregarCarrito(id);
-        return res.status(200).json({ message: "Agregado correctamente al carrito" });
+        const producto = yield CarritoServices_1.default.agregarCarrito(id);
+        console.log("Producto agregado al carrito:", producto);
+        return res.status(200).json(producto);
     }
     catch (error) {
         console.error("Error al agregar al carrito:", error);

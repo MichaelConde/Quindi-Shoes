@@ -8,9 +8,9 @@ const agregarCarrito = async (req: Request, res: Response) => {
       const id = parseInt(req.params.id);
      
   
-      await CarritoServices.agregarCarrito(id);
-  
-      return res.status(200).json({ message: "Agregado correctamente al carrito" });
+     const producto= await CarritoServices.agregarCarrito(id);
+      console.log("Producto agregado al carrito:", producto);
+      return res.status(200).json(producto);
     } catch (error) {
       console.error("Error al agregar al carrito:", error);
       return res.status(500).json({ error: "Error al agregar al carrito" });
