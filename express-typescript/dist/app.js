@@ -31,6 +31,7 @@ const zonaProductos_1 = __importDefault(require("./routes/zonaProductos"));
 const producto_1 = __importDefault(require("./routes/producto"));
 const empleado_1 = __importDefault(require("./routes/empleado"));
 const carrito_compras_1 = __importDefault(require("./routes/carrito_compras")); // ✅
+const buscadorProducto_1 = __importDefault(require("./routes/buscadorProducto")); // ✅
 // import producto from "./routes/producto";
 // Usar rutas
 app.use("/register", register_1.default);
@@ -47,6 +48,7 @@ app.use("/carrito", carrito_compras_1.default);
 app.use("/material", material_1.default);
 app.use("/color", color_1.default);
 app.use("/zonaProducto", zonaProductos_1.default);
+app.use("/buscadorProducto", buscadorProducto_1.default); // ✅
 // Puerto
 const PORT = process.env.PORT || 3000;
 // Iniciar servidor
