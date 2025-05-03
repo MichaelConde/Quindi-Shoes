@@ -17,8 +17,8 @@ const PersonalizacionServices_1 = __importDefault(require("../services/ModuloPer
 const actualizarMaterial = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { nombreZona } = req.body;
-        const zonaProducto = new ZonaProductosDto_1.default(nombreZona);
+        const { nombre_zona } = req.body;
+        const zonaProducto = new ZonaProductosDto_1.default(nombre_zona);
         yield PersonalizacionServices_1.default.actualizarZonaProducto(zonaProducto, id);
         return res.status(200).json({ message: "Zona del producto actualizada correctamente" });
     }

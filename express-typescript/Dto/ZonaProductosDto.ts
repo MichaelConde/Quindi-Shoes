@@ -1,16 +1,16 @@
 class ZonaProducto{
-    _nombreZona: string;
+    _nombre_zona: string;
 
-    constructor(_nombreZona:string) {
-        this._nombreZona = _nombreZona;
+    constructor(_nombre_zona:string) {
+        this._nombre_zona = _nombre_zona;
     }
 
-    get nombreZona(): string {
-        return this._nombreZona;
+    get nombre_zona(): string {
+        return this._nombre_zona;
     }
 
-    set nombreZona(nombreZona: string) {
-        this._nombreZona = nombreZona;
+    set nombreZona(nombre_zona: string) {
+        this._nombre_zona = nombre_zona;
     }
 }
 export default ZonaProducto;

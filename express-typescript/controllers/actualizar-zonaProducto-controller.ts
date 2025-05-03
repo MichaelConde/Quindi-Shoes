@@ -7,12 +7,12 @@ const actualizarMaterial = async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const {
-        nombreZona
+        nombre_zona
         
       } = req.body;
   
       const zonaProducto = new ZonaProducto(
-        nombreZona
+        nombre_zona
       );
   
       await PersonalizacionServices.actualizarZonaProducto(zonaProducto, id);

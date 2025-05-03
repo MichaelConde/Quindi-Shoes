@@ -26,7 +26,7 @@ class PersonalizacionServices {
     }
     static actualizarMaterial(material, id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield PersonalizacionRepository_1.default.ActualizarMaterial(material, id);
+            return yield PersonalizacionRepository_1.default.ActualizarMaterial(id, material);
         });
     }
     static obtenerMateriales() {
@@ -46,7 +46,7 @@ class PersonalizacionServices {
     }
     static actualizarColor(colores, id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield PersonalizacionRepository_1.default.ActualizarColor(colores, id);
+            return yield PersonalizacionRepository_1.default.ActualizarColor(id, colores);
         });
     }
     static obtenerColores() {
@@ -66,7 +66,7 @@ class PersonalizacionServices {
     }
     static actualizarZonaProducto(zonaProducto, id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield PersonalizacionRepository_1.default.ActualizarZonaProducto(zonaProducto, id);
+            return yield PersonalizacionRepository_1.default.ActualizarZonaProducto(id, zonaProducto);
         });
     }
     static obtenerZonaProducto() {

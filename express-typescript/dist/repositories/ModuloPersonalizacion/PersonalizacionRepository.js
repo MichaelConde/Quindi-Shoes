@@ -22,15 +22,15 @@ class PersonalizacionRepository {
             return config_db_1.default.execute(sql, values);
         });
     }
-    static ActualizarMaterial(material, id) {
+    static ActualizarMaterial(id, material) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("Datos recibidos en el update:", material, "ID", id);
             const sql = `
           call ActualizarMaterial(?,?);
         `;
             const values = [
-                material.nombre_material,
-                id
+                id,
+                material.nombre_material
             ];
             return yield config_db_1.default.execute(sql, values);
         });
@@ -56,16 +56,16 @@ class PersonalizacionRepository {
             return config_db_1.default.execute(sql, values);
         });
     }
-    static ActualizarColor(color, id) {
+    static ActualizarColor(id, color) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("Datos recibidos en el update:", "ID:", id, color);
             const sql = `
-          call ActualizarColor(?,?);
+          call ActualizarColor(?,?,?);
         `;
             const values = [
+                id,
                 color.nombreColor,
-                color.codigoHax,
-                id
+                color.codigoHax
             ];
             return yield config_db_1.default.execute(sql, values);
         });
@@ -91,15 +91,15 @@ class PersonalizacionRepository {
             return config_db_1.default.execute(sql, values);
         });
     }
-    static ActualizarZonaProducto(zonaProducto, id) {
+    static ActualizarZonaProducto(id, zonaProducto) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("Datos recibidos en el update:", zonaProducto, "ID:", id);
             const sql = `
-          call ActualizarZonaProductos(?,?);
+          call ActualizarZona(?,?);
         `;
             const values = [
-                zonaProducto.nombreZona,
-                id
+                id,
+                zonaProducto.nombre_zona,
             ];
             return yield config_db_1.default.execute(sql, values);
         });

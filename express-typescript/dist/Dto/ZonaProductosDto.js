@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class ZonaProducto {
-    constructor(_nombreZona) {
-        this._nombreZona = _nombreZona;
+    constructor(_nombre_zona) {
+        this._nombre_zona = _nombre_zona;
     }
-    get nombreZona() {
-        return this._nombreZona;
+    get nombre_zona() {
+        return this._nombre_zona;
     }
-    set nombreZona(nombreZona) {
-        this._nombreZona = nombreZona;
+    set nombreZona(nombre_zona) {
+        this._nombre_zona = nombre_zona;
     }
 }
 exports.default = ZonaProducto;

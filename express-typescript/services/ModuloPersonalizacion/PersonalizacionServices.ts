@@ -13,7 +13,7 @@ class PersonalizacionServices {
     }
 
     static async actualizarMaterial(material: Materiales, id: number, ) {
-        return await PersonalizacionRepository.ActualizarMaterial( material,id);
+        return await PersonalizacionRepository.ActualizarMaterial( id, material);
     }
 
     static async obtenerMateriales() {
@@ -29,7 +29,7 @@ class PersonalizacionServices {
     }
 
     static async actualizarColor(colores: Colores, id: number, ) {
-        return await PersonalizacionRepository.ActualizarColor( colores,id);
+        return await PersonalizacionRepository.ActualizarColor(id, colores);
     }
 
     static async obtenerColores() {
@@ -45,7 +45,7 @@ class PersonalizacionServices {
     }  
     
     static async actualizarZonaProducto(zonaProducto: ZonaProducto, id: number, ) {
-        return await PersonalizacionRepository.ActualizarZonaProducto( zonaProducto,id);
+        return await PersonalizacionRepository.ActualizarZonaProducto( id, zonaProducto);
     }
 
     static async obtenerZonaProducto() {

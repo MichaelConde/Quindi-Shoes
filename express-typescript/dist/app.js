@@ -43,6 +43,10 @@ app.use("/RecuperarContrasena", RecuperarContrasena_1.default);
 app.use("/reiniciarContrasena", reiniciarContrasena_1.default);
 app.use("/producto", producto_1.default);
 app.use("/empleado", empleado_1.default);
+app.use("/carrito", carrito_compras_1.default);
+app.use("/material", material_1.default);
+app.use("/color", color_1.default);
+app.use("/zonaProducto", zonaProductos_1.default);
 // Puerto
 const PORT = process.env.PORT || 3000;
 // Iniciar servidor

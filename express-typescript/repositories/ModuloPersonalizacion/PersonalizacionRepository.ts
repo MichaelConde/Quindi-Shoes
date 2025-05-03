@@ -13,15 +13,15 @@ class PersonalizacionRepository {
         return db.execute(sql, values);
     }
 
-    static async ActualizarMaterial(material: Materiales,id: number) {
+    static async ActualizarMaterial(id: number, material: Materiales) {
         console.log("Datos recibidos en el update:",  material, "ID",id,);
         const sql = `
           call ActualizarMaterial(?,?);
         `;
     
         const values = [
-          material.nombre_material,
-          id
+          id,
+          material.nombre_material
         ];
         return await db.execute(sql, values);
       }
@@ -46,16 +46,17 @@ class PersonalizacionRepository {
         return db.execute(sql, values);
     }   
 
-    static async ActualizarColor(color: Colores,id: number) {
+    static async ActualizarColor(id: number, color: Colores) {
         console.log("Datos recibidos en el update:", "ID:", id, color);
         const sql = `
-          call ActualizarColor(?,?);
+          call ActualizarColor(?,?,?);
         `;
     
         const values = [
+          id,
           color.nombreColor,
-          color.codigoHax,
-          id
+          color.codigoHax
+          
         ];
         return await db.execute(sql, values);
       }
@@ -79,15 +80,16 @@ class PersonalizacionRepository {
         return db.execute(sql, values);
     }
 
-    static async ActualizarZonaProducto(zonaProducto: ZonaProducto,id: number) {
+    static async ActualizarZonaProducto(id: number, zonaProducto: ZonaProducto) {
         console.log("Datos recibidos en el update:", zonaProducto, "ID:", id);
         const sql = `
-          call ActualizarZonaProductos(?,?);
+          call ActualizarZona(?,?);
         `;
     
         const values = [
-          zonaProducto.nombreZona,
-          id
+          id,
+          zonaProducto.nombre_zona,
+          
         ];
         return await db.execute(sql, values);
       }   
