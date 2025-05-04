@@ -19,7 +19,22 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 let auth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { correo, contraseña, rol } = req.body;
+        const { correo, contraseña, rol, recaptchaToken } = req.body;
+        if (!recaptchaToken) {
+            return res.status(400).json({
+                status: "Recaptcha token is required"
+            });
+        }
+        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`;
+        const response = yield fetch(verifyUrl, {
+            method: 'POST',
+        });
+        const data = yield response.json();
+        if (!data.success) {
+            return res.status(400).json({
+                status: "Recaptcha verification failed"
+            });
+        }
         const login = yield UserServices_1.default.login(new AuthDto_1.default(correo, contraseña, rol));
         if (login.logged) {
             return res.status(200).json({
