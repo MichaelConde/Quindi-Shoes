@@ -76,9 +76,8 @@ class UsuarioRepository {
     static async addUser(usuario: Usuario){
         const sql = 'call Insertar_usuarios(?, ?, ?, ?, ?, ?, ?);';
         const values = [usuario.nombres,usuario.apellidos,usuario.telefono,usuario.direccion,usuario.correo,usuario.contraseña,usuario.rol];
-        const result = await db.execute(sql, values);
-        console.log('Resultado desde MySQL:', result);
-        return result;
+        return await db.execute(sql, values);
+     
     }
 
     static async loginUser(auth: Auth) {
