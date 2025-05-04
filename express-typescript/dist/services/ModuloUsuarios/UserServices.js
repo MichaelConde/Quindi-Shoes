@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const UsuarioRepository_1 = __importDefault(require("../../repositories/ModuloUsuarios/UsuarioRepository"));
 const generateHash_1 = __importDefault(require("../../Helpers/generateHash"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class UsuarioService {
     static actualizarEmpleado(usuario, id) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -43,6 +44,20 @@ class UsuarioService {
     static eliminarEmpleado(id) {
         return __awaiter(this, void 0, void 0, function* () {
             yield UsuarioRepository_1.default.eliminarEmpleado(id);
+        });
+    }
+    static verificarContrasenaActual(id, contraseñaActual) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("ID recibido:", id);
+            const contraseñaGuardada = yield UsuarioRepository_1.default.verificarContraseña(id);
+            return yield bcryptjs_1.default.compare(contraseñaActual, contraseñaGuardada); // Compara con el hash guardado
+        });
+    }
+    // Función para actualizar la contraseña
+    static actualizarContraseña(id, nuevaContraseña) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const hash = yield (0, generateHash_1.default)(nuevaContraseña); // Genera el hash para la nueva contraseña
+            yield UsuarioRepository_1.default.ActualizarContraseña(id, hash); // Actualiza la contraseña en la base de datos
         });
     }
 }

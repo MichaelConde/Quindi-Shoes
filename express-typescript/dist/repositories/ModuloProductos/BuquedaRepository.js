@@ -33,13 +33,14 @@ class BusquedaRepository {
             agregarFiltro(precioMax, " AND precio_producto <= ?");
             agregarFiltro(marca, " AND marca_producto = ?");
             agregarFiltro(color, " AND colores_producto = ?");
-            agregarFiltro(sexo, " AND genero_producto = ?");
+            agregarFiltro(sexo, " AND sexo_producto = ?");
             agregarFiltro(talla, " AND tallas_producto = ?");
             agregarFiltro(tipo, " AND tipo_producto = ?");
             const [rows] = yield config_db_1.default.execute(sqlObj.sql, values);
             return rows;
         });
     }
+    // Aqui va ir la logica de sugerencias cuando se tenga
     static obtenerSugerencias(query) {
         return __awaiter(this, void 0, void 0, function* () {
             const sql = `SELECT nombre_producto FROM productoReal WHERE nombre_producto LIKE ? LIMIT 5`;

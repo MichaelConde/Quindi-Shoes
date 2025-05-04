@@ -21,6 +21,22 @@ class UsuarioRepository {
             return yield config_db_1.default.execute(sql, [nuevaContraseña, id]);
         });
     }
+    static verificarContraseña(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b;
+            const sql = 'SELECT contraseña FROM users WHERE id_usuario = ?';
+            const [rows] = yield config_db_1.default.execute(sql, [id]);
+            console.log("Contraseña recuperada de la base de datos:", (_a = rows[0]) === null || _a === void 0 ? void 0 : _a.contraseña); // Verifica el valor de la contraseña
+            return (_b = rows[0]) === null || _b === void 0 ? void 0 : _b.contraseña; // Retorna la contraseña actual
+        });
+    }
+    static ObtenerUsuarioPorId(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'SELECT id_usuario, nombre, correo FROM users WHERE id_usuario = ?';
+            const [rows] = yield config_db_1.default.execute(sql, [id]);
+            return rows[0];
+        });
+    }
     static eliminarEmpleado(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const sql = 'DELETE FROM users WHERE id_usuario = ?';
