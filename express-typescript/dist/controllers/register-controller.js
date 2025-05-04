@@ -17,9 +17,9 @@ const UserServices_1 = __importDefault(require("../services/ModuloUsuarios/UserS
 const UsuarioDto_1 = __importDefault(require("../Dto/UsuarioDto"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { nombres, apellidos, telefono, direccion, correo, contraseña, rol } = req.body;
-        const registerUser = yield UserServices_1.default.register(new UsuarioDto_1.default(nombres, apellidos, telefono, direccion, correo, contraseña, rol));
-        return res.status(201).json({ status: 'register ok' });
+        const { nombres, apellidos, telefono, direccion, correo, rol, contraseña, } = req.body;
+        const registerUser = yield UserServices_1.default.register(new UsuarioDto_1.default(nombres, apellidos, telefono, direccion, correo, rol, contraseña));
+        return res.status(201).json({ registerUser, message: "Usuario registrado con éxito" });
     }
     catch (error) {
         if (error && error.code == "ER_DUP_ENTRY") {
