@@ -15,16 +15,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.eliminarEmpleado = exports.obtenerEmpleados = void 0;
 const UserServices_1 = __importDefault(require("../services/ModuloUsuarios/UserServices"));
 const UsuarioDto_1 = __importDefault(require("../Dto/UsuarioDto"));
+const ValidarCorreoService_1 = require("../services/ModuloUsuarios/ValidarCorreoService"); // Asegúrate de que la función de envío de correo esté bien implementada
+const generateToken_1 = __importDefault(require("../Helpers/generateToken"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { nombres, apellidos, telefono, direccion, correo, rol, contraseña, } = req.body;
-        const registerUser = yield UserServices_1.default.register(new UsuarioDto_1.default(nombres, apellidos, telefono, direccion, correo, rol, contraseña));
-        return res.status(201).json({ registerUser, message: "Usuario registrado con éxito" });
+        // Validar si el correo ya existe
+        const usuarioExistente = yield UserServices_1.default.EncontrarCorreo(correo);
+        if (usuarioExistente) {
+            return res.status(400).json({ error: "El correo ya está registrado" });
+        }
+        // Crear usuario
+        const nuevoUsuario = new UsuarioDto_1.default(nombres, apellidos, telefono, direccion, correo, rol, contraseña);
+        const usuarioRegistrado = yield UserServices_1.default.register(nuevoUsuario);
+        const token = (0, generateToken_1.default)({ correo }, process.env.KEY_TOKEN, 15);
+        yield (0, ValidarCorreoService_1.ValidarCorreo)(correo, token);
+        return res.status(201).json({
+            message: "Usuario registrado con éxito. Verifica tu correo electrónico.",
+            usuario: usuarioRegistrado,
+        });
     }
     catch (error) {
-        if (error && error.code == "ER_DUP_ENTRY") {
-            return res.status(500).json({ errorInfo: error.sqlMessage });
+        console.error("Error en el registro:", error);
+        if (error.code === "ER_DUP_ENTRY") {
+            return res
+                .status(409)
+                .json({ error: "Ya existe un usuario con ese correo" });
         }
+        return res.status(500).json({ error: "Error en el servidor" });
     }
 });
 const obtenerEmpleados = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -57,6 +57,8 @@ class UsuarioRepository {
       }
   
     
+    
+    
     static async EncontrarCorreo(correo: string) {
         const sql = 'SELECT * FROM users WHERE correo = ? LIMIT 1';
         const [rows]: any = await db.execute(sql, [correo]);

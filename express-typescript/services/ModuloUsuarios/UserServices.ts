@@ -12,6 +12,10 @@ class UsuarioService {
         return await UsuarioRepository.ActualizarEmpleado( usuario,id);
     }
 
+    static async EncontrarCorreo(correo: string) {
+        return await UsuarioRepository.EncontrarCorreo(correo);
+    }
+
     static async register(usuario: Usuario) {
         if (!usuario.contraseña) {
             throw new Error("La contraseña es obligatoria para el registro.");
@@ -46,7 +50,18 @@ class UsuarioService {
         await UsuarioRepository.ActualizarContraseña(id, hash); // Actualiza la contraseña en la base de datos
       }
 
-  
-}
+    //   static async crearUsuarioTemporal({ correo, contraseña, nombres, apellidos, telefono, direccion, tokenVerificacion }) {
+        
+    //     const nuevoUsuarioTemporal = {
+    //       correo,
+    //       contraseña,  // Asegúrate de cifrar la contraseña antes de guardarla
+    //       nombres,
+    //       apellidos,
+    //       telefono,
+    //       direccion,
+    //       tokenVerificacion,
+    //       estado: "pendiente",  // El usuario está pendiente de verificación
+    //     };
+}}
 
 export default UsuarioService;

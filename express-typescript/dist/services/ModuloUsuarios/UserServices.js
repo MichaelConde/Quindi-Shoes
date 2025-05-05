@@ -21,6 +21,11 @@ class UsuarioService {
             return yield UsuarioRepository_1.default.ActualizarEmpleado(usuario, id);
         });
     }
+    static EncontrarCorreo(correo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield UsuarioRepository_1.default.EncontrarCorreo(correo);
+        });
+    }
     static register(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!usuario.contraseña) {

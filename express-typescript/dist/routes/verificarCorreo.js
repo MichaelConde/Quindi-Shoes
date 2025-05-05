@@ -4,9 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const register_controller_1 = __importDefault(require("../controllers/register-controller"));
-const Register_validator_1 = require("../middleware/Register-validator");
+const validar_correo_controller_1 = __importDefault(require("../controllers/validar-correo-controller"));
 const router = express_1.default.Router();
-router.post('/', Register_validator_1.validatorParams, Register_validator_1.validator, register_controller_1.default);
-router.get('/', register_controller_1.default);
+router.post('/', validar_correo_controller_1.default);
 exports.default = router;
