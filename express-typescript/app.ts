@@ -32,6 +32,7 @@ import productoRouter from "./routes/producto";
 import empleadoRouter from "./routes/empleado";
 import carrioRouter from "./routes/carrito_compras"; // ✅
 import buscadorProductosRouter from "./routes/buscadorProducto"; // ✅
+import cambiarContrasenaRouter from "./routes/cambiarContrasena"; // ✅
 
 // import producto from "./routes/producto";
 // Usar rutas
@@ -45,6 +46,7 @@ app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
 // app.use("/producto", producto);
 app.use("/RecuperarContrasena", recuperarContrasena); 
 app.use("/reiniciarContrasena", reiniciarContrasena); 
+app.use("/cambiarContrasenaR", cambiarContrasenaRouter); // ✅
 
 app.use("/producto", productoRouter);
 app.use("/empleado", empleadoRouter);

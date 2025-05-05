@@ -44,7 +44,6 @@ class ProductoRepository {
     static obtenerTodos() {
         return __awaiter(this, void 0, void 0, function* () {
             const [rows] = yield config_db_1.default.execute('SELECT * FROM productoReal');
-            console.log(rows);
             return rows;
         });
     }

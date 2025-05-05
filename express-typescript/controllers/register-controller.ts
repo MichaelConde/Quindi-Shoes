@@ -11,12 +11,12 @@ const register = async (req: Request, res: Response) => {
       telefono,
       direccion,
       correo,
+      rol,
       contraseña,
-      rol
     } = req.body;
-    const registerUser = await UsuarioService.register(new Usuario(nombres,apellidos, telefono, direccion, correo ,contraseña,rol))
+    const registerUser = await UsuarioService.register(new Usuario(nombres,apellidos, telefono, direccion, correo ,rol,contraseña))
     return res.status(201).json(
-      { status: 'register ok'}
+      { registerUser, message: "Usuario registrado con éxito" }
     );
   } catch (error: any) {
     if (error && error.code == "ER_DUP_ENTRY") {

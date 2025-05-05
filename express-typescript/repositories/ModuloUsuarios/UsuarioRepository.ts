@@ -6,10 +6,25 @@ import Usuario from '../../Dto/UsuarioDto';
 
 
 class UsuarioRepository {
+
     static async ActualizarContraseña(id: number, nuevaContraseña: string) {
         const sql = 'UPDATE users SET contraseña = ? WHERE id_usuario = ?';
         return await db.execute(sql, [nuevaContraseña, id]);
       }
+
+      static async verificarContraseña(id: number) {
+        const sql = 'SELECT contraseña FROM users WHERE id_usuario = ?';
+        const [rows]: any = await db.execute(sql, [id]);
+        console.log("Contraseña recuperada de la base de datos:", rows[0]?.contraseña);  // Verifica el valor de la contraseña
+        return rows[0]?.contraseña; // Retorna la contraseña actual
+      }
+
+      static async ObtenerUsuarioPorId(id: number) {
+        const sql = 'SELECT id_usuario, nombre, correo FROM users WHERE id_usuario = ?';
+        const [rows]: any = await db.execute(sql, [id]);
+        return rows[0];
+      }
+
     static async eliminarEmpleado(id: number) {
         const sql = 'DELETE FROM users WHERE id_usuario = ?';
         await db.execute(sql, [id]);
@@ -61,9 +76,8 @@ class UsuarioRepository {
     static async addUser(usuario: Usuario){
         const sql = 'call Insertar_usuarios(?, ?, ?, ?, ?, ?, ?);';
         const values = [usuario.nombres,usuario.apellidos,usuario.telefono,usuario.direccion,usuario.correo,usuario.contraseña,usuario.rol];
-        const result = await db.execute(sql, values);
-        console.log('Resultado desde MySQL:', result);
-        return result;
+        return await db.execute(sql, values);
+     
     }
 
     static async loginUser(auth: Auth) {

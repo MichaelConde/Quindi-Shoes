@@ -8,7 +8,28 @@ dotenv.config();
 
 let auth = async (req: Request, res: Response) => {
   try {
-    const { correo, contraseña,rol } = req.body;
+    const { correo, contraseña,rol, recaptchaToken } = req.body;
+
+    if(!recaptchaToken) {
+
+      return res.status(400).json({
+        status: "Recaptcha token is required"
+      });
+    }
+
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`;
+    const response = await fetch(verifyUrl, {
+      method: 'POST',
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      return res.status(400).json({
+        status: "Recaptcha verification failed"
+      });
+    }
+
     const login = await UsuarioService.login(new Auth(correo, contraseña,rol));
  
     if (login.logged) {

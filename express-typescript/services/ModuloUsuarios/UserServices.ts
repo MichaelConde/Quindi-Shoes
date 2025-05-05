@@ -2,6 +2,7 @@ import UsuarioRepository from '../../repositories/ModuloUsuarios/UsuarioReposito
 import generateHash from '../../Helpers/generateHash';
 import Auth from '../../Dto/AuthDto';
 import Usuario from '../../Dto/UsuarioDto';
+import bcrypt from 'bcryptjs';
 
 
 
@@ -32,6 +33,18 @@ class UsuarioService {
     static async eliminarEmpleado(id: number) {
         await UsuarioRepository.eliminarEmpleado(id);
     }
+
+    static async verificarContrasenaActual(id: number, contraseñaActual: string) {
+        console.log("ID recibido:", id);
+        const contraseñaGuardada = await UsuarioRepository.verificarContraseña(id);
+        return await bcrypt.compare(contraseñaActual, contraseñaGuardada); // Compara con el hash guardado
+      }
+    
+      // Función para actualizar la contraseña
+      static async actualizarContraseña(id: number, nuevaContraseña: string) { // Cambiar el nombre del parámetro
+        const hash = await generateHash(nuevaContraseña); // Genera el hash para la nueva contraseña
+        await UsuarioRepository.ActualizarContraseña(id, hash); // Actualiza la contraseña en la base de datos
+      }
 
   
 }

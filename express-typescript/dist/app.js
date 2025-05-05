@@ -32,6 +32,7 @@ const producto_1 = __importDefault(require("./routes/producto"));
 const empleado_1 = __importDefault(require("./routes/empleado"));
 const carrito_compras_1 = __importDefault(require("./routes/carrito_compras")); // ✅
 const buscadorProducto_1 = __importDefault(require("./routes/buscadorProducto")); // ✅
+const cambiarContrasena_1 = __importDefault(require("./routes/cambiarContrasena")); // ✅
 // import producto from "./routes/producto";
 // Usar rutas
 app.use("/register", register_1.default);
@@ -42,6 +43,7 @@ app.use("/reiniciarContrasena", reiniciarContrasena_1.default); // ✅
 // app.use("/producto", producto);
 app.use("/RecuperarContrasena", RecuperarContrasena_1.default);
 app.use("/reiniciarContrasena", reiniciarContrasena_1.default);
+app.use("/cambiarContrasenaR", cambiarContrasena_1.default); // ✅
 app.use("/producto", producto_1.default);
 app.use("/empleado", empleado_1.default);
 app.use("/carrito", carrito_compras_1.default);

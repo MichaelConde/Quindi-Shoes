@@ -33,7 +33,7 @@ class ProductoRepository {
 
   static async obtenerTodos() {
     const [rows] = await db.execute('SELECT * FROM productoReal');
-    console.log(rows);
+    
     return rows;
   }
 
