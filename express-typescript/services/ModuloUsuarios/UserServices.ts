@@ -46,6 +46,21 @@ class UsuarioService {
         await UsuarioRepository.ActualizarContraseña(id, hash); // Actualiza la contraseña en la base de datos
       }
 
+      static async obtenerInfoUsuario(id: number) {
+        console.log("ID recibido:", id);
+        const datos = await UsuarioRepository.obtenerInfoUsuario(id);
+        if (!datos) {
+          throw new Error("Usuario no encontrado");
+        }   
+
+        return {
+            nombre: datos.nombre,
+            telefono: datos.telefono,
+            direccion: datos.direccion,
+            correo: datos.correo
+          };
+      }
+
   
 }
 

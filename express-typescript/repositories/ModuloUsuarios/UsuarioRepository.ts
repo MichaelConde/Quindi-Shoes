@@ -120,6 +120,12 @@ class UsuarioRepository {
       console.log(rows);
       return rows;
     }
+
+    static async obtenerInfoUsuario(id: number) {
+      const [rows]: any = await db.execute('CALL obtenerInfoUsuario(?)', [id]);
+      return rows[0][0]; // El primer usuario que conicnida con este id
+    }
+    
  
 }
 
