@@ -1,5 +1,6 @@
 import express from "express";
 import { verificarEstadoCorreo } from "../controllers/register-controller"; // Importamos la función del controlador
+
 const router = express.Router();
 
 // Ruta para verificar el correo

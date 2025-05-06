@@ -8,58 +8,56 @@ import generateToken from "../Helpers/generateToken";
 
 // Registro de usuario: genera un JWT con todos los datos y envía enlace para confirmar
 const register = async (req: Request, res: Response) => {
-  try {
-    const { nombres, apellidos, telefono, direccion, correo, rol, contraseña } = req.body;
-
-    console.log("Datos del formulario recibidos en backend:", req.body);
-
-    // Verificar si el correo ya está registrado
-    const usuario = await UsuarioService.EncontrarCorreo(correo);
-    if (usuario) {
-      return res.status(400).json({ error: "El correo ya está registrado." });
+    try {
+      const { nombres, apellidos, telefono, direccion, correo, rol, contrasena } = req.body;
+  
+      console.log("Datos del formulario recibidos en backend:", req.body);
+  
+      // Verificar si el correo ya está registrado
+      const usuario = await UsuarioService.EncontrarCorreo(correo);
+      if (usuario) {
+        return res.status(400).json({ error: "El correo ya está registrado." });
+      }
+  
+      // Crear el objeto de usuario para generar el token
+      const payload = {
+        nombres,
+        apellidos,
+        telefono,
+        direccion,
+        correo,
+        rol,
+        contrasena: await generateHash(contrasena), // Hashear la contraseña
+      };
+  
+      // Generar token con el payload
+      const token = generateToken(payload, process.env.KEY_TOKEN!, 60); // Token válido por 1h
+  
+      // Enviar el enlace de confirmación por correo
+      const urlConfirm = `http://localhost:5173/esperando-confirmacion?token=${token}`;
+      await ValidarCorreo(correo, urlConfirm);
+  
+      // Responder con mensaje de éxito
+      return res.status(201).json({
+        message: "Registro iniciado. Revisa tu correo para confirmar tu cuenta.",
+        token: token, // Enviar el token por si lo necesitas en el frontend
+      });
+    } catch (error: any) {
+      console.error("Error en el registro:", error);
+      return res.status(500).json({ error: "Error en el servidor al registrar el usuario." });
     }
+  };
 
-    // Crear el objeto de usuario para generar el token
-    const payload = {
-      nombres,
-      apellidos,
-      telefono,
-      direccion,
-      correo,
-      rol,
-      contraseña: await generateHash(contraseña), // Hashear la contraseña
-    };
-
-    // Generar token con el payload
-    const token = generateToken(payload, process.env.KEY_TOKEN!, 60); // Token válido por 1h
-    console.log("Token generado:", token);
-
-    // Enviar link de confirmación por correo
-    const urlConfirm = `http://localhost:5173/esperando-confirmacion?token=${token}`;
-    await ValidarCorreo(correo, urlConfirm);
-
-    // Responder con mensaje de éxito
-    return res.status(201).json({
-      message: "Registro iniciado. Revisa tu correo para confirmar tu cuenta.",
-      token: token, // Por si necesitas usarlo en frontend
-    });
-  } catch (error: any) {
-    console.error("Error en el registro:", error);
-    return res.status(500).json({ error: "Error en el servidor al registrar el usuario." });
-  }
-};
-
-
-// Confirmación de correo desde /confirmar
+// Confirmación de correo desde /confirmar-correo
 const confirmarCorreo = async (req: Request, res: Response) => {
   try {
-    const { token } = req.query; 
+    const { token } = req.query; // El token se pasa por query en la URL
     console.log("Token recibido desde query:", token);
+
+    // Verificar si el token no está presente
     if (!token) {
       return res.status(400).json({ error: "Token no proporcionado." });
     }
-
-    console.log("Token recibido desde query:", token);
 
     // Decodificar el token y obtener el payload
     const payload = jwt.verify(token as string, process.env.KEY_TOKEN!) as {
@@ -69,25 +67,26 @@ const confirmarCorreo = async (req: Request, res: Response) => {
       direccion: string;
       correo: string;
       rol: string;
-      contraseña: string;
+      contrasena: string;
     };
 
     console.log("Payload decodificado:", payload);
 
-    const { nombres, apellidos, telefono, direccion, correo, rol, contraseña } = payload;
+    const { nombres, apellidos, telefono, direccion, correo, rol, contrasena } = payload;
 
-    // Verificar si el usuario ya existe
+    // Verificar si el usuario ya está registrado
     const usuarioExistente = await UsuarioService.EncontrarCorreo(correo);
     if (usuarioExistente) {
       return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
     }
 
     // Crear el nuevo usuario y registrarlo
-    const usuario = new Usuario(nombres, apellidos, telefono, direccion, correo, rol, contraseña);
+    const usuario = new Usuario(nombres, apellidos, telefono, direccion, correo, rol, contrasena);
     console.log("Registrando usuario:", usuario);
 
     await UsuarioService.register(usuario);
 
+    // Responder con éxito al confirmar el correo
     return res.status(200).json({ message: "Correo confirmado con éxito." });
   } catch (error: any) {
     console.error("Error en confirmarCorreo:", error);
@@ -95,6 +94,56 @@ const confirmarCorreo = async (req: Request, res: Response) => {
   }
 };
 
+// Verificar estado de correo
+// Ruta para verificar el correo y registrar al usuario
+export const verificarEstadoCorreo = async (req: Request, res: Response) => {
+    try {
+      const { token } = req.query;
+  
+      if (!token) {
+        return res.status(400).json({ error: "Token no proporcionado." });
+      }
+  
+      // Verificar y decodificar el token
+      const payload = jwt.verify(token as string, process.env.KEY_TOKEN!) as {
+        nombres: string;
+        apellidos: string;
+        telefono: string;
+        direccion: string;
+        correo: string;
+        rol: string;
+        contrasena: string;
+      };
+  
+      // Verificar si el usuario ya existe (solo se validará después de confirmar el correo)
+      const usuarioExistente = await UsuarioService.EncontrarCorreo(payload.correo);
+      if (usuarioExistente) {
+        return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
+      }
+  
+      // Crear el nuevo usuario y registrarlo en la base de datos
+      const usuario = new Usuario(
+        payload.nombres,
+        payload.apellidos,
+        payload.telefono,
+        payload.direccion,
+        payload.correo,
+        payload.rol,
+        payload.contrasena
+      );
+  
+      // Registrar el usuario
+      await UsuarioService.register(usuario);
+  
+      return res.status(200).json({ message: "Correo confirmado con éxito. Usuario registrado." });
+    } catch (error: any) {
+      console.error("Error verificando el estado del correo:", error);
+      return res.status(400).json({ error: "Token inválido o expirado." });
+    }
+  };
+  
+
+// Obtener lista de empleados (esto no cambia)
 export const obtenerEmpleados = async (req: Request, res: Response) => {
   try {
     const empleados = await UsuarioService.obtenerEmpleados();
@@ -105,6 +154,7 @@ export const obtenerEmpleados = async (req: Request, res: Response) => {
   }
 };
 
+// Eliminar un empleado
 export const eliminarEmpleado = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -116,31 +166,8 @@ export const eliminarEmpleado = async (req: Request, res: Response) => {
   }
 };
 
-export const verificarEstadoCorreo = async (req: Request, res: Response) => {
-  try {
-    // Obtener el token de la query
-    const { token } = req.query;
-
-    // Si no se proporciona un token
-    if (!token) {
-      return res.status(400).json({ error: "Token no proporcionado." });
-    }
-
-    // Verificar y decodificar el token
-    const payload = jwt.verify(token as string, process.env.KEY_TOKEN!) as {
-      correo: string;
-    };
-
-    // Si llegamos aquí, el token es válido
-    return res.status(200).json({ message: "Correo verificado correctamente.", correo: payload.correo });
-
-  } catch (error: any) {
-    console.error("Error verificando el estado del correo:", error);
-    return res.status(400).json({ error: "Token inválido o expirado." });
-  }
-};
-
 export default {
   register,
   confirmarCorreo,
+  verificarEstadoCorreo,
 };

@@ -32,7 +32,8 @@ import empleadoRouter from "./routes/empleado";
 import carrioRouter from "./routes/carrito_compras"; // ✅
 import buscadorProductosRouter from "./routes/buscadorProducto"; // ✅
 import cambiarContrasenaRouter from "./routes/cambiarContrasena";
-import registerRoutes from "./routes/verificarCorreo"; // ✅
+import verificarCorreoRoute from './routes/verificarCorreo'
+
 
 
 
@@ -51,9 +52,7 @@ app.use("/material", materialRouter);
 app.use("/color", colorRouter);
 app.use("/zonaProducto", zonaRouter);
 app.use("/buscadorProducto", buscadorProductosRouter);
-app.use('/api', registerRoutes);
-
-
+app.use(verificarCorreoRoute);
 
 const PORT = process.env.PORT || 3000;
 

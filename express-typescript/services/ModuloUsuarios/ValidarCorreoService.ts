@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export const ValidarCorreo = async (correo: string, urlConfirm: string) => {
+export const    ValidarCorreo = async (correo: string, urlConfirm: string) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
