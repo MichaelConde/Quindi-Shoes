@@ -5,6 +5,8 @@ export const validatorParams: ValidationChain[] = [
     check('correo').isEmail().withMessage('Debe ser un correo válido'),
     check('contraseña').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
   check('nombres').isLength({ min: 1, max: 255 }),
+  check('direccion').isLength({ min: 1, max: 255 }),
+  check('telefono').isLength({ min: 1, max: 255 }),
   check('apellidos').isLength({ min: 1, max: 255 })
 ];
 

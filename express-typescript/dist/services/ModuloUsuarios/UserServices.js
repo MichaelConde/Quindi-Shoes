@@ -32,7 +32,7 @@ class UsuarioService {
                 throw new Error("La contraseña es obligatoria para el registro.");
             }
             usuario.contraseña = yield (0, generateHash_1.default)(usuario.contraseña);
-            console.log(usuario.contraseña);
+            console.log("esta es tu contraseña hasheada" + usuario.contraseña);
             return yield UsuarioRepository_1.default.addUser(usuario);
         });
     }

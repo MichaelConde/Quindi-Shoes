@@ -30,7 +30,7 @@ class UsuarioService {
     }
 
     usuario.contraseña = await generateHash(usuario.contraseña);
-    console.log(usuario.contraseña);
+    console.log("esta es tu contraseña hasheada"+usuario.contraseña);
     return await UsuarioRepository.addUser(usuario);
   }
 

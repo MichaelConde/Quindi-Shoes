@@ -7,6 +7,8 @@ exports.validatorParams = [
     (0, express_validator_1.check)('correo').isEmail().withMessage('Debe ser un correo válido'),
     (0, express_validator_1.check)('contraseña').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
     (0, express_validator_1.check)('nombres').isLength({ min: 1, max: 255 }),
+    (0, express_validator_1.check)('direccion').isLength({ min: 1, max: 255 }),
+    (0, express_validator_1.check)('telefono').isLength({ min: 1, max: 255 }),
     (0, express_validator_1.check)('apellidos').isLength({ min: 1, max: 255 })
 ];
 function validator(req, res, next) {

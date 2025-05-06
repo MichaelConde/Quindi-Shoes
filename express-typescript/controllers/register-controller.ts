@@ -53,8 +53,8 @@ const register = async (req: Request, res: Response) => {
 // Confirmación de correo desde /confirmar
 const confirmarCorreo = async (req: Request, res: Response) => {
   try {
-    const { token } = req.query; // Obtener token desde la query
-
+    const { token } = req.query; 
+    console.log("Token recibido desde query:", token);
     if (!token) {
       return res.status(400).json({ error: "Token no proporcionado." });
     }

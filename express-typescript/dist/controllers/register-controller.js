@@ -59,7 +59,8 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Confirmación de correo desde /confirmar
 const confirmarCorreo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { token } = req.query; // Obtener token desde la query
+        const { token } = req.query;
+        console.log("Token recibido desde query:", token);
         if (!token) {
             return res.status(400).json({ error: "Token no proporcionado." });
         }
