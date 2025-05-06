@@ -16,7 +16,6 @@ app.use(cors({
     exposedHeaders: ["x-renewed-token"], 
   }));
   
-app.use(bodyParser.json()); // Leer cuerpos JSON
 app.use(express.json()); // Alternativa moderna (también funciona)
 
 // Importar rutas
@@ -33,67 +32,32 @@ import empleadoRouter from "./routes/empleado";
 import carrioRouter from "./routes/carrito_compras"; // ✅
 import buscadorProductosRouter from "./routes/buscadorProducto"; // ✅
 import cambiarContrasenaRouter from "./routes/cambiarContrasena";
-import UsuarioService from "./services/ModuloUsuarios/UserServices";
-import { ValidarCorreo } from "./services/ModuloUsuarios/ValidarCorreoService";
- // ✅
+import registerRoutes from "./routes/verificarCorreo"; // ✅
 
-// import producto from "./routes/producto";
-// Usar rutas
-app.post('/register', async (req, res) => {
-    const { correo, contraseña, nombres, apellidos, telefono, direccion } = req.body;
-  
-    // Verificar si el correo ya existe
-    const usuarioExistente = await UsuarioService.EncontrarCorreo(correo);
-    if (usuarioExistente) {
-      return res.status(400).json({ error: "El correo ya está registrado" });
-    }
-  
-    // Crear un token único para la verificación
-    const tokenVerificacion = generateVerificationToken(); // función que crea un token único
-  
-    // Guardar al usuario en una tabla temporal (pendiente de verificación)
-    await UsuarioService.crearUsuarioTemporal({
-      correo,
-      contraseña,
-      nombres,
-      apellidos,
-      telefono,
-      direccion,
-      tokenVerificacion,
-    });
-  
-    // Enviar el correo de verificación
-    await ValidarCorreo(correo, tokenVerificacion);
-  
-    res.status(200).json({ message: "Usuario registrado, por favor revisa tu correo para verificar tu cuenta." });
-  });
-  
+
+
+app.use("/register", register);  
 app.use("/auth", auth);
 app.use("/profile", profile);
 app.use("/RecuperarContrasena", recuperarContrasena); // // ✅
 app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
-
-
-// app.use("/producto", producto);
 app.use("/RecuperarContrasena", recuperarContrasena); 
 app.use("/reiniciarContrasena", reiniciarContrasena); 
 app.use("/cambiarContrasenaR", cambiarContrasenaRouter); // ✅
-
 app.use("/producto", productoRouter);
 app.use("/empleado", empleadoRouter);
 app.use("/carrito",carrioRouter)
 app.use("/material", materialRouter);
 app.use("/color", colorRouter);
 app.use("/zonaProducto", zonaRouter);
-
 app.use("/buscadorProducto", buscadorProductosRouter);
+app.use('/api', registerRoutes);
 
 
 
-// Puerto
 const PORT = process.env.PORT || 3000;
 
-// Iniciar servidor
+
 app.listen(PORT, () => {
   console.log("Servidor ejecutándose en el puerto:", PORT);
 }).on("error", (error) => {

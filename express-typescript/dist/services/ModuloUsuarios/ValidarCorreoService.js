@@ -14,26 +14,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValidarCorreo = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const ValidarCorreo = (destinatario, token) => __awaiter(void 0, void 0, void 0, function* () {
+const ValidarCorreo = (correo, urlConfirm) => __awaiter(void 0, void 0, void 0, function* () {
     const transporter = nodemailer_1.default.createTransport({
-        service: "gmail",
+        service: 'gmail',
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
     });
-    const url = `http://localhost:5173/validarCorreo?token=${token}`;
     const mailOptions = {
-        from: '"QuindiShoes 👟" <santiagoaguirrecastano8@gmail.com>',
-        to: destinatario,
-        subject: "Verificación de correo electrónico",
+        from: `"Mi App" <${process.env.EMAIL_USER}>`,
+        to: correo,
+        subject: 'Confirma tu cuent a',
         html: `
-      <p>Hola, gracias por registrarte en QuindiShoes. Para activar tu cuenta, haz clic en el siguiente botón:</p>
-      <a href="${url}" style="background-color: #4CAF50; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; border-radius: 8px; font-size: 16px;">Confirmar correo</a>
-      <p>Este enlace expirará en 1 hora.</p>
+      <div style="font-family: Arial, sans-serif; padding: 20px;">
+    <h2>¡Bienvenido!</h2>
+    <p>Gracias por registrarte. Para activar tu cuenta, haz clic en el botón:</p>
+    <a href="${urlConfirm}" style="
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        margin-top: 20px;
+    ">
+      Confirmar cuenta
+    </a>
+    <p style="margin-top: 20px;">Si no solicitaste esta cuenta, puedes ignorar este mensaje.</p>
+  </div>
     `,
     };
-    // Enviar el correo
     yield transporter.sendMail(mailOptions);
 });
 exports.ValidarCorreo = ValidarCorreo;
