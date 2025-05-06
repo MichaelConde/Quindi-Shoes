@@ -126,11 +126,12 @@ class UsuarioRepository {
       return rows[0][0]; // El primer usuario que conicnida con este id
     }
 
-    static async agregarReseña(resena: ReseñaDto) {
-      const sql = 'UPDATE users SET reseña = ?, fecha_reseña = ? WHERE id_usuario = ?';
-      const values = [resena.mensaje, resena.fecha, resena.usuario_id];
-      await db.execute(sql, values);
+    static async agregarResena(resena: ReseñaDto) {
+      const query = `UPDATE users SET reseña = ?, fecha = ? WHERE id_usuario = ?`;
+      const [resultado] = await db.execute(query, [resena.mensaje, resena.fecha, resena.usuario_id]);
+      return resultado;
     }
+    
     
  
 }

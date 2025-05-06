@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const UsuarioRepository_1 = __importDefault(require("../../repositories/ModuloUsuarios/UsuarioRepository"));
-class ReseñaService {
-    static agregarReseña(resena) {
+class ResenaService {
+    static agregarResena(resena) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield UsuarioRepository_1.default.agregarReseña(resena);
+            return yield UsuarioRepository_1.default.agregarResena(resena);
         });
     }
 }
-exports.default = ReseñaService;
+exports.default = ResenaService;

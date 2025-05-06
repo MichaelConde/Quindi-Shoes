@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import ReseñaController from '../controllers/ReseñaController';
+import express, { Router } from 'express';
+import ResenaController from '../controllers/ReseñaController';
 
-const router = Router();
+const router = express.Router();
 
-router.post('/agregar', ReseñaController.agregarReseña);
+router.post('/agregar', ResenaController.agregarResena);
 
 export default router;

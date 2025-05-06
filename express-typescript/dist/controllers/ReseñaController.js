@@ -13,16 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Rese_aService_1 = __importDefault(require("../services/ModuloRese\u00F1as/Rese\u00F1aService"));
-class ReseñaController {
-    static agregarReseña(req, res) {
+class ResenaController {
+    static agregarResena(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { mensaje, fecha, usuario_id } = req.body;
                 if (!mensaje || !fecha || !usuario_id) {
                     return res.status(400).json({ mensaje: 'Faltan datos para agregar la reseña' });
                 }
-                const nuevaReseña = { mensaje, fecha, usuario_id };
-                yield Rese_aService_1.default.agregarReseña(nuevaReseña);
+                const nuevaResena = { mensaje, fecha, usuario_id };
+                yield Rese_aService_1.default.agregarResena(nuevaResena); // ✅ Sin "ñ" en el método
+                console.log('📥 BODY recibido en /resenas/agregar:', req.body);
                 res.status(200).json({ mensaje: 'Reseña agregada correctamente' });
             }
             catch (error) {
@@ -32,4 +33,4 @@ class ReseñaController {
         });
     }
 }
-exports.default = ReseñaController;
+exports.default = ResenaController; // ✅ Exporta sin "ñ"

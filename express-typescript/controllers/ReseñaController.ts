@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import ReseñaService from '../services/ModuloReseñas/ReseñaService';
 import ReseñaDto from '../Dto/reseñaDto';
 
-class ReseñaController {
-  static async agregarReseña(req: Request, res: Response) {
+class ResenaController { // ✅ Sin "ñ" en el nombre de clase
+  static async agregarResena(req: Request, res: Response) {
     try {
       const { mensaje, fecha, usuario_id } = req.body;
 
@@ -11,8 +11,10 @@ class ReseñaController {
         return res.status(400).json({ mensaje: 'Faltan datos para agregar la reseña' });
       }
 
-      const nuevaReseña: ReseñaDto = { mensaje, fecha, usuario_id };
-      await ReseñaService.agregarReseña(nuevaReseña);
+      const nuevaResena: ReseñaDto = { mensaje, fecha, usuario_id };
+      await ReseñaService.agregarResena(nuevaResena); // ✅ Sin "ñ" en el método
+      console.log('📥 BODY recibido en /resenas/agregar:', req.body);
+
 
       res.status(200).json({ mensaje: 'Reseña agregada correctamente' });
     } catch (error) {
@@ -22,4 +24,5 @@ class ReseñaController {
   }
 }
 
-export default ReseñaController;
+
+export default ResenaController; // ✅ Exporta sin "ñ"
