@@ -57,6 +57,10 @@ app.use("/zonaProducto", zonaRouter);
 
 app.use("/buscadorProducto", buscadorProductosRouter); // ✅
 
+// Rutas de reseñas
+import reseña from "./routes/reseña"; // ✅
+app.use("/reseña", reseña); // ✅
+
 
 
 // Puerto

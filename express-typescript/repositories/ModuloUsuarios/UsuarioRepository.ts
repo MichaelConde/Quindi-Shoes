@@ -2,7 +2,7 @@ import db from '../../config/config-db'
 import Auth from '../../Dto/AuthDto';
 import bcrypt from 'bcryptjs';
 import Usuario from '../../Dto/UsuarioDto';
-
+import ReseñaDto from '../../Dto/reseñaDto';
 
 
 class UsuarioRepository {
@@ -124,6 +124,12 @@ class UsuarioRepository {
     static async obtenerInfoUsuario(id: number) {
       const [rows]: any = await db.execute('CALL obtenerInfoUsuario(?)', [id]);
       return rows[0][0]; // El primer usuario que conicnida con este id
+    }
+
+    static async agregarReseña(resena: ReseñaDto) {
+      const sql = 'UPDATE users SET reseña = ?, fecha_reseña = ? WHERE id_usuario = ?';
+      const values = [resena.mensaje, resena.fecha, resena.usuario_id];
+      await db.execute(sql, values);
     }
     
  

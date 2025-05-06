@@ -133,5 +133,12 @@ class UsuarioRepository {
             return rows[0][0]; // El primer usuario que conicnida con este id
         });
     }
+    static agregarReseña(resena) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'UPDATE users SET reseña = ?, fecha_reseña = ? WHERE id_usuario = ?';
+            const values = [resena.mensaje, resena.fecha, resena.usuario_id];
+            yield config_db_1.default.execute(sql, values);
+        });
+    }
 }
 exports.default = UsuarioRepository;
