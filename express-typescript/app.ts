@@ -47,7 +47,7 @@ app.use("/reiniciarContrasena", reiniciarContrasena);
 app.use("/cambiarContrasenaR", cambiarContrasenaRouter); // ✅
 app.use("/producto", productoRouter);
 app.use("/empleado", empleadoRouter);
-app.use("/carrito",carrioRouter)
+app.use("/carrito",carrioRouter)    
 app.use("/material", materialRouter);
 app.use("/color", colorRouter);
 app.use("/zonaProducto", zonaRouter);

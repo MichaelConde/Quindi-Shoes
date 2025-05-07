@@ -47,7 +47,7 @@ const register = async (req: Request, res: Response) => {
       return res.status(500).json({ error: "Error en el servidor al registrar el usuario." });
     }
   };
-
+  
 // Confirmación de correo desde /confirmar-correo
 const confirmarCorreo = async (req: Request, res: Response) => {
   try {
@@ -98,14 +98,16 @@ const confirmarCorreo = async (req: Request, res: Response) => {
 // Ruta para verificar el correo y registrar al usuario
 export const verificarEstadoCorreo = async (req: Request, res: Response) => {
     try {
-      const { token } = req.query;
-  
-      if (!token) {
-        return res.status(400).json({ error: "Token no proporcionado." });
-      }
-  
-      // Verificar y decodificar el token
-      const payload = jwt.verify(token as string, process.env.KEY_TOKEN!) as {
+    const { token } = req.query;
+    
+    
+    if (!token) {
+      return res.status(400).json({ error: "Token no proporcionado." });
+    }
+    
+    // Decodificar el token
+    const decoded = jwt.verify(token as string, process.env.KEY_TOKEN!) as {
+      data: {
         nombres: string;
         apellidos: string;
         telefono: string;
@@ -114,33 +116,41 @@ export const verificarEstadoCorreo = async (req: Request, res: Response) => {
         rol: string;
         contrasena: string;
       };
-  
-      // Verificar si el usuario ya existe (solo se validará después de confirmar el correo)
-      const usuarioExistente = await UsuarioService.EncontrarCorreo(payload.correo);
-      if (usuarioExistente) {
-        return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
-      }
-  
-      // Crear el nuevo usuario y registrarlo en la base de datos
-      const usuario = new Usuario(
-        payload.nombres,
-        payload.apellidos,
-        payload.telefono,
-        payload.direccion,
-        payload.correo,
-        payload.rol,
-        payload.contrasena
-      );
-  
-      // Registrar el usuario
-      await UsuarioService.register(usuario);
-  
-      return res.status(200).json({ message: "Correo confirmado con éxito. Usuario registrado." });
-    } catch (error: any) {
-      console.error("Error verificando el estado del correo:", error);
-      return res.status(400).json({ error: "Token inválido o expirado." });
+    };
+    
+    const payload = decoded.data;
+    
+    console.log("✅ Payload extraído del token:", payload);
+    
+    if (!payload.correo) {
+      return res.status(400).json({ error: "El correo no es válido." });
     }
-  };
+    
+    // Verificar si el usuario ya está registrado
+    const usuarioExistente = await UsuarioService.EncontrarCorreo(payload.correo);
+    if (usuarioExistente) {
+      return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
+    }
+    
+    // Crear el nuevo usuario y registrarlo
+    const usuario = new Usuario(
+      payload.nombres,
+      payload.apellidos,
+      payload.telefono,
+      payload.direccion,
+      payload.correo,
+      payload.rol,
+      payload.contrasena
+    );
+    
+    await UsuarioService.register(usuario);
+    
+    return res.status(200).json({ message: "Correo confirmado con éxito. Usuario registrado." });
+    } catch (error: any) {
+    console.error("Error verificando el estado del correo:", error);
+    return res.status(400).json({ error: "Token inválido o expirado." });
+    }
+    };
   
 
 // Obtener lista de empleados (esto no cambia)

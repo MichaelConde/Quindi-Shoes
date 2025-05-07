@@ -93,16 +93,20 @@ const verificarEstadoCorreo = (req, res) => __awaiter(void 0, void 0, void 0, fu
         if (!token) {
             return res.status(400).json({ error: "Token no proporcionado." });
         }
-        // Verificar y decodificar el token
-        const payload = jsonwebtoken_1.default.verify(token, process.env.KEY_TOKEN);
-        // Verificar si el usuario ya existe (solo se validará después de confirmar el correo)
+        // Decodificar el token
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.KEY_TOKEN);
+        const payload = decoded.data;
+        console.log("✅ Payload extraído del token:", payload);
+        if (!payload.correo) {
+            return res.status(400).json({ error: "El correo no es válido." });
+        }
+        // Verificar si el usuario ya está registrado
         const usuarioExistente = yield UserServices_1.default.EncontrarCorreo(payload.correo);
         if (usuarioExistente) {
             return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
         }
-        // Crear el nuevo usuario y registrarlo en la base de datos
+        // Crear el nuevo usuario y registrarlo
         const usuario = new UsuarioDto_1.default(payload.nombres, payload.apellidos, payload.telefono, payload.direccion, payload.correo, payload.rol, payload.contrasena);
-        // Registrar el usuario
         yield UserServices_1.default.register(usuario);
         return res.status(200).json({ message: "Correo confirmado con éxito. Usuario registrado." });
     }
