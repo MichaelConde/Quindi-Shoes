@@ -33,7 +33,7 @@ import carrioRouter from "./routes/carrito_compras"; // ✅
 import buscadorProductosRouter from "./routes/buscadorProducto"; // ✅
 import cambiarContrasenaRouter from "./routes/cambiarContrasena";
 import verificarCorreoRoute from './routes/verificarCorreo'
-
+import chatBot from "./routes/chatBot"; // ✅
 
 
 
@@ -53,6 +53,7 @@ app.use("/color", colorRouter);
 app.use("/zonaProducto", zonaRouter);
 app.use("/buscadorProducto", buscadorProductosRouter);
 app.use(verificarCorreoRoute);
+app.use("/chatBot", chatBot); // ✅
 
 const PORT = process.env.PORT || 3000;
 

@@ -32,6 +32,7 @@ const carrito_compras_1 = __importDefault(require("./routes/carrito_compras")); 
 const buscadorProducto_1 = __importDefault(require("./routes/buscadorProducto")); // ✅
 const cambiarContrasena_1 = __importDefault(require("./routes/cambiarContrasena"));
 const verificarCorreo_1 = __importDefault(require("./routes/verificarCorreo"));
+const chatBot_1 = __importDefault(require("./routes/chatBot")); // ✅
 app.use("/register", register_1.default);
 app.use("/auth", auth_1.default);
 app.use("/profile", profile_1.default);
@@ -48,6 +49,7 @@ app.use("/color", color_1.default);
 app.use("/zonaProducto", zonaProductos_1.default);
 app.use("/buscadorProducto", buscadorProducto_1.default);
 app.use(verificarCorreo_1.default);
+app.use("/chatBot", chatBot_1.default); // ✅
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("Servidor ejecutándose en el puerto:", PORT);

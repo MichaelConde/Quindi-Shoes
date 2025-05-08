@@ -30,12 +30,24 @@ class ProductoRepository {
 
     return await db.execute(sql, values);
   }
+  static async obtenerProductosParaChatbot() {
+    const [rows]: [any[], any] = await db.execute('SELECT * FROM productoReal');
 
+    // Mapeamos los productos para adaptarlos al formato que necesita el chatbot
+    const productosAdaptados = rows.map((product: any) => ({
+        nombre: product.nombre_producto,    // Renombramos el campo
+        precio: product.precio_producto,    // Renombramos el campo
+        tallas: product.tallas_producto.toString(),  // Dejamos las tallas como un string
+    }));
+
+    console.log('Productos adaptados para el chatbot:', productosAdaptados);
+    return productosAdaptados;
+}
   static async obtenerTodos() {
     const [rows] = await db.execute('SELECT * FROM productoReal');
-    console.log(rows);
+    console.log('Resultado de la consulta:', rows);
     return rows;
-  }
+}
 
   static async eliminarProducto(id: number) {
     const sql = 'DELETE FROM productoReal WHERE id_producto = ?';
