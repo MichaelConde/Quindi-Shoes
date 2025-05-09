@@ -16,8 +16,10 @@ app.use(cors({
     exposedHeaders: ["x-renewed-token"], 
   }));
   
-app.use(bodyParser.json()); // Leer cuerpos JSON
-app.use(express.json()); // Alternativa moderna (también funciona)
+// Middlewares
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Importar rutas
 import register from "./routes/register";
@@ -33,6 +35,11 @@ import empleadoRouter from "./routes/empleado";
 import carrioRouter from "./routes/carrito_compras"; // ✅
 import buscadorProductosRouter from "./routes/buscadorProducto"; // ✅
 import cambiarContrasenaRouter from "./routes/cambiarContrasena"; // ✅
+import mercadopagoRoutes from "./routes/mercadopago-routes"
+
+
+// app.use(bodyParser.json());
+
 
 // import producto from "./routes/producto";
 // Usar rutas
@@ -41,6 +48,7 @@ app.use("/auth", auth);
 app.use("/profile", profile);
 app.use("/RecuperarContrasena", recuperarContrasena); // // ✅
 app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
+// ✅ activa /api/pagos/confirmacion
 
 
 // app.use("/producto", producto);
@@ -56,6 +64,10 @@ app.use("/color", colorRouter);
 app.use("/zonaProducto", zonaRouter);
 
 app.use("/buscadorProducto", buscadorProductosRouter); // ✅
+
+// pagos
+app.use('/mercadopago', mercadopagoRoutes);
+
 
 
 

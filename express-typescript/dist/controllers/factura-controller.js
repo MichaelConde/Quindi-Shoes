@@ -18,11 +18,10 @@ const guardarFactura = (factura) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const sql = `
       INSERT INTO facturas (
-        id_usuario, ref_payco, transaction_id, estado, valor, moneda, metodo_pago, 
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+       ref_payco, transaction_id, estado, valor, moneda, metodo_pago 
+      ) VALUES (?, ?, ?, ?, ?, ?)
     `;
         yield config_db_1.default.query(sql, [
-            factura.id_usuario,
             factura.ref_payco,
             factura.transaction_id,
             factura.estado,

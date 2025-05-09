@@ -4,12 +4,11 @@ export const guardarFactura = async (factura: any) => {
   try {
     const sql = `
       INSERT INTO facturas (
-        id_usuario, ref_payco, transaction_id, estado, valor, moneda, metodo_pago, 
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+       ref_payco, transaction_id, estado, valor, moneda, metodo_pago 
+      ) VALUES (?, ?, ?, ?, ?, ?)
     `;
 
     await db.query(sql, [
-      factura.id_usuario,
       factura.ref_payco,
       factura.transaction_id,
       factura.estado,
