@@ -12,41 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChatService = void 0;
-const ProductoRepository_1 = __importDefault(require("../../repositories/ModuloProductos/ProductoRepository"));
+exports.getChatResponse = void 0;
 const axios_1 = __importDefault(require("axios"));
-class ChatService {
-    obtenerProductosPorIA(question, history) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // Obtenemos todos los productos de la base de datos
-            console.log("Obteniendo productos para el chatbot...");
-            const rawProducts = yield ProductoRepository_1.default.obtenerTodos();
-            // Mapeamos los datos crudos a objetos del tipo Producto
-            const products = Array.isArray(rawProducts)
-                ? rawProducts.map((p) => ({
-                    nombre: p.nombre_producto,
-                    precio: p.precio_producto,
-                    tallas: String(p.tallas_producto)
-                }))
-                : [];
-            console.log("Productos obtenidos:", products);
-            // Generamos el string con los detalles
-            const productDetails = products.map(product => `Producto: ${product.nombre}, Precio: ${product.precio}, Tallas disponibles: ${product.tallas}`).join('\n');
-            // Llamamos al microservicio
-            try {
-                const response = yield axios_1.default.post('http://127.0.0.1:8000/chat', {
-                    question,
-                    history,
-                    product_details: productDetails
-                });
-                console.log("Respuesta del microservicio:", response.data.reply);
-                return response.data.reply;
-            }
-            catch (error) {
-                console.error("Error en microservicio IA:", error);
-                return { error: "Error al comunicarse con el microservicio FastAPI." };
-            }
-        });
+const CHAT_API_URL = 'http://127.0.0.1:8000/chat'; // URL de tu microservicio
+const getChatResponse = (question, history) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log('Pregunta enviada al microservicio:', question);
+        // Recorta historial a los últimos 4 mensajes (opcional pero recomendado)
+        const lastMessages = history.slice(-4);
+        const formattedRequest = {
+            inputs: [
+                ...lastMessages,
+                { role: "user", content: question } // Añades la pregunta actual
+            ]
+        };
+        const response = yield axios_1.default.post(CHAT_API_URL, formattedRequest);
+        console.log('Respuesta del microservicio:', response.data);
+        return response.data.reply;
     }
-}
-exports.ChatService = ChatService;
+    catch (error) {
+        console.error('Error al comunicarse con el microservicio:', error);
+        throw new Error('Error al procesar la respuesta del microservicio');
+    }
+});
+exports.getChatResponse = getChatResponse;

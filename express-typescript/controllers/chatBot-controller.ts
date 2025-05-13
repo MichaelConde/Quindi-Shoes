@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { ChatService } from '../services/ModuloIA/chatBotService';
+import { getChatResponse } from '../services/ModuloIA/chatBotService';
 
-const chatService = new ChatService();
+export const chatController = async (req: Request, res: Response) => {
+  const { question, history } = req.body;
 
-export class ChatController {
-    static async obtenerRespuestaIA(req: Request, res: Response) {
-        const { question, history } = req.body;
-
-        try {
-            const respuesta = await chatService.obtenerProductosPorIA(question, history || []);
-            res.status(200).json({ reply: respuesta });
-        } catch (error) {
-            console.error("Error en ChatController:", error);
-            res.status(500).json({ error: 'Error al obtener respuesta de la IA' });
-        }
-    }
-}
+  try {
+    console.log('Pregunta recibida:', question);
+    console.log('Historial recibido:', history);
+    const reply = await getChatResponse(question, history);
+    return res.json({ reply });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al procesar la solicitud' });
+  }
+};

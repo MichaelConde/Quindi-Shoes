@@ -49,7 +49,7 @@ app.use("/color", color_1.default);
 app.use("/zonaProducto", zonaProductos_1.default);
 app.use("/buscadorProducto", buscadorProducto_1.default);
 app.use(verificarCorreo_1.default);
-app.use("/chatBot", chatBot_1.default); // ✅
+app.use('/api', chatBot_1.default);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("Servidor ejecutándose en el puerto:", PORT);

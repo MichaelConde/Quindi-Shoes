@@ -9,22 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChatController = void 0;
+exports.chatController = void 0;
 const chatBotService_1 = require("../services/ModuloIA/chatBotService");
-const chatService = new chatBotService_1.ChatService();
-class ChatController {
-    static obtenerRespuestaIA(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { question, history } = req.body;
-            try {
-                const respuesta = yield chatService.obtenerProductosPorIA(question, history || []);
-                res.status(200).json({ reply: respuesta });
-            }
-            catch (error) {
-                console.error("Error en ChatController:", error);
-                res.status(500).json({ error: 'Error al obtener respuesta de la IA' });
-            }
-        });
+const chatController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { question, history } = req.body;
+    try {
+        console.log('Pregunta recibida:', question);
+        console.log('Historial recibido:', history);
+        const reply = yield (0, chatBotService_1.getChatResponse)(question, history);
+        return res.json({ reply });
     }
-}
-exports.ChatController = ChatController;
+    catch (error) {
+        return res.status(500).json({ error: 'Error al procesar la solicitud' });
+    }
+});
+exports.chatController = chatController;
