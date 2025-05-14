@@ -7,7 +7,7 @@ class ProductoServices {
     //Se necesita un disparador para poder agregar producto, cuando la factura se halla hecho exitosamente 
 
     static async registrarProducto(producto: Producto) {
-        return await ProductoRepository.RegistrarProducto(producto);
+        return await ProductoRepository.registrarProducto(producto);
     }
 
     static async obtenerProductos() {

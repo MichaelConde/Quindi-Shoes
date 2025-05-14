@@ -57,7 +57,12 @@ class UsuarioRepository {
       }
   
     
-    static async EncontrarCorreo(correo: string) {
+    
+      static async EncontrarCorreo(correo: string) {
+        if (!correo) {
+          throw new Error('El parámetro correo no puede ser null o undefined');
+        }
+      
         const sql = 'SELECT * FROM users WHERE correo = ? LIMIT 1';
         const [rows]: any = await db.execute(sql, [correo]);
       
@@ -72,6 +77,23 @@ class UsuarioRepository {
           contraseña: usuario.contraseña,
         };
       }
+      
+
+      static async estaVerificado(correo: string): Promise<boolean> {
+        const sql = 'SELECT verificado FROM users WHERE correo = ?';
+        const values = [correo];
+        
+        try {
+          const [result]: [{ verificado: number }[]] = (await db.execute(sql, values))[0] as [{ verificado: number }[]];
+          if (result && result.length > 0) {
+            return result[0].verificado === 1; 
+          }
+          return false; 
+        } catch (error) {
+          console.error('Error consultando la verificación:', error);
+          throw new Error('No se pudo verificar el estado del usuario');
+        }
+      }
 
     static async addUser(usuario: Usuario){
         const sql = 'call Insertar_usuarios(?, ?, ?, ?, ?, ?, ?);';
@@ -79,7 +101,7 @@ class UsuarioRepository {
         return await db.execute(sql, values);
      
     }
-
+    
     static async loginUser(auth: Auth) {
       const sql = 'SELECT id_usuario, contraseña, rol FROM users WHERE correo=?;';
       const values = [auth.correo];

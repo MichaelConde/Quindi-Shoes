@@ -16,7 +16,6 @@ app.use(cors({
     exposedHeaders: ["x-renewed-token"], 
   }));
   
-app.use(bodyParser.json()); // Leer cuerpos JSON
 app.use(express.json()); // Alternativa moderna (también funciona)
 
 // Importar rutas
@@ -32,28 +31,30 @@ import productoRouter from "./routes/producto";
 import empleadoRouter from "./routes/empleado";
 import carrioRouter from "./routes/carrito_compras"; // ✅
 import buscadorProductosRouter from "./routes/buscadorProducto"; // ✅
-import cambiarContrasenaRouter from "./routes/cambiarContrasena"; // ✅
+import cambiarContrasenaRouter from "./routes/cambiarContrasena";
+import verificarCorreoRoute from './routes/verificarCorreo'
+import chatRoutes from "./routes/chatBot"; // ✅
 
-// import producto from "./routes/producto";
-// Usar rutas
-app.use("/register", register);
+
+
+app.use("/register", register);  
 app.use("/auth", auth);
 app.use("/profile", profile);
 app.use("/RecuperarContrasena", recuperarContrasena); // // ✅
 app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
-
-
-// app.use("/producto", producto);
 app.use("/RecuperarContrasena", recuperarContrasena); 
 app.use("/reiniciarContrasena", reiniciarContrasena); 
 app.use("/cambiarContrasenaR", cambiarContrasenaRouter); // ✅
-
 app.use("/producto", productoRouter);
 app.use("/empleado", empleadoRouter);
-app.use("/carrito",carrioRouter)
+app.use("/carrito",carrioRouter)    
 app.use("/material", materialRouter);
 app.use("/color", colorRouter);
 app.use("/zonaProducto", zonaRouter);
+app.use("/buscadorProducto", buscadorProductosRouter);
+app.use(verificarCorreoRoute);
+app.use('/api', chatRoutes);
+
 
 app.use("/buscadorProducto", buscadorProductosRouter); // ✅
 
@@ -64,9 +65,10 @@ app.use("/reseña", reseña); // ✅
 
 
 // Puerto
+
 const PORT = process.env.PORT || 3000;
 
-// Iniciar servidor
+
 app.listen(PORT, () => {
   console.log("Servidor ejecutándose en el puerto:", PORT);
 }).on("error", (error) => {

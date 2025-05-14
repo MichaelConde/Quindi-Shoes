@@ -14,37 +14,71 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_db_1 = __importDefault(require("../../config/config-db"));
 class ProductoRepository {
-    static RegistrarProducto(producto) {
+    static registrarProducto(producto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = `
-      INSERT INTO productoReal (
-        tipo_producto,
-        nombre_producto,
-        genero_producto,
-        stock,
-        tallas_producto,
-        precio_producto,
-        colores_producto,
-        imagen_producto
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-            const values = [
+            // Aquí realizarías la inserción en la tabla productos
+            const result = yield config_db_1.default.query(`
+    INSERT INTO productos (tipo_producto, nombre_producto, genero_producto, precio_producto)
+    VALUES (?, ?, ?, ?)`, [
                 producto.tipoProducto,
                 producto.nombreProducto,
                 producto.generoProducto,
-                producto.stockProducto,
-                producto.tallaProducto,
-                producto.precioProducto,
-                producto.colorProducto,
-                producto.imagenProducto
-            ];
-            return yield config_db_1.default.execute(sql, values);
+                producto.precioProducto
+            ]);
+            return result; // Retorna el producto insertado, incluyendo el id_producto
         });
     }
+    static registrarVariante(variante) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield config_db_1.default.query(`
+    INSERT INTO producto_variantes (id_producto, id_talla, id_color, stock)
+    VALUES (?, ?, ?, ?)`, [
+                variante.id_producto,
+                variante.id_talla,
+                variante.id_color,
+                variante.stock
+            ]);
+        });
+    }
+    static registrarImagen(imagen) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield config_db_1.default.query(`
+    INSERT INTO imagenes (id_producto, url_imagen)
+    VALUES (?, ?)`, [
+                imagen.id_producto,
+                imagen.url_imagen
+            ]);
+        });
+    }
+    static obtenerColores() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield config_db_1.default.query('SELECT * FROM colores_producto');
+                return result;
+            }
+            catch (error) {
+                console.error("Error al obtener los colores:", error);
+                throw error;
+            }
+        });
+    }
+    static obtenerTallas() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield config_db_1.default.query('SELECT * FROM tallas');
+                return result;
+            }
+            catch (error) {
+                console.error("Error al obtener las tallas:", error);
+                throw error;
+            }
+        });
+    }
+    ;
     static obtenerTodos() {
         return __awaiter(this, void 0, void 0, function* () {
-            const [rows] = yield config_db_1.default.execute('SELECT * FROM productoReal');
-            console.log(rows);
+            const [rows] = yield config_db_1.default.execute('SELECT * FROM productos');
+            console.log('Resultado de la consulta:', rows);
             return rows;
         });
     }
