@@ -54,6 +54,18 @@ app.use("/zonaProducto", zonaRouter);
 app.use("/buscadorProducto", buscadorProductosRouter);
 app.use(verificarCorreoRoute);
 app.use('/api', chatRoutes);
+
+
+app.use("/buscadorProducto", buscadorProductosRouter); // ✅
+
+// Rutas de reseñas
+import reseña from "./routes/reseña"; // ✅
+app.use("/reseña", reseña); // ✅
+
+
+
+// Puerto
+
 const PORT = process.env.PORT || 3000;
 
 

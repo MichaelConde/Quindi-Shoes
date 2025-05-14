@@ -46,6 +46,7 @@ class UsuarioService {
     await UsuarioRepository.eliminarEmpleado(id);
   }
 
+
   static async verificarContrasenaActual(id: number, contraseñaActual: string) {
     console.log("ID recibido:", id);
     const contraseñaGuardada = await UsuarioRepository.verificarContraseña(id);
@@ -70,6 +71,23 @@ class UsuarioService {
       throw new Error('Hubo un problema al verificar el estado del usuario.');
     }
   }
+
+      static async obtenerInfoUsuario(id: number) {
+        console.log("ID recibido:", id);
+        const datos = await UsuarioRepository.obtenerInfoUsuario(id);
+        if (!datos) {
+          throw new Error("Usuario no encontrado");
+        }   
+
+        return {
+            nombre: datos.nombre,
+            telefono: datos.telefono,
+            direccion: datos.direccion,
+            correo: datos.correo
+          };
+      }
+
+
   
   static async crearUsuarioTemporal({
     correo,
