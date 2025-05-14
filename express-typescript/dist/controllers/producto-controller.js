@@ -12,14 +12,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.eliminarProducto = exports.obtenerProductos = void 0;
+exports.obtenerColores = exports.obtenerTallas = exports.eliminarProducto = exports.obtenerProductos = void 0;
 const ProductoServices_1 = __importDefault(require("../services/ModuloProductos/ProductoServices"));
 const ProductoDto_1 = __importDefault(require("../Dto/ProductoDto")); // Asegúrate de tener esta clase
+const ProductoRepository_1 = __importDefault(require("../repositories/ModuloProductos/ProductoRepository"));
 const registrarProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { tipoProducto, nombreProducto, generoProducto, stockProducto, tallaProducto, precioProducto, colorProducto, imagenProducto } = req.body;
+        // Primero, creamos el producto
         const nuevoProducto = new ProductoDto_1.default(tipoProducto, nombreProducto, generoProducto, stockProducto, tallaProducto, precioProducto, colorProducto, imagenProducto);
-        yield ProductoServices_1.default.registrarProducto(nuevoProducto);
+        // Insertamos el producto en la base de datos
+        const productoInsertado = yield ProductoRepository_1.default.registrarProducto(nuevoProducto);
+        // Si el producto se inserta correctamente, obtenemos su ID
+        // productoInsertado is likely [result, fields], where result.insertId is the new ID
+        const productoId = productoInsertado[0].insertId;
+        // Ahora, insertamos las variantes para cada talla y color (podrían ser arrays)
+        for (let talla of tallaProducto) { // tallaProducto puede ser un array de IDs de tallas
+            for (let color of colorProducto) { // colorProducto puede ser un array de IDs de colores
+                yield ProductoRepository_1.default.registrarVariante({
+                    id_producto: productoId,
+                    id_talla: talla,
+                    id_color: color,
+                    stock: stockProducto // Este puede ser el stock por variante o se puede definir diferente
+                });
+            }
+        }
+        // Si hay una imagen, la insertamos
+        if (imagenProducto) {
+            yield ProductoRepository_1.default.registrarImagen({
+                id_producto: productoId,
+                url_imagen: imagenProducto
+            });
+        }
         res.status(201).json({ message: "Producto registrado con éxito" });
     }
     catch (error) {
@@ -50,4 +74,27 @@ const eliminarProducto = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.eliminarProducto = eliminarProducto;
+// En producto-controller.js
+const obtenerTallas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const tallas = yield ProductoRepository_1.default.obtenerTallas(); // Un servicio para obtener las tallas
+        res.json(tallas);
+    }
+    catch (error) {
+        console.error("Error al obtener tallas:", error);
+        res.status(500).json({ error: "Error al obtener tallas" });
+    }
+});
+exports.obtenerTallas = obtenerTallas;
+const obtenerColores = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const colores = yield ProductoRepository_1.default.obtenerColores(); // Un servicio para obtener los colores
+        res.json(colores);
+    }
+    catch (error) {
+        console.error("Error al obtener colores:", error);
+        res.status(500).json({ error: "Error al obtener colores" });
+    }
+});
+exports.obtenerColores = obtenerColores;
 exports.default = registrarProducto;

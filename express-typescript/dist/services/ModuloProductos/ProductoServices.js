@@ -17,7 +17,7 @@ class ProductoServices {
     //Se necesita un disparador para poder agregar producto, cuando la factura se halla hecho exitosamente 
     static registrarProducto(producto) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield ProductoRepository_1.default.RegistrarProducto(producto);
+            return yield ProductoRepository_1.default.registrarProducto(producto);
         });
     }
     static obtenerProductos() {
