@@ -99,5 +99,20 @@ class UsuarioService {
             console.log("Usuario temporal creado:", nuevoUsuarioTemporal);
         });
     }
+    static obtenerInfoUsuario(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("ID recibido:", id);
+            const datos = yield UsuarioRepository_1.default.obtenerInfoUsuario(id);
+            if (!datos) {
+                throw new Error("Usuario no encontrado");
+            }
+            return {
+                nombre: datos.nombre,
+                telefono: datos.telefono,
+                direccion: datos.direccion,
+                correo: datos.correo
+            };
+        });
+    }
 }
 exports.default = UsuarioService;
