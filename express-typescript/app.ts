@@ -62,6 +62,10 @@ app.use("/buscadorProducto", buscadorProductosRouter); // ✅
 import reseña from "./routes/reseña"; // ✅
 app.use("/reseña", reseña); // ✅
 
+// Dettalle de producto
+import productoDetalleRouter from "./routes/productoDetalle";
+app.use("/productoDetalle", productoDetalleRouter);
+
 
 
 // Puerto

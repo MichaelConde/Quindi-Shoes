@@ -81,6 +81,21 @@ class UsuarioService {
             }
         });
     }
+    static obtenerInfoUsuario(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("ID recibido:", id);
+            const datos = yield UsuarioRepository_1.default.obtenerInfoUsuario(id);
+            if (!datos) {
+                throw new Error("Usuario no encontrado");
+            }
+            return {
+                nombre: datos.nombre,
+                telefono: datos.telefono,
+                direccion: datos.direccion,
+                correo: datos.correo
+            };
+        });
+    }
     static crearUsuarioTemporal(_a) {
         return __awaiter(this, arguments, void 0, function* ({ correo, contraseña, nombres, apellidos, telefono, direccion, tokenVerificacion, }) {
             const contraseñaHasheada = yield (0, generateHash_1.default)(contraseña); // Cifrar la contraseña antes de guardarla
@@ -97,21 +112,6 @@ class UsuarioService {
             // Aquí podrías llamar a un repositorio si estás guardando en base de datos
             // return await UsuarioRepository.agregarUsuarioTemporal(nuevoUsuarioTemporal);
             console.log("Usuario temporal creado:", nuevoUsuarioTemporal);
-        });
-    }
-    static obtenerInfoUsuario(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log("ID recibido:", id);
-            const datos = yield UsuarioRepository_1.default.obtenerInfoUsuario(id);
-            if (!datos) {
-                throw new Error("Usuario no encontrado");
-            }
-            return {
-                nombre: datos.nombre,
-                telefono: datos.telefono,
-                direccion: datos.direccion,
-                correo: datos.correo
-            };
         });
     }
 }

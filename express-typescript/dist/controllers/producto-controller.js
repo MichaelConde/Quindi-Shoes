@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.obtenerColores = exports.obtenerTallas = exports.eliminarProducto = exports.obtenerProductos = void 0;
+exports.obtenerDetalleProducto = exports.obtenerColores = exports.obtenerTallas = exports.eliminarProducto = exports.obtenerProductos = void 0;
 const ProductoServices_1 = __importDefault(require("../services/ModuloProductos/ProductoServices"));
 const ProductoDto_1 = __importDefault(require("../Dto/ProductoDto")); // Asegúrate de tener esta clase
 const ProductoRepository_1 = __importDefault(require("../repositories/ModuloProductos/ProductoRepository"));
@@ -97,4 +97,39 @@ const obtenerColores = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.obtenerColores = obtenerColores;
+const obtenerDetalleProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = Number(req.params.id);
+        // Trae el producto con variantes e imágenes
+        const productos = yield ProductoRepository_1.default.obtenerTodos();
+        const producto = productos.find((p) => p.id_producto === id);
+        if (!producto) {
+            return res.status(404).json({ error: "Producto no encontrado" });
+        }
+        // Extrae colores y tallas únicos de las variantes
+        const colores = [
+            ...new Map(producto.variantes.map((v) => [v.id_color, { id_color: v.id_color, color: v.color }])).values(),
+        ];
+        const tallas = [
+            ...new Map(producto.variantes.map((v) => [v.id_talla, { id_talla: v.id_talla, talla: v.talla }])).values(),
+        ];
+        res.json({
+            id_producto: producto.id_producto,
+            tipo_producto: producto.tipo_producto,
+            nombre_producto: producto.nombre_producto,
+            reseña_producto: producto.reseña_producto,
+            genero_producto: producto.genero_producto,
+            precio_producto: producto.precio_producto,
+            imagenes: producto.imagenes,
+            colores,
+            tallas,
+            variantes: producto.variantes,
+        });
+    }
+    catch (error) {
+        console.error("Error al obtener detalle del producto:", error);
+        res.status(500).json({ error: "Error al obtener detalle del producto" });
+    }
+});
+exports.obtenerDetalleProducto = obtenerDetalleProducto;
 exports.default = registrarProducto;
