@@ -3,7 +3,7 @@ import CarritoRepository from "../../repositories/ModuloCarritoCompras/CarritoRe
 class CarritoServices{
 
 static async agregarCarrito(id: number) {
-return await CarritoRepository.agregarCarrito(id)
+return await CarritoRepository.obtenerItemCarrito(id)
 
 }
 
