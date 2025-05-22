@@ -1,11 +1,10 @@
-import express, { Router } from 'express';
-import { MercadoPagoController } from '../controllers/mercadopago-controller';
+import { Router } from "express";
+import { createPreferenceController } from "../controllers/createPreference-controller";
+import { processPayment } from "../controllers/process-payment-controller";
 
-const router: Router = express.Router();
-const mercadopagoController = new MercadoPagoController();
+const router = Router();
 
+router.post("/create_preference", createPreferenceController);
+router.post("/process_payment", processPayment);
 
-router.post('/create_preference', mercadopagoController.createPreference);
-
-
-export default  router
+export default router;

@@ -1,15 +1,15 @@
-// Ejemplo de un repositorio para guardar preferencias en una base de datos (usando una interfaz genérica)
-interface IRepository<T> {
-    save(entity: T): Promise<void>;
-    // Otros métodos como getById, getAll, etc.
-}
+import { Payment } from 'mercadopago';
+import { mpClient } from '../../src/utils';
 
-export class MercadoPagoRepository implements IRepository<any> { // Reemplaza 'any' con el tipo de tu entidad de preferencia
-    async save(preference: any): Promise<void> {
-        // Aquí iría la lógica para guardar en la base de datos
-        console.log('Guardando preferencia en la base de datos:', preference);
-        // Por ejemplo, si estás usando TypeORM:
-        // await this.preferenceRepository.save(preference);
+const paymentInstance = new Payment(mpClient);
+
+export const PaymentRepository = {
+  create: async (paymentData: any) => {
+    try {
+      const result = await paymentInstance.create({ body: paymentData });
+      return result;
+    } catch (error) {
+      throw error;
     }
-    //Implementa los metodos de la interface
-}
+  }
+};

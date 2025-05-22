@@ -35,8 +35,9 @@ import empleadoRouter from "./routes/empleado";
 import carrioRouter from "./routes/carrito_compras"; // ✅
 import buscadorProductosRouter from "./routes/buscadorProducto"; // ✅
 import cambiarContrasenaRouter from "./routes/cambiarContrasena"; // ✅
-import mercadopagoRoutes from "./routes/mercadopago-routes"
 
+import paymentRoutes from './routes/mercadopago-routes';
+app.use("/api", paymentRoutes); 
 
 // app.use(bodyParser.json());
 
@@ -48,6 +49,7 @@ app.use("/auth", auth);
 app.use("/profile", profile);
 app.use("/RecuperarContrasena", recuperarContrasena); // // ✅
 app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
+
 // ✅ activa /api/pagos/confirmacion
 
 
@@ -66,7 +68,7 @@ app.use("/zonaProducto", zonaRouter);
 app.use("/buscadorProducto", buscadorProductosRouter); // ✅
 
 // pagos
-app.use('/mercadopago', mercadopagoRoutes);
+
 
 
 

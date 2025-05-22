@@ -34,6 +34,7 @@ const carrito_compras_1 = __importDefault(require("./routes/carrito_compras")); 
 const buscadorProducto_1 = __importDefault(require("./routes/buscadorProducto")); // ✅
 const cambiarContrasena_1 = __importDefault(require("./routes/cambiarContrasena")); // ✅
 const mercadopago_routes_1 = __importDefault(require("./routes/mercadopago-routes"));
+app.use("/api", mercadopago_routes_1.default);
 // app.use(bodyParser.json());
 // import producto from "./routes/producto";
 // Usar rutas
@@ -55,7 +56,6 @@ app.use("/color", color_1.default);
 app.use("/zonaProducto", zonaProductos_1.default);
 app.use("/buscadorProducto", buscadorProducto_1.default); // ✅
 // pagos
-app.use('/mercadopago', mercadopago_routes_1.default);
 // Puerto
 const PORT = process.env.PORT || 3000;
 // Iniciar servidor

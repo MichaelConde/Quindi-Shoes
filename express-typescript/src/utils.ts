@@ -1,8 +1,6 @@
-// src/utils/env.ts
-export function getEnvVar(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`La variable de entorno "${name}" no está definida`);
-  }
-  return value;
-}
+// src/utils.ts
+import { MercadoPagoConfig } from "mercadopago";
+
+export const mpClient = new MercadoPagoConfig({
+  accessToken: process.env.MP_ACCESS_TOKEN!,
+});

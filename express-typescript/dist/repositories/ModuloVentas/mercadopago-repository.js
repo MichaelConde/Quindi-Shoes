@@ -9,15 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MercadoPagoRepository = void 0;
-class MercadoPagoRepository {
-    save(preference) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // Aquí iría la lógica para guardar en la base de datos
-            console.log('Guardando preferencia en la base de datos:', preference);
-            // Por ejemplo, si estás usando TypeORM:
-            // await this.preferenceRepository.save(preference);
-        });
-    }
-}
-exports.MercadoPagoRepository = MercadoPagoRepository;
+exports.PaymentRepository = void 0;
+const mercadopago_1 = require("mercadopago");
+const utils_1 = require("../../src/utils");
+const paymentInstance = new mercadopago_1.Payment(utils_1.mpClient);
+exports.PaymentRepository = {
+    create: (paymentData) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const result = yield paymentInstance.create({ body: paymentData });
+            return result;
+        }
+        catch (error) {
+            throw error;
+        }
+    })
+};

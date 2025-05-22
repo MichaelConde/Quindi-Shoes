@@ -1,60 +1,45 @@
-import { MercadoPagoConfig } from 'mercadopago';
-import { Preference } from 'mercadopago/dist/clients/preference';
-import { Payment } from 'mercadopago/dist/clients/payment';
-import { MercadoPagoRepository } from '../../repositories/ModuloVentas/mercadopago-repository';
-import { getEnvVar } from '../../src/utils'; // ajusta la ruta si es necesario
-import * as dotenv from 'dotenv';
-
-dotenv.config();
-
-export class MercadoPagoService {
-  private client: MercadoPagoConfig;
-  private preference: Preference;
-  private payment: Payment;
-  private mercadopagoRepository: MercadoPagoRepository;
-
-  constructor() {
-    const accessToken = getEnvVar('MP_ACCESS_TOKEN');
-
-    this.client = new MercadoPagoConfig({ accessToken });
-    this.preference = new Preference(this.client);
-    this.payment = new Payment(this.client);
-    this.mercadopagoRepository = new MercadoPagoRepository();
-  }
-
-  async createPreference(preferenceData: any): Promise<string> {
-    try {
-      // Validar que el campo items esté presente y sea válido
-      if (!preferenceData.items || !Array.isArray(preferenceData.items) || preferenceData.items.length === 0) {
-        throw new Error('El campo items es obligatorio y debe contener al menos un elemento.');
-      }
-
-      console.log('Datos enviados a MercadoPago:', preferenceData); // Depuración
-      const res = await this.preference.create({ body: preferenceData });
-      if (!res.id) {
-        throw new Error('Preference ID is undefined');
-      }
-      return res.id;
-    } catch (error: any) {
-      console.error('Error al crear preferencia:', error);
-      throw new Error(error.message || 'Error en la creación de la preferencia');
+export async function createPreference(preferenceData: any): Promise<string> {
+  try {
+    const accessToken = process.env.MP_ACCESS_TOKEN;
+    if (!accessToken) {
+      console.error("No se encontró el access token de MercadoPago.");
+      throw new Error("No se encontró el access token de MercadoPago.");
     }
-  }
 
-  async getPaymentDetails(paymentId: string): Promise<any> {
-    try {
-      const res = await this.payment.get({ id: paymentId });
-      return res;
-    } catch (error: any) {
-      console.error('Error al obtener pago:', error);
-      throw new Error(error.message || 'Error al obtener detalles del pago');
-    }
-  }
+    // Asegura currency_id en cada item
+    const dataToSend = {
+      ...preferenceData,
+      items: preferenceData.items.map((item: any) => ({
+        ...item,
+        currency_id: "COP",
+      })),
+    };
 
-  async processPayment(paymentDetails: any): Promise<void> {
-    console.log("Detalles del pago:", paymentDetails);
-    if (paymentDetails.status === 'approved') {
-      // Actualiza tu base de datos aquí
+    console.log("Enviando a MercadoPago:", JSON.stringify(dataToSend, null, 2));
+
+    const response = await fetch("https://api.mercadopago.com/checkout/preferences", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(dataToSend),
+    });
+
+    const data = await response.json();
+    console.log("Respuesta de MercadoPago:", data);
+
+    if (!response.ok) {
+      throw new Error(data.message || "No se pudo crear la preferencia en Mercado Pago.");
     }
+
+    const preferenceId = data.id || data.preference_id;
+    if (!preferenceId) {
+      throw new Error("No se recibió el ID de la preferencia de Mercado Pago.");
+    }
+    return preferenceId;
+  } catch (error: any) {
+    console.error("Error al crear la preferencia:", error);
+    throw new Error("No se pudo crear la preferencia en Mercado Pago. Detalles: " + (error.message || JSON.stringify(error)));
   }
 }
