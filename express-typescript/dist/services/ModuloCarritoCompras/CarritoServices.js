@@ -16,7 +16,7 @@ const CarritoRepository_1 = __importDefault(require("../../repositories/ModuloCa
 class CarritoServices {
     static agregarCarrito(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield CarritoRepository_1.default.agregarCarrito(id);
+            return yield CarritoRepository_1.default.obtenerItemCarrito(id);
         });
     }
 }

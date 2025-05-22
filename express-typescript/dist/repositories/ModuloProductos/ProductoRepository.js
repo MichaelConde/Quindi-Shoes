@@ -77,44 +77,111 @@ class ProductoRepository {
     ;
     static obtenerTodos() {
         return __awaiter(this, void 0, void 0, function* () {
-            const [rows] = yield config_db_1.default.execute('SELECT * FROM productos');
-            console.log('Resultado de la consulta:', rows);
-            return rows;
+            // Trae productos con variantes (talla, color, stock) e imágenes
+            const result = yield config_db_1.default.query(`
+    SELECT 
+      p.id_producto,
+      p.tipo_producto,
+      p.nombre_producto,
+      p.reseña_producto,
+      p.genero_producto,
+      p.precio_producto,
+      i.url_imagen,
+      v.id_variantes,
+      v.stock,
+      t.id_talla,
+      t.talla,
+      c.id_color,
+      c.color
+    FROM productos p
+    LEFT JOIN producto_variantes v ON p.id_producto = v.id_producto
+    LEFT JOIN tallas t ON v.id_talla = t.id_talla
+    LEFT JOIN colores_producto c ON v.id_color = c.id_color
+    LEFT JOIN imagenes i ON p.id_producto = i.id_producto
+    ORDER BY p.id_producto
+  `);
+            let rows = [];
+            if (Array.isArray(result)) {
+                if (Array.isArray(result[0])) {
+                    // e.g., [RowDataPacket[], ...]
+                    rows = result[0];
+                }
+                else if (result.length > 0 && typeof result[0] === 'object' && 'id_producto' in result[0]) {
+                    // e.g., RowDataPacket[]
+                    rows = result;
+                }
+                // else: result might be OkPacket[] or ResultSetHeader[], which we ignore for this query
+            }
+            // Agrupa por producto
+            const productosMap = {};
+            for (const row of rows) {
+                if (!productosMap[row.id_producto]) {
+                    productosMap[row.id_producto] = {
+                        id_producto: row.id_producto,
+                        tipo_producto: row.tipo_producto,
+                        nombre_producto: row.nombre_producto,
+                        reseña_producto: row.reseña_producto,
+                        genero_producto: row.genero_producto,
+                        precio_producto: row.precio_producto,
+                        imagenes: [],
+                        variantes: [],
+                    };
+                }
+                // Agrega imagen si no está repetida y existe
+                if (row.url_imagen && !productosMap[row.id_producto].imagenes.includes(row.url_imagen)) {
+                    productosMap[row.id_producto].imagenes.push(row.url_imagen);
+                }
+                // Agrega variante si existe talla y color
+                if (row.id_talla && row.id_color) {
+                    productosMap[row.id_producto].variantes.push({
+                        id_variantes: row.id_variantes,
+                        id_talla: row.id_talla,
+                        talla: row.talla,
+                        id_color: row.id_color,
+                        color: row.color,
+                        stock: row.stock,
+                    });
+                }
+            }
+            // Devuelve un array de productos
+            return Object.values(productosMap);
         });
     }
+    // Elimina el producto y sus variantes e imágenes (recomendado para integridad referencial)
     static eliminarProducto(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'DELETE FROM productoReal WHERE id_producto = ?';
-            yield config_db_1.default.execute(sql, [id]);
+            // Elimina variantes e imágenes primero si tienes claves foráneas
+            yield config_db_1.default.execute('DELETE FROM producto_variantes WHERE id_producto = ?', [id]);
+            yield config_db_1.default.execute('DELETE FROM imagenes WHERE id_producto = ?', [id]);
+            // Luego elimina el producto
+            yield config_db_1.default.execute('DELETE FROM productos WHERE id_producto = ?', [id]);
         });
     }
     static ActualizarProducto(producto, id) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Datos recibidos en el update:", producto, "ID:", id);
             const sql = `
-      UPDATE productoReal SET 
-        tipo_producto = ?,
-        nombre_producto = ?,
-        genero_producto = ?,
-        stock = ?,
-        tallas_producto = ?,
-        precio_producto = ?,
-        colores_producto = ?,
-        imagen_producto = ?
-      WHERE id_producto = ?
-    `;
+    UPDATE productos SET 
+      tipo_producto = ?,
+      nombre_producto = ?,
+      genero_producto = ?,
+      precio_producto = ?
+    WHERE id_producto = ?
+  `;
             const values = [
                 producto.tipoProducto,
                 producto.nombreProducto,
                 producto.generoProducto,
-                producto.stockProducto,
-                producto.tallaProducto,
                 producto.precioProducto,
-                producto.colorProducto,
-                producto.imagenProducto,
                 id
             ];
             return yield config_db_1.default.execute(sql, values);
+        });
+    }
+    static registrarColor(color) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Inserta un nuevo color y retorna el id insertado
+            const [result] = yield config_db_1.default.query(`INSERT INTO colores_producto (color) VALUES (?)`, [color.color]);
+            return result.insertId;
         });
     }
 }
