@@ -106,4 +106,45 @@ export const obtenerColores = async (req: Request, res: Response) => {
   }
 };
 
+export const obtenerDetalleProducto = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    // Trae el producto con variantes e imágenes
+    const productos = await ProductoRepository.obtenerTodos();
+    const producto = productos.find((p: any) => p.id_producto === id);
+
+    if (!producto) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    // Extrae colores y tallas únicos de las variantes
+    const colores = [
+      ...new Map(
+        producto.variantes.map((v: any) => [v.id_color, { id_color: v.id_color, color: v.color }])
+      ).values(),
+    ];
+    const tallas = [
+      ...new Map(
+        producto.variantes.map((v: any) => [v.id_talla, { id_talla: v.id_talla, talla: v.talla }])
+      ).values(),
+    ];
+
+    res.json({
+      id_producto: producto.id_producto,
+      tipo_producto: producto.tipo_producto,
+      nombre_producto: producto.nombre_producto,
+      reseña_producto: producto.reseña_producto,
+      genero_producto: producto.genero_producto,
+      precio_producto: producto.precio_producto,
+      imagenes: producto.imagenes,
+      colores,
+      tallas,
+      variantes: producto.variantes,
+    });
+  } catch (error) {
+    console.error("Error al obtener detalle del producto:", error);
+    res.status(500).json({ error: "Error al obtener detalle del producto" });
+  }
+}
+
 export default registrarProducto;

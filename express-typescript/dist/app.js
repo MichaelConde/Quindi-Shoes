@@ -54,6 +54,9 @@ app.use("/buscadorProducto", buscadorProducto_1.default); // ✅
 // Rutas de reseñas
 const rese_a_1 = __importDefault(require("./routes/rese\u00F1a")); // ✅
 app.use("/reseña", rese_a_1.default); // ✅
+// Dettalle de producto
+const productoDetalle_1 = __importDefault(require("./routes/productoDetalle"));
+app.use("/productoDetalle", productoDetalle_1.default);
 // Puerto
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
