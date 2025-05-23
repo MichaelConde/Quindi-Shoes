@@ -4,12 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 // Configuración de variables de entorno
 dotenv_1.default.config();
 // Inicializar express
 const app = (0, express_1.default)();
+const app2 = (0, express_1.default)();
 // Middlewares
 app.use((0, cors_1.default)({
     origin: "http://localhost:5173",
@@ -33,9 +35,16 @@ const empleado_1 = __importDefault(require("./routes/empleado"));
 const carrito_compras_1 = __importDefault(require("./routes/carrito_compras")); // ✅
 const buscadorProducto_1 = __importDefault(require("./routes/buscadorProducto")); // ✅
 const cambiarContrasena_1 = __importDefault(require("./routes/cambiarContrasena")); // ✅
-const mercadopago_routes_1 = __importDefault(require("./routes/mercadopago-routes"));
-app.use("/api", mercadopago_routes_1.default);
-// app.use(bodyParser.json());
+const pago_routes_1 = __importDefault(require("./routes/pago-routes"));
+app.use((req, res, next) => {
+    console.log("🛰 Nueva solicitud recibida:");
+    console.log("Método:", req.method);
+    console.log("URL:", req.originalUrl);
+    console.log("Headers:", req.headers);
+    next();
+});
+app.use("/api", pago_routes_1.default);
+app.use(body_parser_1.default.json());
 // import producto from "./routes/producto";
 // Usar rutas
 app.use("/register", register_1.default);

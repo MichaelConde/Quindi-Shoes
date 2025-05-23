@@ -8,7 +8,7 @@ dotenv.config();
 
 // Inicializar express
 const app = express();
-
+const app2 = express();
 // Middlewares
 app.use(cors({
     origin: "http://localhost:5173", 
@@ -16,6 +16,8 @@ app.use(cors({
     exposedHeaders: ["x-renewed-token"], 
   }));
   
+  
+
 // Middlewares
 
 app.use(express.urlencoded({ extended: true }));
@@ -36,10 +38,18 @@ import carrioRouter from "./routes/carrito_compras"; // ✅
 import buscadorProductosRouter from "./routes/buscadorProducto"; // ✅
 import cambiarContrasenaRouter from "./routes/cambiarContrasena"; // ✅
 
-import paymentRoutes from './routes/mercadopago-routes';
-app.use("/api", paymentRoutes); 
+import Pagos from './routes/pago-routes';
+app.use((req, res, next) => {
+  console.log("🛰 Nueva solicitud recibida:");
+  console.log("Método:", req.method);
+  console.log("URL:", req.originalUrl);
+  console.log("Headers:", req.headers);
+  next();
+});
 
-// app.use(bodyParser.json());
+
+app.use("/api", Pagos); 
+app.use(bodyParser.json());
 
 
 // import producto from "./routes/producto";

@@ -14,26 +14,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.obtenerFacturas = exports.guardarFactura = void 0;
 const config_db_1 = __importDefault(require("../config/config-db"));
-const guardarFactura = (factura) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const sql = `
-      INSERT INTO facturas (
-       ref_payco, transaction_id, estado, valor, moneda, metodo_pago 
-      ) VALUES (?, ?, ?, ?, ?, ?)
-    `;
-        yield config_db_1.default.query(sql, [
-            factura.ref_payco,
-            factura.transaction_id,
-            factura.estado,
-            factura.valor,
-            factura.moneda,
-            factura.metodo_pago
-        ]);
-        console.log("📦 Factura guardada exitosamente");
+const guardarFactura = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const { x_ref_payco, x_transaction_id, x_respuesta, x_amount, x_currency_code, x_franchise, x_xextra1, } = req.body;
+    if (!x_xextra1 || isNaN(parseInt(x_xextra1))) {
+        throw new Error(`id_usuario no válido: ${x_xextra1}`);
     }
-    catch (error) {
-        console.error("❌ Error al guardar la factura:", error);
-    }
+    const id_usuario = parseInt(x_xextra1);
+    const sql = `
+    INSERT INTO facturas (
+      ref_payco,
+      transaction_id,
+      estado,
+      valor,
+      moneda,
+      metodo_pago,
+      id_usuario
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+    yield config_db_1.default.query(sql, [
+        x_ref_payco,
+        x_transaction_id,
+        x_respuesta,
+        x_amount,
+        x_currency_code,
+        x_franchise,
+        id_usuario,
+    ]);
 });
 exports.guardarFactura = guardarFactura;
 const obtenerFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
