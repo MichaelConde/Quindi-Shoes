@@ -8,14 +8,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-let profile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const UserServices_1 = __importDefault(require("../services/ModuloUsuarios/UserServices"));
+const obtenerInfoUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const idUser = req.body.id;
-        return res.status(200).json({ status: 'Get profile Ok', id: idUser });
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ error: "No se proporcionó token válido" });
+        }
+        const token = authHeader.split(" ")[1];
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.KEY_TOKEN);
+        const idUsuario = decoded.data.id;
+        const usuario = yield UserServices_1.default.obtenerInfoUsuario(idUsuario);
+        // Aseguramos que se retorna solo una vez
+        return res.status(200).json(usuario);
     }
     catch (error) {
-        return res.status(500).json({ errorInfo: "An unknown error has occurred" });
+        console.error("Error al obtener información del usuario:", error);
+        // Nos aseguramos de usar `return` aquí también
+        return res.status(400).json({ error: "Error al obtener información del usuario" });
     }
 });
-exports.default = profile;
+exports.default = obtenerInfoUsuario;

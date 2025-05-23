@@ -2,7 +2,7 @@ import db from '../../config/config-db'
 import Auth from '../../Dto/AuthDto';
 import bcrypt from 'bcryptjs';
 import Usuario from '../../Dto/UsuarioDto';
-
+import ReseñaDto from '../../Dto/reseñaDto';
 
 
 class UsuarioRepository {
@@ -57,7 +57,12 @@ class UsuarioRepository {
       }
   
     
-    static async EncontrarCorreo(correo: string) {
+    
+      static async EncontrarCorreo(correo: string) {
+        if (!correo) {
+          throw new Error('El parámetro correo no puede ser null o undefined');
+        }
+      
         const sql = 'SELECT * FROM users WHERE correo = ? LIMIT 1';
         const [rows]: any = await db.execute(sql, [correo]);
       
@@ -72,6 +77,23 @@ class UsuarioRepository {
           contraseña: usuario.contraseña,
         };
       }
+      
+
+      static async estaVerificado(correo: string): Promise<boolean> {
+        const sql = 'SELECT verificado FROM users WHERE correo = ?';
+        const values = [correo];
+        
+        try {
+          const [result]: [{ verificado: number }[]] = (await db.execute(sql, values))[0] as [{ verificado: number }[]];
+          if (result && result.length > 0) {
+            return result[0].verificado === 1; 
+          }
+          return false; 
+        } catch (error) {
+          console.error('Error consultando la verificación:', error);
+          throw new Error('No se pudo verificar el estado del usuario');
+        }
+      }
 
     static async addUser(usuario: Usuario){
         const sql = 'call Insertar_usuarios(?, ?, ?, ?, ?, ?, ?);';
@@ -79,7 +101,7 @@ class UsuarioRepository {
         return await db.execute(sql, values);
      
     }
-
+    
     static async loginUser(auth: Auth) {
       const sql = 'SELECT id_usuario, contraseña, rol FROM users WHERE correo=?;';
       const values = [auth.correo];
@@ -120,6 +142,18 @@ class UsuarioRepository {
       console.log(rows);
       return rows;
     }
+
+    static async obtenerInfoUsuario(id: number) {
+      const [rows]: any = await db.execute('CALL obtenerInfoUsuario(?)', [id]);
+      return rows[0][0]; // El primer usuario que conicnida con este id
+    }
+
+    static async agregarReseña(resena: ReseñaDto) {
+      const sql = 'UPDATE users SET reseña = ?, fecha_reseña = ? WHERE id_usuario = ?';
+      const values = [resena.mensaje, resena.fecha, resena.usuario_id];
+      await db.execute(sql, values);
+    }
+    
  
 }
 

@@ -1,6 +1,6 @@
 import express from "express";
 import registrarProducto  from '../controllers/producto-controller';
-import { obtenerProductos, eliminarProducto} from "../controllers/producto-controller";
+import { obtenerProductos, eliminarProducto, obtenerTallas, obtenerColores, obtenerDetalleProducto } from "../controllers/producto-controller";
 import  actualizarProducto  from "../controllers/actualizar-producto-controller";
 import { obtenerFacturas } from "../controllers/factura-controller";
 import {renovarTokenMiddleware, verifyToken }from "../controllers/renovar-token-controller";
@@ -14,6 +14,7 @@ router.delete("/:id", renovarTokenMiddleware, eliminarProducto);
 router.put("/:id", renovarTokenMiddleware, actualizarProducto);
 router.get("/public", obtenerProductos);
 
+
 router.get('/facturas', obtenerFacturas);
 
 
@@ -22,4 +23,8 @@ router.get('/facturas', obtenerFacturas);
 
 
   
+
+router.get("/tallas", obtenerTallas);
+router.get("/colores", obtenerColores); 
+
 export default router;

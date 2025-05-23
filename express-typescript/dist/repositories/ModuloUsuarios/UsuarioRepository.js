@@ -70,6 +70,9 @@ class UsuarioRepository {
     }
     static EncontrarCorreo(correo) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (!correo) {
+                throw new Error('El parámetro correo no puede ser null o undefined');
+            }
             const sql = 'SELECT * FROM users WHERE correo = ? LIMIT 1';
             const [rows] = yield config_db_1.default.execute(sql, [correo]);
             if (!rows || rows.length === 0)
@@ -82,6 +85,23 @@ class UsuarioRepository {
                 correo: usuario.correo,
                 contraseña: usuario.contraseña,
             };
+        });
+    }
+    static estaVerificado(correo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'SELECT verificado FROM users WHERE correo = ?';
+            const values = [correo];
+            try {
+                const [result] = (yield config_db_1.default.execute(sql, values))[0];
+                if (result && result.length > 0) {
+                    return result[0].verificado === 1;
+                }
+                return false;
+            }
+            catch (error) {
+                console.error('Error consultando la verificación:', error);
+                throw new Error('No se pudo verificar el estado del usuario');
+            }
         });
     }
     static addUser(usuario) {
@@ -125,6 +145,19 @@ class UsuarioRepository {
             const [rows] = yield config_db_1.default.execute('SELECT * FROM users WHERE rol = "vendedor" OR rol = "domiciliario"');
             console.log(rows);
             return rows;
+        });
+    }
+    static obtenerInfoUsuario(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows] = yield config_db_1.default.execute('CALL obtenerInfoUsuario(?)', [id]);
+            return rows[0][0]; // El primer usuario que conicnida con este id
+        });
+    }
+    static agregarReseña(resena) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'UPDATE users SET reseña = ?, fecha_reseña = ? WHERE id_usuario = ?';
+            const values = [resena.mensaje, resena.fecha, resena.usuario_id];
+            yield config_db_1.default.execute(sql, values);
         });
     }
 }

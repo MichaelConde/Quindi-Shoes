@@ -17,8 +17,14 @@ const ProductoDto_1 = __importDefault(require("../Dto/ProductoDto"));
 const actualizarProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = parseInt(req.params.id);
-        const { tipoProducto, nombreProducto, generoProducto, stockProducto, tallaProducto, precioProducto, colorProducto, imagenProducto } = req.body;
-        const producto = new ProductoDto_1.default(tipoProducto, nombreProducto, generoProducto, stockProducto, tallaProducto, precioProducto, colorProducto, imagenProducto);
+        // Recibe solo los campos principales que realmente se actualizan
+        const { tipoProducto, nombreProducto, generoProducto, precioProducto } = req.body;
+        // Crea el DTO solo con los campos necesarios
+        const producto = new ProductoDto_1.default(tipoProducto, nombreProducto, generoProducto, 0, // stockProducto
+        '', // tallaProducto
+        precioProducto, '', // colorProducto
+        '' // imagenProducto
+        );
         yield ProductoServices_1.default.actualizarProducto(producto, id);
         return res.status(200).json({ message: "Producto actualizado correctamente" });
     }
