@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const producto_controller_1 = __importDefault(require("../controllers/producto-controller"));
 const producto_controller_2 = require("../controllers/producto-controller");
 const actualizar_producto_controller_1 = __importDefault(require("../controllers/actualizar-producto-controller"));
+const factura_controller_1 = require("../controllers/factura-controller");
 const renovar_token_controller_1 = require("../controllers/renovar-token-controller");
 const router = express_1.default.Router();
 router.post('/', renovar_token_controller_1.renovarTokenMiddleware, producto_controller_1.default);
@@ -14,6 +15,12 @@ router.get("/", renovar_token_controller_1.verifyToken, renovar_token_controller
 router.delete("/:id", renovar_token_controller_1.renovarTokenMiddleware, producto_controller_2.eliminarProducto);
 router.put("/:id", renovar_token_controller_1.renovarTokenMiddleware, actualizar_producto_controller_1.default);
 router.get("/public", producto_controller_2.obtenerProductos);
+
+router.get('/facturas', factura_controller_1.obtenerFacturas);
+
 router.get("/tallas", producto_controller_2.obtenerTallas);
 router.get("/colores", producto_controller_2.obtenerColores);
+
+router.post("/colores", producto_controller_2.registrarColor);
+
 exports.default = router;

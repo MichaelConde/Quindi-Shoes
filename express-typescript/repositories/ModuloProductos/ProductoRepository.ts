@@ -46,6 +46,12 @@ static async obtenerColores() {
   }
 }
 
+
+  static async obtenerTodos() {
+    const [rows] = await db.execute('SELECT * FROM productoReal');
+    
+    return rows;
+
 static async obtenerTallas () {
   try {
     const result = await db.query('SELECT * FROM tallas');
@@ -53,6 +59,7 @@ static async obtenerTallas () {
   } catch (error) {
     console.error("Error al obtener las tallas:", error);
     throw error;  
+
   }
 };
 
@@ -74,7 +81,8 @@ static async obtenerTallas () {
       t.id_talla,
       t.talla,
       c.id_color,
-      c.color
+      c.color,
+      c.codigo_hex       
     FROM productos p
     LEFT JOIN producto_variantes v ON p.id_producto = v.id_producto
     LEFT JOIN tallas t ON v.id_talla = t.id_talla
@@ -97,6 +105,7 @@ static async obtenerTallas () {
     talla: string | null;
     id_color: number | null;
     color: string | null;
+    codigo_hex: string | null;
   };
 
   let rows: ProductoRow[] = [];
@@ -141,6 +150,7 @@ static async obtenerTallas () {
         talla: row.talla,
         id_color: row.id_color,
         color: row.color,
+        codigo_hex: row.codigo_hex, 
         stock: row.stock,
       });
     }
@@ -178,11 +188,11 @@ static async eliminarProducto(id: number) {
   return await db.execute(sql, values);
 }
 
-static async registrarColor(color: { color: string }) {
+static async registrarColor(color: { color: string, codigo_hex: string }) {
   // Inserta un nuevo color y retorna el id insertado
   const [result]: any = await db.query(
-    `INSERT INTO colores_producto (color) VALUES (?)`,
-    [color.color]
+    `INSERT INTO colores_producto (color, codigo_hex) VALUES (?, ?)`,
+    [color.color, color.codigo_hex]
   );
   return result.insertId;
 }

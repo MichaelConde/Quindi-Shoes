@@ -17,38 +17,39 @@ const UserServices_1 = __importDefault(require("../services/ModuloUsuarios/UserS
 const generateToken_1 = __importDefault(require("../Helpers/generateToken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-let auth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const auth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { correo, contraseña, rol, recaptchaToken } = req.body;
+        // Validar token de reCAPTCHA
         if (!recaptchaToken) {
-            return res.status(400).json({
-                status: "Recaptcha token is required"
-            });
+            return res.status(400).json({ status: "Recaptcha token is required" });
         }
         const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`;
-        const response = yield fetch(verifyUrl, {
-            method: 'POST',
-        });
-        const data = yield response.json();
+        const recaptchaRes = yield fetch(verifyUrl, { method: "POST" });
+        const data = yield recaptchaRes.json();
         if (!data.success) {
-            return res.status(400).json({
-                status: "Recaptcha verification failed"
-            });
+            return res.status(400).json({ status: "Recaptcha verification failed" });
         }
+        // Verificar login
         const login = yield UserServices_1.default.login(new AuthDto_1.default(correo, contraseña, rol));
         if (login.logged) {
+            const payload = {
+                id: login.id, // Incluye el ID del usuario
+                rol: login.rol, // Puedes incluir más info si quieres
+            };
+            const token = (0, generateToken_1.default)(payload, process.env.KEY_TOKEN, 5); // Expira en 5 horas (o lo que uses)
             return res.status(200).json({
                 status: login.status,
-                token: (0, generateToken_1.default)({ id: login.id }, process.env.KEY_TOKEN, 5),
+                token: token,
                 rol: login.rol,
+                id: login.id, // <-- también puedes enviar el ID en la respuesta (opcional)
             });
         }
-        return res.status(401).json({
-            status: login.status
-        });
+        return res.status(401).json({ status: login.status });
     }
     catch (error) {
-        console.log(error);
+        console.error("❌ Error en login:", error);
+        return res.status(500).json({ status: "Server error" });
     }
 });
 exports.default = auth;
