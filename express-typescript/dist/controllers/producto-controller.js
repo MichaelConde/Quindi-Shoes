@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.obtenerDetalleProducto = exports.obtenerColores = exports.obtenerTallas = exports.eliminarProducto = exports.obtenerProductos = void 0;
+exports.registrarColor = exports.obtenerDetalleProducto = exports.obtenerColores = exports.obtenerTallas = exports.eliminarProducto = exports.obtenerProductos = void 0;
 const ProductoServices_1 = __importDefault(require("../services/ModuloProductos/ProductoServices"));
 const ProductoDto_1 = __importDefault(require("../Dto/ProductoDto")); // Asegúrate de tener esta clase
 const ProductoRepository_1 = __importDefault(require("../repositories/ModuloProductos/ProductoRepository"));
@@ -108,7 +108,10 @@ const obtenerDetalleProducto = (req, res) => __awaiter(void 0, void 0, void 0, f
         }
         // Extrae colores y tallas únicos de las variantes
         const colores = [
-            ...new Map(producto.variantes.map((v) => [v.id_color, { id_color: v.id_color, color: v.color }])).values(),
+            ...new Map(producto.variantes.map((v) => [
+                v.id_color,
+                { id_color: v.id_color, color: v.color, codigo_hex: v.codigo_hex }
+            ])).values(),
         ];
         const tallas = [
             ...new Map(producto.variantes.map((v) => [v.id_talla, { id_talla: v.id_talla, talla: v.talla }])).values(),
@@ -132,4 +135,19 @@ const obtenerDetalleProducto = (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.obtenerDetalleProducto = obtenerDetalleProducto;
+const registrarColor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { color, codigo_hex } = req.body;
+        if (!color || !codigo_hex) {
+            return res.status(400).json({ error: "Faltan datos del color" });
+        }
+        const id = yield ProductoRepository_1.default.registrarColor({ color, codigo_hex });
+        res.status(201).json({ id, color, codigo_hex });
+    }
+    catch (error) {
+        console.error("Error al registrar color:", error);
+        res.status(500).json({ error: "Error al registrar color" });
+    }
+});
+exports.registrarColor = registrarColor;
 exports.default = registrarProducto;

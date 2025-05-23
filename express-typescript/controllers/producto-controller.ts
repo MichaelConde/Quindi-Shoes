@@ -120,7 +120,10 @@ export const obtenerDetalleProducto = async (req: Request, res: Response) => {
     // Extrae colores y tallas únicos de las variantes
     const colores = [
       ...new Map(
-        producto.variantes.map((v: any) => [v.id_color, { id_color: v.id_color, color: v.color }])
+        producto.variantes.map((v: any) => [
+          v.id_color,
+          { id_color: v.id_color, color: v.color, codigo_hex: v.codigo_hex }
+        ])
       ).values(),
     ];
     const tallas = [
@@ -146,5 +149,19 @@ export const obtenerDetalleProducto = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error al obtener detalle del producto" });
   }
 }
+
+export const registrarColor = async (req: Request, res: Response) => {
+  try {
+    const { color, codigo_hex } = req.body;
+    if (!color || !codigo_hex) {
+      return res.status(400).json({ error: "Faltan datos del color" });
+    }
+    const id = await ProductoRepository.registrarColor({ color, codigo_hex });
+    res.status(201).json({ id, color, codigo_hex });
+  } catch (error) {
+    console.error("Error al registrar color:", error);
+    res.status(500).json({ error: "Error al registrar color" });
+  }
+};
 
 export default registrarProducto;

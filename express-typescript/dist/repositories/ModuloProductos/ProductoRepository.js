@@ -96,7 +96,8 @@ class ProductoRepository {
       t.id_talla,
       t.talla,
       c.id_color,
-      c.color
+      c.color,
+      c.codigo_hex       
     FROM productos p
     LEFT JOIN producto_variantes v ON p.id_producto = v.id_producto
     LEFT JOIN tallas t ON v.id_talla = t.id_talla
@@ -143,6 +144,7 @@ class ProductoRepository {
                         talla: row.talla,
                         id_color: row.id_color,
                         color: row.color,
+                        codigo_hex: row.codigo_hex,
                         stock: row.stock,
                     });
                 }
@@ -185,7 +187,7 @@ class ProductoRepository {
     static registrarColor(color) {
         return __awaiter(this, void 0, void 0, function* () {
             // Inserta un nuevo color y retorna el id insertado
-            const [result] = yield config_db_1.default.query(`INSERT INTO colores_producto (color) VALUES (?)`, [color.color]);
+            const [result] = yield config_db_1.default.query(`INSERT INTO colores_producto (color, codigo_hex) VALUES (?, ?)`, [color.color, color.codigo_hex]);
             return result.insertId;
         });
     }

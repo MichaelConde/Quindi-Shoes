@@ -21,4 +21,6 @@ router.get('/facturas', factura_controller_1.obtenerFacturas);
 router.get("/tallas", producto_controller_2.obtenerTallas);
 router.get("/colores", producto_controller_2.obtenerColores);
 
+router.post("/colores", producto_controller_2.registrarColor);
+
 exports.default = router;
