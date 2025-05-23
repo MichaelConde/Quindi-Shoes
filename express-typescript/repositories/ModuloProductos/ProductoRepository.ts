@@ -46,6 +46,12 @@ static async obtenerColores() {
   }
 }
 
+
+  static async obtenerTodos() {
+    const [rows] = await db.execute('SELECT * FROM productoReal');
+    
+    return rows;
+
 static async obtenerTallas () {
   try {
     const result = await db.query('SELECT * FROM tallas');
@@ -53,6 +59,7 @@ static async obtenerTallas () {
   } catch (error) {
     console.error("Error al obtener las tallas:", error);
     throw error;  
+
   }
 };
 
