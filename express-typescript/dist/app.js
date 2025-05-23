@@ -78,6 +78,9 @@ app.use("/reseña", rese_a_1.default); // ✅
 // Dettalle de producto
 const productoDetalle_1 = __importDefault(require("./routes/productoDetalle"));
 app.use("/productoDetalle", productoDetalle_1.default);
+// Variantes
+const variantes_1 = __importDefault(require("./routes/variantes"));
+app.use("/variantes", variantes_1.default);
 // Puerto
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

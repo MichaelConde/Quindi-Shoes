@@ -186,5 +186,28 @@ class ProductoRepository {
             return result.insertId;
         });
     }
+    // Obtener variantes de un producto
+    static obtenerVariantesPorProducto(id_producto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows] = yield config_db_1.default.query(`SELECT v.id_variantes, v.id_producto, v.id_talla, t.talla, v.id_color, c.color, c.codigo_hex, v.stock
+     FROM producto_variantes v
+     JOIN tallas t ON v.id_talla = t.id_talla
+     JOIN colores_producto c ON v.id_color = c.id_color
+     WHERE v.id_producto = ?`, [id_producto]);
+            return rows;
+        });
+    }
+    // Actualizar variante
+    static actualizarVariante(id_variante, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield config_db_1.default.query(`UPDATE producto_variantes SET id_talla = ?, id_color = ?, stock = ? WHERE id_variantes = ?`, [data.id_talla, data.id_color, data.stock, id_variante]);
+        });
+    }
+    // Eliminar variante
+    static eliminarVariante(id_variante) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield config_db_1.default.query(`DELETE FROM producto_variantes WHERE id_variantes = ?`, [id_variante]);
+        });
+    }
 }
 exports.default = ProductoRepository;
