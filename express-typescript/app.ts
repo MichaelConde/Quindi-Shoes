@@ -66,7 +66,6 @@ app.use("/register", register);
 
 
 app.use("/register", register);  
->>>>>>> main
 app.use("/auth", auth);
 app.use("/profile", profile);
 app.use("/RecuperarContrasena", recuperarContrasena); // // ✅

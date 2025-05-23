@@ -47,10 +47,7 @@ static async obtenerColores() {
 }
 
 
-  static async obtenerTodos() {
-    const [rows] = await db.execute('SELECT * FROM productoReal');
-    
-    return rows;
+ 
 
 static async obtenerTallas () {
   try {
