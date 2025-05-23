@@ -16,4 +16,5 @@ router.put("/:id", renovar_token_controller_1.renovarTokenMiddleware, actualizar
 router.get("/public", producto_controller_2.obtenerProductos);
 router.get("/tallas", producto_controller_2.obtenerTallas);
 router.get("/colores", producto_controller_2.obtenerColores);
+router.post("/colores", producto_controller_2.registrarColor);
 exports.default = router;

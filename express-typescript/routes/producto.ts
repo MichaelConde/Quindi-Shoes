@@ -1,6 +1,6 @@
 import express from "express";
 import registrarProducto  from '../controllers/producto-controller';
-import { obtenerProductos, eliminarProducto, obtenerTallas, obtenerColores, obtenerDetalleProducto } from "../controllers/producto-controller";
+import { obtenerProductos, eliminarProducto, obtenerTallas, obtenerColores, obtenerDetalleProducto, registrarColor } from "../controllers/producto-controller";
 import  actualizarProducto  from "../controllers/actualizar-producto-controller";
 import {renovarTokenMiddleware, verifyToken }from "../controllers/renovar-token-controller";
 const router = express.Router();
@@ -13,4 +13,5 @@ router.put("/:id", renovarTokenMiddleware, actualizarProducto);
 router.get("/public", obtenerProductos);
 router.get("/tallas", obtenerTallas);
 router.get("/colores", obtenerColores); 
+router.post("/colores", registrarColor);
 export default router;
