@@ -62,6 +62,12 @@ class ProductoRepository {
             }
         });
     }
+    static obtenerTodos() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows] = yield config_db_1.default.execute('SELECT * FROM productoReal');
+            return rows;
+        });
+    }
     static obtenerTallas() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -77,10 +83,6 @@ class ProductoRepository {
     ;
     static obtenerTodos() {
         return __awaiter(this, void 0, void 0, function* () {
-
-            const [rows] = yield config_db_1.default.execute('SELECT * FROM productoReal');
-            return rows;
-
             // Trae productos con variantes (talla, color, stock) e imágenes
             const result = yield config_db_1.default.query(`
     SELECT 
@@ -151,7 +153,6 @@ class ProductoRepository {
             }
             // Devuelve un array de productos
             return Object.values(productosMap);
-
         });
     }
     // Elimina el producto y sus variantes e imágenes (recomendado para integridad referencial)
