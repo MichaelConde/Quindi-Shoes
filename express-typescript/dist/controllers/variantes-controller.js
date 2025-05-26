@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.eliminarVariante = exports.actualizarVariante = exports.crearVariante = exports.obtenerVariantesPorProducto = void 0;
+exports.crearVariante = exports.actualizarVariante = exports.eliminarVariante = exports.obtenerVariantesPorProducto = void 0;
 const ProductoRepository_1 = __importDefault(require("../repositories/ModuloProductos/ProductoRepository"));
 // Obtener todas las variantes de un producto
 const obtenerVariantesPorProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -26,18 +26,18 @@ const obtenerVariantesPorProducto = (req, res) => __awaiter(void 0, void 0, void
     }
 });
 exports.obtenerVariantesPorProducto = obtenerVariantesPorProducto;
-// Crear una nueva variante
-const crearVariante = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Eliminar una variante
+const eliminarVariante = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id_producto, id_talla, id_color, stock } = req.body;
-        yield ProductoRepository_1.default.registrarVariante({ id_producto, id_talla, id_color, stock });
-        res.status(201).json({ message: "Variante creada" });
+        const { id_variante } = req.params;
+        yield ProductoRepository_1.default.eliminarVariante(Number(id_variante));
+        res.json({ message: "Variante eliminada" });
     }
     catch (error) {
-        res.status(500).json({ error: "Error al crear variante" });
+        res.status(500).json({ error: "Error al eliminar variante" });
     }
 });
-exports.crearVariante = crearVariante;
+exports.eliminarVariante = eliminarVariante;
 // Actualizar una variante
 const actualizarVariante = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -51,15 +51,15 @@ const actualizarVariante = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.actualizarVariante = actualizarVariante;
-// Eliminar una variante
-const eliminarVariante = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Crear una nueva variante
+const crearVariante = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id_variante } = req.params;
-        yield ProductoRepository_1.default.eliminarVariante(Number(id_variante));
-        res.json({ message: "Variante eliminada" });
+        const { id_producto, id_talla, id_color, stock } = req.body;
+        yield ProductoRepository_1.default.registrarVariante({ id_producto, id_talla, id_color, stock });
+        res.status(201).json({ message: "Variante creada" });
     }
     catch (error) {
-        res.status(500).json({ error: "Error al eliminar variante" });
+        res.status(500).json({ error: "Error al crear variante" });
     }
 });
-exports.eliminarVariante = eliminarVariante;
+exports.crearVariante = crearVariante;
