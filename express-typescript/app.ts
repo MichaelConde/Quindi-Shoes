@@ -107,7 +107,9 @@ import productoDetalleRouter from "./routes/productoDetalle";
 app.use("/productoDetalle", productoDetalleRouter);
 
 
-
+// Variantes
+import variantesRouter from "./routes/variantes";
+app.use("/variantes", variantesRouter);
 
 // Puerto
 
@@ -119,3 +121,4 @@ app.listen(PORT, () => {
 }).on("error", (error) => {
   throw new Error(error.message);
 });
+

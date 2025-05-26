@@ -193,6 +193,35 @@ static async registrarColor(color: { color: string, codigo_hex: string }) {
   );
   return result.insertId;
 }
+
+// Obtener variantes de un producto
+static async obtenerVariantesPorProducto(id_producto: number) {
+  const [rows]: any = await db.query(
+    `SELECT v.id_variantes, v.id_producto, v.id_talla, t.talla, v.id_color, c.color, c.codigo_hex, v.stock
+     FROM producto_variantes v
+     JOIN tallas t ON v.id_talla = t.id_talla
+     JOIN colores_producto c ON v.id_color = c.id_color
+     WHERE v.id_producto = ?`,
+    [id_producto]
+  );
+  return rows;
+}
+
+// Actualizar variante
+static async actualizarVariante(id_variante: number, data: { id_talla: number, id_color: number, stock: number }) {
+  await db.query(
+    `UPDATE producto_variantes SET id_talla = ?, id_color = ?, stock = ? WHERE id_variantes = ?`,
+    [data.id_talla, data.id_color, data.stock, id_variante]
+  );
+}
+
+// Eliminar variante
+static async eliminarVariante(id_variante: number) {
+  await db.query(
+    `DELETE FROM producto_variantes WHERE id_variantes = ?`,
+    [id_variante]
+  );
+}
 }
 
 export default ProductoRepository;
