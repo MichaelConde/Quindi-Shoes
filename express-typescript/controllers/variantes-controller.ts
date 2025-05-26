@@ -12,14 +12,14 @@ export const obtenerVariantesPorProducto = async (req: Request, res: Response) =
   }
 };
 
-// Crear una nueva variante
-export const crearVariante = async (req: Request, res: Response) => {
+// Eliminar una variante
+export const eliminarVariante = async (req: Request, res: Response) => {
   try {
-    const { id_producto, id_talla, id_color, stock } = req.body;
-    await ProductoRepository.registrarVariante({ id_producto, id_talla, id_color, stock });
-    res.status(201).json({ message: "Variante creada" });
+    const { id_variante } = req.params;
+    await ProductoRepository.eliminarVariante(Number(id_variante));
+    res.json({ message: "Variante eliminada" });
   } catch (error) {
-    res.status(500).json({ error: "Error al crear variante" });
+    res.status(500).json({ error: "Error al eliminar variante" });
   }
 };
 
@@ -35,13 +35,13 @@ export const actualizarVariante = async (req: Request, res: Response) => {
   }
 };
 
-// Eliminar una variante
-export const eliminarVariante = async (req: Request, res: Response) => {
+// Crear una nueva variante
+export const crearVariante = async (req: Request, res: Response) => {
   try {
-    const { id_variante } = req.params;
-    await ProductoRepository.eliminarVariante(Number(id_variante));
-    res.json({ message: "Variante eliminada" });
+    const { id_producto, id_talla, id_color, stock } = req.body;
+    await ProductoRepository.registrarVariante({ id_producto, id_talla, id_color, stock });
+    res.status(201).json({ message: "Variante creada" });
   } catch (error) {
-    res.status(500).json({ error: "Error al eliminar variante" });
+    res.status(500).json({ error: "Error al crear variante" });
   }
 };
