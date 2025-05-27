@@ -38,6 +38,7 @@ const buscadorProducto_1 = __importDefault(require("./routes/buscadorProducto"))
 const cambiarContrasena_1 = __importDefault(require("./routes/cambiarContrasena"));
 const verificarCorreo_1 = __importDefault(require("./routes/verificarCorreo"));
 const chatBot_1 = __importDefault(require("./routes/chatBot")); // ✅
+const juego_1 = __importDefault(require("./routes/juego"));
 const pago_routes_1 = __importDefault(require("./routes/pago-routes"));
 app.use((req, res, next) => {
     console.log("🛰 Nueva solicitud recibida:");
@@ -70,6 +71,7 @@ app.use("/zonaProducto", zonaProductos_1.default);
 app.use("/buscadorProducto", buscadorProducto_1.default);
 app.use(verificarCorreo_1.default);
 app.use('/api', chatBot_1.default);
+app.use("/juego", juego_1.default); // ✅
 app.use("/buscadorProducto", buscadorProducto_1.default); // ✅
 // pagos
 // Rutas de reseñas

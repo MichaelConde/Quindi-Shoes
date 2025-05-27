@@ -160,5 +160,26 @@ class UsuarioRepository {
             yield config_db_1.default.execute(sql, values);
         });
     }
+    static guardarPuntuacion(usuarioId, puntuacion) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("Guardando puntuación:", usuarioId, puntuacion);
+            const sql = 'CALL GuardarPuntuacion(?, ?)';
+            console.log("SQL:", sql);
+            const values = [usuarioId, puntuacion];
+            console.log("Valores:", values);
+            yield config_db_1.default.execute(sql, values);
+            console.log("Puntuación guardada correctamente");
+        });
+    }
+    static ObtenerTops() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'CALL TraerTops()';
+            console.log("Ejecutando SQL para obtener tops:", sql);
+            const [rows] = yield config_db_1.default.execute(sql);
+            console.log("Tops obtenidos:", rows);
+            return rows;
+            console.log("Tops obtenidos correctamente");
+        });
+    }
 }
 exports.default = UsuarioRepository;

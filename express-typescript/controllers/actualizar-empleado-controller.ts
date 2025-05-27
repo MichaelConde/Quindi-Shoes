@@ -12,7 +12,8 @@ const actualizarEmpleado = async (req: Request, res: Response) => {
         telefono,
         direccion,
         correo,
-        rol
+        rol,
+        record
       } = req.body;
   
       const usuario = new Usuario(
@@ -22,6 +23,7 @@ const actualizarEmpleado = async (req: Request, res: Response) => {
         direccion ?? null,
         correo ?? null,
         rol ?? null,
+        record ?? null
       );
   
       await UsuarioService.actualizarEmpleado(usuario, id);
