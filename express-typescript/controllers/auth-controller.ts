@@ -7,7 +7,8 @@ dotenv.config();
 
 const auth = async (req: Request, res: Response) => {
   try {
-    const { correo, contraseña, rol, recaptchaToken } = req.body;
+    // Cambiado: usar "contrasena" (sin ñ) en lugar de "contraseña"
+    const { correo, contrasena, rol, recaptchaToken } = req.body;
 
     // Validar token de reCAPTCHA
     if (!recaptchaToken) {
@@ -22,8 +23,8 @@ const auth = async (req: Request, res: Response) => {
       return res.status(400).json({ status: "Recaptcha verification failed" });
     }
 
-    // Verificar login
-    const login = await UsuarioService.login(new Auth(correo, contraseña, rol));
+    // Verificar login: se crea el objeto Auth utilizando "contrasena"
+    const login = await UsuarioService.login(new Auth(correo, contrasena, rol));
 
     if (login.logged) {
       const payload = {
@@ -37,7 +38,7 @@ const auth = async (req: Request, res: Response) => {
         status: login.status,
         token: token,
         rol: login.rol,
-        id: login.id, // <-- también puedes enviar el ID en la respuesta (opcional)
+        id: login.id, // Opcional: enviar también el ID del usuario
       });
     }
 

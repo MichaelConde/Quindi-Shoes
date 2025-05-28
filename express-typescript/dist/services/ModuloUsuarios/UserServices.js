@@ -31,8 +31,11 @@ class UsuarioService {
             if (!usuario.contraseña) {
                 throw new Error("La contraseña es obligatoria para el registro.");
             }
-            usuario.contraseña = yield (0, generateHash_1.default)(usuario.contraseña);
-            console.log("esta es tu contraseña hasheada" + usuario.contraseña);
+            // Si la contraseña ya parece estar hasheada, no la volvemos a hashear.
+            if (!usuario.contraseña.startsWith("$2a$") && !usuario.contraseña.startsWith("$2b$")) {
+                usuario.contraseña = yield (0, generateHash_1.default)(usuario.contraseña);
+            }
+            console.log("Contraseña final a guardar:", usuario.contraseña);
             return yield UsuarioRepository_1.default.addUser(usuario);
         });
     }
