@@ -153,6 +153,25 @@ class UsuarioRepository {
       const values = [resena.resena, resena.fecha_resena, resena.id_usuario];
       await db.execute(sql, values);
     }
+
+    static async guardarPuntuacion(usuarioId: number, puntuacion: number) {
+      console.log("Guardando puntuación:", usuarioId, puntuacion);
+      const sql = 'CALL GuardarPuntuacion(?, ?)';
+      console.log("SQL:", sql);
+      const values = [usuarioId, puntuacion];
+      console.log("Valores:", values);
+      await db.execute(sql, values);
+      console.log("Puntuación guardada correctamente");
+    }
+
+    static async ObtenerTops() {
+      const sql = 'CALL TraerTops()';
+      console.log("Ejecutando SQL para obtener tops:", sql);
+      const [rows]: any = await db.execute(sql);
+      console.log("Tops obtenidos:", rows);
+      return rows;
+      console.log("Tops obtenidos correctamente");
+    }
     
     static async editarResena({ resena, fecha_resena, id_usuario }: { resena: string; fecha_resena: string; id_usuario: number }) {
       await db.query(

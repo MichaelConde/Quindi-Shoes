@@ -108,7 +108,7 @@ const verificarEstadoCorreo = (req, res) => __awaiter(void 0, void 0, void 0, fu
             return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
         }
         // Crear el nuevo usuario y registrarlo
-        const usuario = new UsuarioDto_1.default(payload.nombres, payload.apellidos, payload.telefono, payload.direccion, payload.correo, payload.rol, payload.contrasena // Cambio: usamos contrasena
+        const usuario = new UsuarioDto_1.default(payload.nombres, payload.apellidos, payload.telefono, payload.direccion, payload.correo, payload.rol, "", payload.contrasena // Cambio: usamos contrasena
         );
         yield UserServices_1.default.register(usuario);
         return res.status(200).json({ message: "Correo confirmado con éxito. Usuario registrado." });

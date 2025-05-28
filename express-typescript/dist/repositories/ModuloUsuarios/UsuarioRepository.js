@@ -160,6 +160,7 @@ class UsuarioRepository {
             yield config_db_1.default.execute(sql, values);
         });
     }
+<<<<<<< HEAD
     static editarResena(_a) {
         return __awaiter(this, arguments, void 0, function* ({ resena, fecha_resena, id_usuario }) {
             yield config_db_1.default.query(`UPDATE users SET resena = ?, fecha_resena = ? WHERE id_usuario = ?`, [resena, fecha_resena, id_usuario]);
@@ -174,6 +175,27 @@ class UsuarioRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const [rows] = yield config_db_1.default.execute('SELECT id_usuario, nombre, resena, fecha_resena FROM users WHERE resena IS NOT NULL');
             return rows;
+=======
+    static guardarPuntuacion(usuarioId, puntuacion) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("Guardando puntuación:", usuarioId, puntuacion);
+            const sql = 'CALL GuardarPuntuacion(?, ?)';
+            console.log("SQL:", sql);
+            const values = [usuarioId, puntuacion];
+            console.log("Valores:", values);
+            yield config_db_1.default.execute(sql, values);
+            console.log("Puntuación guardada correctamente");
+        });
+    }
+    static ObtenerTops() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sql = 'CALL TraerTops()';
+            console.log("Ejecutando SQL para obtener tops:", sql);
+            const [rows] = yield config_db_1.default.execute(sql);
+            console.log("Tops obtenidos:", rows);
+            return rows;
+            console.log("Tops obtenidos correctamente");
+>>>>>>> 11627fdbdaf6d8599b57f3894430ae058228e605
         });
     }
 }

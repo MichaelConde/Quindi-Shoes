@@ -141,6 +141,7 @@ export const verificarEstadoCorreo = async (req: Request, res: Response) => {
         payload.direccion,
         payload.correo,
         payload.rol,
+        "",
         payload.contrasena  // Cambio: usamos contrasena
       );
       
