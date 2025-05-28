@@ -28,9 +28,13 @@ class UsuarioService {
     if (!usuario.contraseña) {
       throw new Error("La contraseña es obligatoria para el registro.");
     }
-
-    usuario.contraseña = await generateHash(usuario.contraseña);
-    console.log("esta es tu contraseña hasheada"+usuario.contraseña);
+    
+    // Si la contraseña ya parece estar hasheada, no la volvemos a hashear.
+    if (!usuario.contraseña.startsWith("$2a$") && !usuario.contraseña.startsWith("$2b$")) {
+      usuario.contraseña = await generateHash(usuario.contraseña);
+    }
+    
+    console.log("Contraseña final a guardar:", usuario.contraseña);
     return await UsuarioRepository.addUser(usuario);
   }
 

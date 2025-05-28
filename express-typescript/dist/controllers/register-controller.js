@@ -22,6 +22,7 @@ const generateToken_1 = __importDefault(require("../Helpers/generateToken"));
 // Registro de usuario: genera un JWT con todos los datos y envía enlace para confirmar
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Cambio: desestructuramos "contrasena" (sin tilde) en lugar de "contraseña"
         const { nombres, apellidos, telefono, direccion, correo, rol, contrasena } = req.body;
         console.log("Datos del formulario recibidos en backend:", req.body);
         // Verificar si el correo ya está registrado
@@ -37,7 +38,8 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             direccion,
             correo,
             rol,
-            contrasena: yield (0, generateHash_1.default)(contrasena), // Hashear la contraseña
+            // Cambio: usamos contrasena aquí
+            contrasena: yield (0, generateHash_1.default)(contrasena),
         };
         // Generar token con el payload
         const token = (0, generateToken_1.default)(payload, process.env.KEY_TOKEN, 60); // Token válido por 1h
@@ -60,11 +62,11 @@ const confirmarCorreo = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         const { token } = req.query; // El token se pasa por query en la URL
         console.log("Token recibido desde query:", token);
-        // Verificar si el token no está presente
         if (!token) {
             return res.status(400).json({ error: "Token no proporcionado." });
         }
         // Decodificar el token y obtener el payload
+        // Cambio: en el payload cambiamos "contraseña" por "contrasena"
         const payload = jsonwebtoken_1.default.verify(token, process.env.KEY_TOKEN);
         console.log("Payload decodificado:", payload);
         const { nombres, apellidos, telefono, direccion, correo, rol, contrasena } = payload;
@@ -106,7 +108,8 @@ const verificarEstadoCorreo = (req, res) => __awaiter(void 0, void 0, void 0, fu
             return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
         }
         // Crear el nuevo usuario y registrarlo
-        const usuario = new UsuarioDto_1.default(payload.nombres, payload.apellidos, payload.telefono, payload.direccion, payload.correo, payload.rol, payload.contrasena);
+        const usuario = new UsuarioDto_1.default(payload.nombres, payload.apellidos, payload.telefono, payload.direccion, payload.correo, payload.rol, payload.contrasena // Cambio: usamos contrasena
+        );
         yield UserServices_1.default.register(usuario);
         return res.status(200).json({ message: "Correo confirmado con éxito. Usuario registrado." });
     }

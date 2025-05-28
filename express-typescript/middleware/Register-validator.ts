@@ -1,9 +1,9 @@
 import { check, validationResult, ValidationChain } from 'express-validator';
-import { Request, Response, NextFunction } from 'express'; // Necesitas los tipos de Express
+import { Request, Response, NextFunction } from 'express';
 
 export const validatorParams: ValidationChain[] = [
-    check('correo').isEmail().withMessage('Debe ser un correo válido'),
-    check('contrasena').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
+  check('correo').isEmail().withMessage('Debe ser un correo válido'),
+  check('contrasena').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
   check('nombres').isLength({ min: 1, max: 255 }),
   check('direccion').isLength({ min: 1, max: 255 }),
   check('telefono').isLength({ min: 1, max: 255 }),

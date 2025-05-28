@@ -19,7 +19,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const auth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { correo, contraseña, rol, recaptchaToken } = req.body;
+        // Cambiado: usar "contrasena" (sin ñ) en lugar de "contraseña"
+        const { correo, contrasena, rol, recaptchaToken } = req.body;
         // Validar token de reCAPTCHA
         if (!recaptchaToken) {
             return res.status(400).json({ status: "Recaptcha token is required" });
@@ -30,8 +31,8 @@ const auth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!data.success) {
             return res.status(400).json({ status: "Recaptcha verification failed" });
         }
-        // Verificar login
-        const login = yield UserServices_1.default.login(new AuthDto_1.default(correo, contraseña, rol));
+        // Verificar login: se crea el objeto Auth utilizando "contrasena"
+        const login = yield UserServices_1.default.login(new AuthDto_1.default(correo, contrasena, rol));
         if (login.logged) {
             const payload = {
                 id: login.id, // Incluye el ID del usuario
@@ -42,7 +43,7 @@ const auth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 status: login.status,
                 token: token,
                 rol: login.rol,
-                id: login.id, // <-- también puedes enviar el ID en la respuesta (opcional)
+                id: login.id, // Opcional: enviar también el ID del usuario
             });
         }
         return res.status(401).json({ status: login.status });

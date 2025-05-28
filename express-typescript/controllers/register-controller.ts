@@ -9,6 +9,7 @@ import generateToken from "../Helpers/generateToken";
 // Registro de usuario: genera un JWT con todos los datos y envía enlace para confirmar
 const register = async (req: Request, res: Response) => {
     try {
+      // Cambio: desestructuramos "contrasena" (sin tilde) en lugar de "contraseña"
       const { nombres, apellidos, telefono, direccion, correo, rol, contrasena } = req.body;
   
       console.log("Datos del formulario recibidos en backend:", req.body);
@@ -27,7 +28,8 @@ const register = async (req: Request, res: Response) => {
         direccion,
         correo,
         rol,
-        contrasena: await generateHash(contrasena), // Hashear la contraseña
+        // Cambio: usamos contrasena aquí
+        contrasena: await generateHash(contrasena),
       };
   
       // Generar token con el payload
@@ -54,12 +56,12 @@ const confirmarCorreo = async (req: Request, res: Response) => {
     const { token } = req.query; // El token se pasa por query en la URL
     console.log("Token recibido desde query:", token);
 
-    // Verificar si el token no está presente
     if (!token) {
       return res.status(400).json({ error: "Token no proporcionado." });
     }
 
     // Decodificar el token y obtener el payload
+    // Cambio: en el payload cambiamos "contraseña" por "contrasena"
     const payload = jwt.verify(token as string, process.env.KEY_TOKEN!) as {
       nombres: string;
       apellidos: string;
@@ -98,57 +100,56 @@ const confirmarCorreo = async (req: Request, res: Response) => {
 // Ruta para verificar el correo y registrar al usuario
 export const verificarEstadoCorreo = async (req: Request, res: Response) => {
     try {
-    const { token } = req.query;
-    
-    
-    if (!token) {
-      return res.status(400).json({ error: "Token no proporcionado." });
-    }
-    
-    // Decodificar el token
-    const decoded = jwt.verify(token as string, process.env.KEY_TOKEN!) as {
-      data: {
-        nombres: string;
-        apellidos: string;
-        telefono: string;
-        direccion: string;
-        correo: string;
-        rol: string;
-        contrasena: string;
+      const { token } = req.query;
+      
+      if (!token) {
+        return res.status(400).json({ error: "Token no proporcionado." });
+      }
+      
+      // Decodificar el token
+      const decoded = jwt.verify(token as string, process.env.KEY_TOKEN!) as {
+        data: {
+          nombres: string;
+          apellidos: string;
+          telefono: string;
+          direccion: string;
+          correo: string;
+          rol: string;
+          contrasena: string;
+        };
       };
-    };
-    
-    const payload = decoded.data;
-    
-    console.log("✅ Payload extraído del token:", payload);
-    
-    if (!payload.correo) {
-      return res.status(400).json({ error: "El correo no es válido." });
-    }
-    
-    // Verificar si el usuario ya está registrado
-    const usuarioExistente = await UsuarioService.EncontrarCorreo(payload.correo);
-    if (usuarioExistente) {
-      return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
-    }
-    
-    // Crear el nuevo usuario y registrarlo
-    const usuario = new Usuario(
-      payload.nombres,
-      payload.apellidos,
-      payload.telefono,
-      payload.direccion,
-      payload.correo,
-      payload.rol,
-      payload.contrasena
-    );
-    
-    await UsuarioService.register(usuario);
-    
-    return res.status(200).json({ message: "Correo confirmado con éxito. Usuario registrado." });
+      
+      const payload = decoded.data;
+      
+      console.log("✅ Payload extraído del token:", payload);
+      
+      if (!payload.correo) {
+        return res.status(400).json({ error: "El correo no es válido." });
+      }
+      
+      // Verificar si el usuario ya está registrado
+      const usuarioExistente = await UsuarioService.EncontrarCorreo(payload.correo);
+      if (usuarioExistente) {
+        return res.status(400).json({ error: "Este correo ya fue confirmado anteriormente." });
+      }
+      
+      // Crear el nuevo usuario y registrarlo
+      const usuario = new Usuario(
+        payload.nombres,
+        payload.apellidos,
+        payload.telefono,
+        payload.direccion,
+        payload.correo,
+        payload.rol,
+        payload.contrasena  // Cambio: usamos contrasena
+      );
+      
+      await UsuarioService.register(usuario);
+      
+      return res.status(200).json({ message: "Correo confirmado con éxito. Usuario registrado." });
     } catch (error: any) {
-    console.error("Error verificando el estado del correo:", error);
-    return res.status(400).json({ error: "Token inválido o expirado." });
+      console.error("Error verificando el estado del correo:", error);
+      return res.status(400).json({ error: "Token inválido o expirado." });
     }
     };
   
