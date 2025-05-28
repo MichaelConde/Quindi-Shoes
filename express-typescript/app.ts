@@ -99,8 +99,8 @@ app.use("/buscadorProducto", buscadorProductosRouter); // ✅
 
 
 // Rutas de reseñas
-import reseña from "./routes/reseña"; // ✅
-app.use("/reseña", reseña); // ✅
+import resena from "./routes/resena"; // ✅
+app.use("/resena", resena); // ✅
 
 // Dettalle de producto
 import productoDetalleRouter from "./routes/productoDetalle";
@@ -121,4 +121,7 @@ app.listen(PORT, () => {
 }).on("error", (error) => {
   throw new Error(error.message);
 });
+
+import usuarioRouter from "./routes/usuario";
+app.use("/usuario", usuarioRouter);
 

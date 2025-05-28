@@ -2,7 +2,7 @@ import db from '../../config/config-db'
 import Auth from '../../Dto/AuthDto';
 import bcrypt from 'bcryptjs';
 import Usuario from '../../Dto/UsuarioDto';
-import ReseñaDto from '../../Dto/reseñaDto';
+import ResenaDto from '../../Dto/resenaDto';
 
 
 class UsuarioRepository {
@@ -20,7 +20,7 @@ class UsuarioRepository {
       }
 
       static async ObtenerUsuarioPorId(id: number) {
-        const sql = 'SELECT id_usuario, nombre, correo FROM users WHERE id_usuario = ?';
+        const sql = 'SELECT id_usuario, nombre, correo, resena, fecha_resena FROM users WHERE id_usuario = ?';
         const [rows]: any = await db.execute(sql, [id]);
         return rows[0];
       }
@@ -148,13 +148,32 @@ class UsuarioRepository {
       return rows[0][0]; // El primer usuario que conicnida con este id
     }
 
-    static async agregarReseña(resena: ReseñaDto) {
-      const sql = 'UPDATE users SET reseña = ?, fecha_reseña = ? WHERE id_usuario = ?';
-      const values = [resena.mensaje, resena.fecha, resena.usuario_id];
+    static async agregarResena(resena: ResenaDto) {
+      const sql = 'UPDATE users SET resena = ?, fecha_resena = ? WHERE id_usuario = ?';
+      const values = [resena.resena, resena.fecha_resena, resena.id_usuario];
       await db.execute(sql, values);
     }
     
+    static async editarResena({ resena, fecha_resena, id_usuario }: { resena: string; fecha_resena: string; id_usuario: number }) {
+      await db.query(
+        `UPDATE users SET resena = ?, fecha_resena = ? WHERE id_usuario = ?`,
+        [resena, fecha_resena, id_usuario]
+      );
+    }
+
+    static async eliminarResena(id_usuario: number): Promise<void> {
+      await db.query(
+        `UPDATE users SET resena = NULL, fecha_resena = NULL WHERE id_usuario = ?`,
+        [id_usuario]
+      );
+    }
  
+    static async obtenerTodasLasResenas() {
+        const [rows]: any = await db.execute(
+            'SELECT id_usuario, nombre, resena, fecha_resena FROM users WHERE resena IS NOT NULL'
+        );
+        return rows;
+    }
 }
 
 

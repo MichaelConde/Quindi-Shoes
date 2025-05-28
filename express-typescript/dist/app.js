@@ -73,8 +73,8 @@ app.use('/api', chatBot_1.default);
 app.use("/buscadorProducto", buscadorProducto_1.default); // ✅
 // pagos
 // Rutas de reseñas
-const rese_a_1 = __importDefault(require("./routes/rese\u00F1a")); // ✅
-app.use("/reseña", rese_a_1.default); // ✅
+const resena_1 = __importDefault(require("./routes/resena")); // ✅
+app.use("/resena", resena_1.default); // ✅
 // Dettalle de producto
 const productoDetalle_1 = __importDefault(require("./routes/productoDetalle"));
 app.use("/productoDetalle", productoDetalle_1.default);
@@ -88,3 +88,5 @@ app.listen(PORT, () => {
 }).on("error", (error) => {
     throw new Error(error.message);
 });
+const usuario_1 = __importDefault(require("./routes/usuario"));
+app.use("/usuario", usuario_1.default);

@@ -32,7 +32,7 @@ class UsuarioRepository {
     }
     static ObtenerUsuarioPorId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'SELECT id_usuario, nombre, correo FROM users WHERE id_usuario = ?';
+            const sql = 'SELECT id_usuario, nombre, correo, resena, fecha_resena FROM users WHERE id_usuario = ?';
             const [rows] = yield config_db_1.default.execute(sql, [id]);
             return rows[0];
         });
@@ -153,11 +153,27 @@ class UsuarioRepository {
             return rows[0][0]; // El primer usuario que conicnida con este id
         });
     }
-    static agregarReseña(resena) {
+    static agregarResena(resena) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = 'UPDATE users SET reseña = ?, fecha_reseña = ? WHERE id_usuario = ?';
-            const values = [resena.mensaje, resena.fecha, resena.usuario_id];
+            const sql = 'UPDATE users SET resena = ?, fecha_resena = ? WHERE id_usuario = ?';
+            const values = [resena.resena, resena.fecha_resena, resena.id_usuario];
             yield config_db_1.default.execute(sql, values);
+        });
+    }
+    static editarResena(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ resena, fecha_resena, id_usuario }) {
+            yield config_db_1.default.query(`UPDATE users SET resena = ?, fecha_resena = ? WHERE id_usuario = ?`, [resena, fecha_resena, id_usuario]);
+        });
+    }
+    static eliminarResena(id_usuario) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield config_db_1.default.query(`UPDATE users SET resena = NULL, fecha_resena = NULL WHERE id_usuario = ?`, [id_usuario]);
+        });
+    }
+    static obtenerTodasLasResenas() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows] = yield config_db_1.default.execute('SELECT id_usuario, nombre, resena, fecha_resena FROM users WHERE resena IS NOT NULL');
+            return rows;
         });
     }
 }
