@@ -8,7 +8,7 @@ dotenv.config();
 
 // Inicializar express
 const app = express();
-const app2 = express();
+
 // Middlewares
 app.use(cors({
     origin: "http://localhost:5173", 
@@ -22,9 +22,7 @@ app.use(cors({
 // Middlewares
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use(express.json()); // Alternativa moderna (también funciona)
+app.use(express.json());// Alternativa moderna (también funciona)
 
 
 // Importar rutas
@@ -62,7 +60,7 @@ app.use(bodyParser.json());
 
 // import producto from "./routes/producto";
 // Usar rutas
-app.use("/register", register);
+
 
 
 
@@ -78,8 +76,8 @@ app.use("/reiniciarContrasena", reiniciarContrasena);  // ✅
 
 // app.use("/producto", producto);
 
-app.use("/RecuperarContrasena", recuperarContrasena); 
-app.use("/reiniciarContrasena", reiniciarContrasena); 
+
+
 app.use("/cambiarContrasenaR", cambiarContrasenaRouter); // ✅
 app.use("/producto", productoRouter);
 app.use("/empleado", empleadoRouter);
@@ -93,7 +91,7 @@ app.use('/api', chatRoutes);
 app.use("/juego", juegoRoute); // ✅
 
 
-app.use("/buscadorProducto", buscadorProductosRouter); // ✅
+ // ✅
 
 
 // pagos
@@ -126,4 +124,3 @@ app.listen(PORT, () => {
 
 import usuarioRouter from "./routes/usuario";
 app.use("/usuario", usuarioRouter);
-

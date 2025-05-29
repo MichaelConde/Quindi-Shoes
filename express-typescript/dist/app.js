@@ -11,7 +11,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 // Inicializar express
 const app = (0, express_1.default)();
-const app2 = (0, express_1.default)();
 // Middlewares
 app.use((0, cors_1.default)({
     origin: "http://localhost:5173",
@@ -20,7 +19,6 @@ app.use((0, cors_1.default)({
 }));
 // Middlewares
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use(express_1.default.json());
 app.use(express_1.default.json()); // Alternativa moderna (también funciona)
 // Importar rutas
 const register_1 = __importDefault(require("./routes/register"));
@@ -52,15 +50,12 @@ app.use(body_parser_1.default.json());
 // import producto from "./routes/producto";
 // Usar rutas
 app.use("/register", register_1.default);
-app.use("/register", register_1.default);
 app.use("/auth", auth_1.default);
 app.use("/profile", profile_1.default);
 app.use("/RecuperarContrasena", RecuperarContrasena_1.default); // // ✅
 app.use("/reiniciarContrasena", reiniciarContrasena_1.default); // ✅
 // ✅ activa /api/pagos/confirmacion
 // app.use("/producto", producto);
-app.use("/RecuperarContrasena", RecuperarContrasena_1.default);
-app.use("/reiniciarContrasena", reiniciarContrasena_1.default);
 app.use("/cambiarContrasenaR", cambiarContrasena_1.default); // ✅
 app.use("/producto", producto_1.default);
 app.use("/empleado", empleado_1.default);
@@ -72,7 +67,7 @@ app.use("/buscadorProducto", buscadorProducto_1.default);
 app.use(verificarCorreo_1.default);
 app.use('/api', chatBot_1.default);
 app.use("/juego", juego_1.default); // ✅
-app.use("/buscadorProducto", buscadorProducto_1.default); // ✅
+// ✅
 // pagos
 // Rutas de reseñas
 const resena_1 = __importDefault(require("./routes/resena")); // ✅

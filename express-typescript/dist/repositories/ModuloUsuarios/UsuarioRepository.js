@@ -160,22 +160,6 @@ class UsuarioRepository {
             yield config_db_1.default.execute(sql, values);
         });
     }
-<<<<<<< HEAD
-    static editarResena(_a) {
-        return __awaiter(this, arguments, void 0, function* ({ resena, fecha_resena, id_usuario }) {
-            yield config_db_1.default.query(`UPDATE users SET resena = ?, fecha_resena = ? WHERE id_usuario = ?`, [resena, fecha_resena, id_usuario]);
-        });
-    }
-    static eliminarResena(id_usuario) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield config_db_1.default.query(`UPDATE users SET resena = NULL, fecha_resena = NULL WHERE id_usuario = ?`, [id_usuario]);
-        });
-    }
-    static obtenerTodasLasResenas() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const [rows] = yield config_db_1.default.execute('SELECT id_usuario, nombre, resena, fecha_resena FROM users WHERE resena IS NOT NULL');
-            return rows;
-=======
     static guardarPuntuacion(usuarioId, puntuacion) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("Guardando puntuación:", usuarioId, puntuacion);
@@ -195,7 +179,22 @@ class UsuarioRepository {
             console.log("Tops obtenidos:", rows);
             return rows;
             console.log("Tops obtenidos correctamente");
->>>>>>> 11627fdbdaf6d8599b57f3894430ae058228e605
+        });
+    }
+    static editarResena(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ resena, fecha_resena, id_usuario }) {
+            yield config_db_1.default.query(`UPDATE users SET resena = ?, fecha_resena = ? WHERE id_usuario = ?`, [resena, fecha_resena, id_usuario]);
+        });
+    }
+    static eliminarResena(id_usuario) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield config_db_1.default.query(`UPDATE users SET resena = NULL, fecha_resena = NULL WHERE id_usuario = ?`, [id_usuario]);
+        });
+    }
+    static obtenerTodasLasResenas() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows] = yield config_db_1.default.execute('SELECT id_usuario, nombre, resena, fecha_resena FROM users WHERE resena IS NOT NULL');
+            return rows;
         });
     }
 }
